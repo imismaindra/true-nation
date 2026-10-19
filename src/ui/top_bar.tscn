@@ -147,3 +147,22 @@ size_flags_horizontal = 3
 
 [node name="TimeControls" parent="MarginContainer/HBoxContainer" instance=ExtResource("2_time")]
 layout_mode = 2
+
+[node name="VSeparator2" type="VSeparator" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="SaveLoadSection" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="BtnSave" type="Button" parent="MarginContainer/HBoxContainer/SaveLoadSection"]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "💾 Simpan"
+
+[node name="BtnLoad" type="Button" parent="MarginContainer/HBoxContainer/SaveLoadSection"]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "📂 Muat"

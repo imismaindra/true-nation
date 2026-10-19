@@ -8,12 +8,22 @@ extends PanelContainer
 @onready var color_rect_flag: ColorRect = $MarginContainer/HBoxContainer/CountrySection/ColorRectFlag
 @onready var label_country_name: Label = $MarginContainer/HBoxContainer/CountrySection/LabelCountryName
 
+@onready var box_money: Control = $MarginContainer/HBoxContainer/ResourceSection/BoxMoney
+@onready var box_steel: Control = $MarginContainer/HBoxContainer/ResourceSection/BoxSteel
+@onready var box_fuel: Control = $MarginContainer/HBoxContainer/ResourceSection/BoxFuel
+@onready var box_manpower: Control = $MarginContainer/HBoxContainer/ResourceSection/BoxManpower
+@onready var box_arms: Control = $MarginContainer/HBoxContainer/ResourceSection/BoxArms
+@onready var box_munitions: Control = $MarginContainer/HBoxContainer/ResourceSection/BoxMunitions
+
 @onready var label_money: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxMoney/LabelMoney
 @onready var label_steel: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxSteel/LabelSteel
 @onready var label_fuel: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxFuel/LabelFuel
 @onready var label_manpower: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxManpower/LabelManpower
 @onready var label_arms: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxArms/LabelArms
 @onready var label_munitions: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxMunitions/LabelMunitions
+
+@onready var btn_save: Button = $MarginContainer/HBoxContainer/SaveLoadSection/BtnSave
+@onready var btn_load: Button = $MarginContainer/HBoxContainer/SaveLoadSection/BtnLoad
 
 func _ready() -> void:
 	if economy_manager != null and economy_manager.has_signal("economy_updated"):
@@ -23,7 +33,22 @@ func _ready() -> void:
 	if time_mgr != null:
 		time_mgr.daily_tick.connect(func(_d, _m, _y): _update_display())
 	
+	if btn_save != null:
+		btn_save.pressed.connect(_on_save_pressed)
+	if btn_load != null:
+		btn_load.pressed.connect(_on_load_pressed)
+	
 	_update_display()
+
+func _on_save_pressed() -> void:
+	var save_mgr = get_node_or_null("/root/SaveManager")
+	if save_mgr != null:
+		save_mgr.save_game()
+
+func _on_load_pressed() -> void:
+	var save_mgr = get_node_or_null("/root/SaveManager")
+	if save_mgr != null:
+		save_mgr.load_game()
 
 func _on_economy_updated(_country: Country) -> void:
 	_update_display()
@@ -84,6 +109,66 @@ func _update_display() -> void:
 		"+" if munit_rate >= 0 else "",
 		munit_rate
 	]
+	
+	# Tooltip Rincian Neraca Ekonomi Interaktif (Sprint 4)
+	if economy_manager != null and economy_manager.has_method("get_economic_breakdown"):
+		var b = economy_manager.get_economic_breakdown(player_country)
+		
+		# Tooltip Kas
+		box_money.tooltip_text = (
+			"💰 NERACA KAS NEGARA\n" +
+			"• Pendapatan Wilayah: +$%.1f/hari\n" % b.money.income_prov +
+			"• Biaya Operasional Pabrik: -$%.1f/hari\n" % b.money.expense_buildings +
+			"• Pemeliharaan Divisi Militer: -$%.1f/hari\n" % b.money.expense_units +
+			"------------------------------------\n" +
+			"• Total Pendapatan: +$%.1f/hari\n" % b.money.total_income +
+			"• Total Pengeluaran: -$%.1f/hari\n" % b.money.total_expense +
+			"• Surplus / Defisit Bersih: %s$%.1f/hari" % ["+" if b.money.net >= 0 else "", b.money.net]
+		)
+		
+		# Tooltip Baja
+		box_steel.tooltip_text = (
+			"⚙️ PASOKAN INDUSTRI BAJA\n" +
+			"• Tambang Wilayah: +%.1f ton/hari\n" % b.steel.output_prov +
+			"• Pabrik Peleburan Baja: +%.1f ton/hari\n" % b.steel.output_buildings +
+			"• Konsumsi Industri Manufaktur: -%.1f ton/hari\n" % b.steel.input_buildings +
+			"------------------------------------\n" +
+			"• Surplus Bersih: %s%.1f ton/hari" % ["+" if b.steel.net >= 0 else "", b.steel.net]
+		)
+		
+		# Tooltip Bahan Bakar
+		box_fuel.tooltip_text = (
+			"🛢️ CADANGAN BAHAN BAKAR & MINYAK\n" +
+			"• Ladang Minyak: +%.1f barel/hari\n" % b.fuel.output_prov +
+			"• Kilang Minyak Aktif: +%.1f barel/hari\n" % b.fuel.output_refinery +
+			"• Konsumsi Industri: -%.1f barel/hari\n" % b.fuel.input_buildings +
+			"• Konsumsi Armada & Pasukan: -%.1f barel/hari\n" % b.fuel.consumption_units +
+			"------------------------------------\n" +
+			"• Surplus Bersih: %s%.1f barel/hari" % ["+" if b.fuel.net >= 0 else "", b.fuel.net]
+		)
+		
+		# Tooltip Manpower
+		box_manpower.tooltip_text = (
+			"🎖️ CADANGAN TENAGA MANUSIA (MANPOWER)\n" +
+			"• Total Populasi Negara: %s jiwa\n" % _format_number(b.manpower.total_population) +
+			"• Pertumbuhan / Rekrutmen: +%d personel/hari\n" % b.manpower.growth_daily +
+			"• Digunakan untuk melatih divisi baru & mengisi personel tempur."
+		)
+		
+		# Tooltip Persenjataan
+		box_arms.tooltip_text = (
+			"🔫 GUDANG PERSENJATAAN INFANTERI\n" +
+			"• Produksi Pabrik Senjata: +%.1f unit/hari\n" % b.arms.output_factories +
+			"• Digunakan saat pelatihan divisi baru."
+		)
+		
+		# Tooltip Amunisi
+		box_munitions.tooltip_text = (
+			"🚀 CADANGAN AMUNISI & LOGISTIK TEMPUR\n" +
+			"• Produksi Pabrik Amunisi: +%.1f peti/hari\n" % b.munitions.output_plants +
+			"• Dikonsumsi oleh divisi saat bertempur aktif.\n" +
+			"⚠️ Pasukan tanpa amunisi menderita penalti tempur -50%!"
+		)
 
 func _format_currency(val: float) -> String:
 	if val >= 1000000.0:

@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/military/unit_data.gd" id="1_unitdata"]
+
+[resource]
+script = ExtResource("1_unitdata")
+unit_type = 10
+unit_name = "Resimen Artileri Medan & MLRS"
+domain = 0
+max_strength = 100.0
+max_organization = 100.0
+soft_attack = 28.0
+hard_attack = 12.0
+air_attack = 0.0
+naval_attack = 0.0
+defense = 14.0
+speed = 0.8
+production_cost_money = 350.0
+production_cost_steel = 50.0
+production_cost_fuel = 0.0
+production_cost_arms = 180.0
+production_cost_munitions = 80.0
+production_days = 6
+daily_fuel_consumption = 0.8
+daily_money_upkeep = 2.0
+required_manpower = 800

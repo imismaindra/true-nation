@@ -93,6 +93,12 @@ func get_defense_bonus() -> float:
 			total += b.defense_bonus_percent
 	return total
 
+func has_building(b_type: BuildingData.BuildingType) -> bool:
+	return get_building_count(b_type) > 0
+
+func has_fortification() -> bool:
+	return get_building_count(BuildingData.BuildingType.FORTIFICATION) > 0
+
 func has_naval_base() -> bool:
 	return has_building(BuildingData.BuildingType.NAVAL_DOCKYARD)
 

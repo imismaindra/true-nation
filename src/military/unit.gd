@@ -89,6 +89,8 @@ func _load_unit_sprite() -> void:
 			tex_path = "res://assets/sprites/units/army/tank_apc.png"
 		UnitData.UnitType.ARTILLERY_SP:
 			tex_path = "res://assets/sprites/units/army/tank_artillery.png"
+		UnitData.UnitType.MLRS:
+			tex_path = "res://assets/sprites/units/army/tank_mlrs.png"
 		UnitData.UnitType.FIGHTER_JET:
 			tex_path = "res://assets/sprites/units/air/fighter_jet.png"
 		UnitData.UnitType.MULTIROLE_FIGHTER:
@@ -111,6 +113,8 @@ func _load_unit_sprite() -> void:
 			tex_path = "res://assets/sprites/units/navy/landing_ship.png"
 		UnitData.UnitType.AIRCRAFT_CARRIER:
 			tex_path = "res://assets/sprites/units/navy/aircraft_carrier.png"
+		UnitData.UnitType.SUBMARINE:
+			tex_path = "res://assets/sprites/units/navy/submarine.png"
 		_:
 			match unit_data.domain:
 				UnitData.Domain.LAND:
@@ -132,6 +136,33 @@ func _process(delta: float) -> void:
 	if is_moving and target_province != null:
 		var target_world_pos = _start_position.lerp(_target_position, movement_progress)
 		global_position = global_position.lerp(target_world_pos, delta * 10.0)
+		
+		# Orientasi & Rotasi Halus Arah Hadap Pasukan (Sprint 1)
+		if unit_sprite != null:
+			var move_vec = _target_position - _start_position
+			if move_vec.length_squared() > 1.0:
+				var move_dir = move_vec.normalized()
+				if unit_data != null:
+					match unit_data.domain:
+						UnitData.Domain.AIR:
+							# Matra Udara: Rotasi haluan mengikuti vektor gerak lerp_angle
+							var target_rot = move_dir.angle() + (PI / 2.0)
+							unit_sprite.rotation = lerp_angle(unit_sprite.rotation, target_rot, delta * 12.0)
+							unit_sprite.flip_h = false
+						UnitData.Domain.SEA:
+							# Matra Laut: Rotasi badan kapal searah garis pelayaran
+							var target_rot = move_dir.angle() - PI
+							unit_sprite.rotation = lerp_angle(unit_sprite.rotation, target_rot, delta * 8.0)
+							unit_sprite.flip_h = false
+						UnitData.Domain.LAND:
+							# Matra Darat: Pembalikan horizontal barat vs timur dan sudut moncong
+							unit_sprite.flip_h = (move_dir.x > 0.05)
+							var tilt = clampf(move_dir.y * (0.18 if unit_sprite.flip_h else -0.18), -0.22, 0.22)
+							unit_sprite.rotation = lerp_angle(unit_sprite.rotation, tilt, delta * 10.0)
+	else:
+		# Saat berhenti, kembalikan chassis darat ke posisi tegak secara natural
+		if unit_sprite != null and unit_data != null and unit_data.domain == UnitData.Domain.LAND:
+			unit_sprite.rotation = lerp_angle(unit_sprite.rotation, 0.0, delta * 6.0)
 	
 	# Marching Line dinamis saat bergerak dan dipilih
 	if marching_line != null:
@@ -204,6 +235,11 @@ func order_move_to(new_province: Province) -> bool:
 	
 	bar_movement.visible = true
 	bar_movement.value = 0.0
+	
+	var event_bus = get_node_or_null("/root/EventBus")
+	if event_bus != null:
+		event_bus.unit_movement_started.emit(self, current_province, target_province)
+	
 	return true
 
 func _arrive_at_target() -> void:
@@ -211,9 +247,14 @@ func _arrive_at_target() -> void:
 	movement_progress = 0.0
 	bar_movement.visible = false
 	
+	var arrived_prov = target_province
 	current_province = target_province
 	target_province = null
 	global_position = _target_position
+	
+	var event_bus = get_node_or_null("/root/EventBus")
+	if event_bus != null:
+		event_bus.unit_movement_finished.emit(self, current_province)
 	
 	# Cek apakah ada sistem tempur yang aktif
 	var combat_sys = get_tree().root.find_child("CombatSystem", true, false)
@@ -285,14 +326,22 @@ func _update_visuals() -> void:
 		label_name.text = unit_data.unit_name.substr(0, 12)
 		match unit_data.domain:
 			UnitData.Domain.SEA:
-				label_icon.text = "🚢" # Armada Laut
+				if unit_data.unit_type == UnitData.UnitType.SUBMARINE:
+					label_icon.text = "🌊" # Kapal Selam Tempur
+				else:
+					label_icon.text = "🚢" # Armada Kapal Permukaan
 			UnitData.Domain.AIR:
-				label_icon.text = "✈️" # Skuadron Udara
+				if unit_data.unit_type == UnitData.UnitType.HELICOPTER:
+					label_icon.text = "🚁" # Helikopter Serbu
+				elif unit_data.unit_type == UnitData.UnitType.DRONE_UAV:
+					label_icon.text = "📡" # Drone Pengintai
+				else:
+					label_icon.text = "✈️" # Skuadron Jet Tempur
 			UnitData.Domain.LAND:
 				if unit_data.unit_type in [UnitData.UnitType.LIGHT_TANK, UnitData.UnitType.MEDIUM_TANK, UnitData.UnitType.MAIN_BATTLE_TANK]:
 					label_icon.text = "🚜" # Tank / Armor
-				elif unit_data.unit_type == UnitData.UnitType.ARTILLERY_SP:
-					label_icon.text = "💥" # Artileri
+				elif unit_data.unit_type in [UnitData.UnitType.ARTILLERY_SP, UnitData.UnitType.MLRS]:
+					label_icon.text = "💥" # Artileri Medan / MLRS
 				else:
 					label_icon.text = "🪖" # Infanteri
 	

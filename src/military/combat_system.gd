@@ -160,6 +160,17 @@ func _resolve_hourly_combat_round(battle: Battle) -> void:
 	
 	# 5. Bonus Benteng Pertahanan (Fortification) bagi Pihak Bertahan
 	var defense_bonus = battle.province.get_defense_bonus() # e.g. 0.35 (+35%)
+	
+	# Efek Artileri Medan / MLRS: Pemboman saturasi mereduksi perlindungan benteng lawan hingga 60%
+	var has_artillery = false
+	for atk in battle.attackers:
+		if atk != null and atk.unit_data != null and atk.current_organization > 0:
+			if atk.unit_data.unit_type in [UnitData.UnitType.ARTILLERY_SP, UnitData.UnitType.MLRS]:
+				has_artillery = true
+				break
+	if has_artillery and defense_bonus > 0.0:
+		defense_bonus *= 0.4
+	
 	var fort_reduction = clampf(defense_bonus, 0.0, 0.7) # Reduksi damage hingga maksimal 70%
 	
 	# 6. Berikan damage ke pihak bertahan

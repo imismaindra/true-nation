@@ -4,6 +4,7 @@ class_name EconomyManager
 extends Node
 
 @export var map_manager: MapManager
+@export var military_manager: Node2D
 @export var player_country: Country
 
 signal economy_updated(country: Country)
@@ -87,12 +88,77 @@ func _calculate_income_for(c: Country) -> void:
 					total_steel += bld.daily_steel_output
 					total_fuel += bld.daily_fuel_output
 	
+	# Pengurangan pemeliharaan divisi militer (Upkeep harian)
+	var mil_mgr = military_manager
+	if mil_mgr == null:
+		mil_mgr = get_tree().root.find_child("MilitaryManager", true, false)
+	if mil_mgr != null and "units" in mil_mgr:
+		for u in mil_mgr.units:
+			if u != null and is_instance_valid(u) and u.owner_country == c and u.unit_data != null:
+				total_money -= u.unit_data.daily_money_upkeep
+				total_fuel -= u.unit_data.daily_fuel_consumption
+	
 	c.daily_income_money = total_money
 	c.daily_income_steel = total_steel
 	c.daily_income_fuel = total_fuel
 	c.daily_manpower_growth = total_pop_growth
 	c.daily_income_arms = total_arms
 	c.daily_income_munitions = total_munitions
+
+func get_economic_breakdown(c: Country) -> Dictionary:
+	var b = {
+		"money": { "income_prov": 0.0, "expense_buildings": 0.0, "expense_units": 0.0, "total_income": 0.0, "total_expense": 0.0, "net": 0.0 },
+		"steel": { "output_prov": 0.0, "output_buildings": 0.0, "input_buildings": 0.0, "total_income": 0.0, "total_expense": 0.0, "net": 0.0 },
+		"fuel": { "output_prov": 0.0, "output_refinery": 0.0, "input_buildings": 0.0, "consumption_units": 0.0, "total_income": 0.0, "total_expense": 0.0, "net": 0.0 },
+		"manpower": { "growth_daily": 0, "total_population": 0 },
+		"arms": { "output_factories": 0.0, "net": 0.0 },
+		"munitions": { "output_plants": 0.0, "net": 0.0 }
+	}
+	if c == null or map_manager == null:
+		return b
+	
+	for prov in map_manager.provinces:
+		if prov.owner_country == c and not prov.is_sea_zone():
+			b.money.income_prov += prov.base_money_output
+			b.steel.output_prov += prov.base_steel_output
+			b.fuel.output_prov += prov.base_fuel_output
+			b.manpower.total_population += prov.population
+			b.manpower.growth_daily += int(prov.population * 0.0001)
+			
+			for bld in prov.buildings:
+				if bld != null:
+					b.money.expense_buildings += bld.daily_money_upkeep
+					b.steel.input_buildings += bld.daily_steel_input
+					b.steel.output_buildings += bld.daily_steel_output
+					b.fuel.input_buildings += bld.daily_fuel_input
+					b.fuel.output_refinery += bld.daily_fuel_output
+					b.arms.output_factories += bld.daily_arms_output
+					b.munitions.output_plants += bld.daily_munitions_output
+	
+	var mil_mgr = military_manager
+	if mil_mgr == null:
+		mil_mgr = get_tree().root.find_child("MilitaryManager", true, false)
+	if mil_mgr != null and "units" in mil_mgr:
+		for u in mil_mgr.units:
+			if u != null and is_instance_valid(u) and u.owner_country == c and u.unit_data != null:
+				b.money.expense_units += u.unit_data.daily_money_upkeep
+				b.fuel.consumption_units += u.unit_data.daily_fuel_consumption
+	
+	b.money.total_income = b.money.income_prov
+	b.money.total_expense = b.money.expense_buildings + b.money.expense_units
+	b.money.net = b.money.total_income - b.money.total_expense
+	
+	b.steel.total_income = b.steel.output_prov + b.steel.output_buildings
+	b.steel.total_expense = b.steel.input_buildings
+	b.steel.net = b.steel.total_income - b.steel.total_expense
+	
+	b.fuel.total_income = b.fuel.output_prov + b.fuel.output_refinery
+	b.fuel.total_expense = b.fuel.input_buildings + b.fuel.consumption_units
+	b.fuel.net = b.fuel.total_income - b.fuel.total_expense
+	
+	b.arms.net = b.arms.output_factories
+	b.munitions.net = b.munitions.output_plants
+	return b
 
 func _apply_daily_income(country: Country) -> void:
 	if country == null:

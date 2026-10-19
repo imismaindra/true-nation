@@ -5,43 +5,50 @@ Inspired by *Hearts of Iron IV*, *Victoria*, and *Conflict of Nations*, **True N
 
 ---
 
-## 🎮 Core Features (Version 0.2)
+## 🎮 Core Features (Version 0.2.1)
 
 - ⏱️ **Real-Time with Pause Engine (Tick System)**
   - Dynamic game clock (`TimeManager`) emitting hourly, daily, and monthly ticks.
   - Speeds: Pause (`Space`), `1x`, `2x`, `3x`, `5x` (Numeric keys `1`, `2`, `3`, `5`).
   - Interactive top-right HUD control bar with live date display (`01 Jan 2026`).
 
-- 🏭 **Military Supply Chain & Logistics (Option A: Arms & Munitions)**
-  - Raw resources (Steel, Fuel, Money, Manpower) processed into finished war materials:
-    - 🔫 **Arms (Persenjataan)**: Required to recruit and assemble new military divisions.
-    - 🚀 **Munitions (Amunisi & Rudal)**: Consumed hourly by combat units engaged in battle.
-  - **Combat Supply Consumption & Supply Outage**: Units fighting without ammunition suffer a heavy -50% Attack penalty and accelerated morale collapse.
+- 🧭 **Unit Facing Direction & Smooth Orientation (Sprint 1)**
+  - Dynamic smooth rotations for Air Wings and Naval Fleets matching heading trajectory.
+  - Natural horizontal flipping and chassis tilt for Land divisions (Tanks, Infantry, Artillery).
 
-- 📦 **Recruitment & Construction Queues**
-  - **Unit Training**: `ProductionManager` manages discrete hourly assembly queues with 80% refund cancellation.
-  - **Provincial Infrastructure**: `BuildingManager` manages the construction of 7 strategic facilities:
-    - Arms Factory, Munitions Plant, Steel Foundry, Oil Refinery, Naval Dockyard, Airbase, Fortification.
-  - Floating `ProductionQueuePanel` widget displays real-time progress for both unit training and construction projects.
+- 🎖️ **Expanded Modern Military Unit Roster (Sprint 2)**
+  - 8 distinct recruit-ready unit types utilizing 28 modern military top-down sprites:
+    - 🪖 Infantry Division & 🚜 Main Battle Tank Division
+    - 💥 **Field Artillery & MLRS**: High soft attack and siege bombardment reducing enemy fortifications.
+    - 🚁 **Attack Helicopter Wing**: Fast multi-domain anti-tank strike capability.
+    - 📡 **Recon Drone Wing (UAV)**: Low cost, extended 2-hop Fog of War radar line of sight.
+    - ✈️ Multirole Fighter Wing & 🚢 Surface Frigate Fleet
+    - 🌊 **Combat Submarine Fleet**: Subsurface stealth operations undetected by surface radar.
 
-- 🤖 **Autonomous Strategic Enemy AI (FSM)**
-  - Independent AI controller (`AIManager`) for rival factions:
-    - Resource assessment, independent division recruitment, neutral province expansion (Sumatera Timur), coordinated counter-attacks, border garrisons, and graph BFS multi-hop pathfinding.
+- 🤖 **AI Autonomous Construction & Strategic Depth (Sprint 3)**
+  - Independent AI rival manages provincial facilities:
+    - Detects munitions shortages (<100) and constructs Munitions Plants.
+    - Fortifies border provinces with players (+35% Defense).
+    - Erects Airbases and Naval Dockyards for multi-matra recruitment.
 
-- 🌫️ **Fog of War & Aerial Reconnaissance**
-  - 3-tier dynamic visibility system (`VISIBLE`, `FOGGED`, `UNKNOWN`).
-  - Reconnaissance sensors: Airbases and Fighter Jets uncover distant provinces and reveal hidden enemy troops.
-  - Enemy units outside sensor lines of sight are visually camouflaged.
+- 📊 **Interactive Economic Tooltips & Multi-Unit Army Selection (Sprint 4)**
+  - Comprehensive hover tooltips on TopBar HUD breaking down daily revenue, factory inputs, military upkeep, and net balance.
+  - "Pilih Semua Pasukan di Sini" button on province panel for simultaneous multi-division corps movement.
 
-- 🎨 **Modern Military Top-Down Visuals & Combat FX**
-  - High-resolution top-down unit sprites across 28 modern military variants (Army, Armor, Air, and Navy).
-  - Dynamic animated Marching Line showing unit destination.
-  - Gunfire muzzle flashes and smoke puff particle effects during combat.
-  - Strategic Pop-Up Notification Banner (`NotificationBanner`) for major geopolitical events.
+- 🔊 **Procedural Tactical Sound FX & Atmosphere (Sprint 5)**
+  - Integrated procedural 16-bit audio synthesizer (`AudioManager`):
+    - Military radio chirp & tactical click, movement roger tones, booming cannon fire, automatic rifle bursts, and war siren alarms.
 
-- 🗺️ **Interactive RTS Map & Tri-Matra Forces**
-  - Smooth 2D RTS Camera with WASD pan and mouse-wheel zoom.
-  - Land, Sea, and Air domains with amphibious sea-lane traversal and coastal harbor requirements.
+- 💾 **Safe JSON Save & Load Persistence (Sprint 6)**
+  - Complete state persistence (`user://savegame.json`) serializing game time, faction commodities, province ownership, facilities, and all military divisions.
+  - Fast Quick Save (`F5`) and Quick Load (`F9`), with dedicated TopBar UI buttons.
+
+- 🏭 **Military Supply Chain & Logistics**
+  - Finished war materials: 🔫 Arms (assembly) & 🚀 Munitions (hourly combat consumption).
+  - Supply Outage penalties (-50% attack, accelerated morale loss).
+
+- 🌫️ **Dynamic Fog of War**
+  - 3-tier visibility (`VISIBLE`, `FOGGED`, `UNKNOWN`) with aerial recon and submarine stealth camouflage.
 
 ---
 
@@ -54,8 +61,11 @@ Inspired by *Hearts of Iron IV*, *Victoria*, and *Conflict of Nations*, **True N
 | **Toggle Pause** | `Spacebar` |
 | **Change Speed** | `1` (1x), `2` (2x), `3` (3x), `5` (5x) |
 | **Select Province** | `Left-Click` on province polygon |
-| **Select Unit** | `Left-Click` on unit token |
-| **Move Unit** | `Right-Click` on target destination province |
+| **Select Single Unit** | `Left-Click` on unit token |
+| **Select All Units in Province** | Click "🎯 Pilih Semua Pasukan di Sini" on Province Panel |
+| **Move Unit(s)** | `Right-Click` on target destination province |
+| **Quick Save Game** | `F5` or TopBar "💾 Simpan" Button |
+| **Quick Load Game** | `F9` or TopBar "📂 Muat" Button |
 
 ---
 

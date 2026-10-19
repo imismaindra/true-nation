@@ -10,6 +10,7 @@ signal unit_selection_changed(unit: MilitaryUnit)
 
 var units: Array[MilitaryUnit] = []
 var selected_unit: MilitaryUnit = null
+var selected_units: Array[MilitaryUnit] = []
 
 @onready var units_container: Node2D = $Units
 
@@ -55,49 +56,93 @@ func _on_unit_clicked(unit: Node2D) -> void:
 	if mil_unit.owner_country != player_country:
 		return
 	
-	if selected_unit == mil_unit:
+	if selected_unit == mil_unit and selected_units.size() == 1:
 		return
 	
-	deselect_current_unit()
+	deselect_all_units()
 	
 	selected_unit = mil_unit
+	selected_units = [mil_unit]
 	selected_unit.set_selected(true)
 	unit_selection_changed.emit(selected_unit)
 	var event_bus = get_node_or_null("/root/EventBus")
 	if event_bus != null:
 		event_bus.unit_selected.emit(selected_unit)
 
+func select_units_in_province(prov: Province) -> int:
+	if prov == null or player_country == null:
+		return 0
+	
+	deselect_all_units()
+	
+	for u in units:
+		if u != null and is_instance_valid(u) and u.owner_country == player_country:
+			if u.current_province == prov:
+				u.set_selected(true)
+				selected_units.append(u)
+	
+	if not selected_units.is_empty():
+		selected_unit = selected_units[0]
+		unit_selection_changed.emit(selected_unit)
+		var event_bus = get_node_or_null("/root/EventBus")
+		if event_bus != null:
+			event_bus.unit_selected.emit(selected_unit)
+		print("🎯 KORPS GABUNGAN: %d divisi dipilih di %s" % [selected_units.size(), prov.province_name])
+	
+	return selected_units.size()
+
+func get_units_in_province(prov: Province, country: Country = null) -> Array[MilitaryUnit]:
+	var result: Array[MilitaryUnit] = []
+	for u in units:
+		if u != null and is_instance_valid(u) and u.current_province == prov:
+			if country == null or u.owner_country == country:
+				result.append(u)
+	return result
+
 func deselect_current_unit() -> void:
+	deselect_all_units()
+
+func deselect_all_units() -> void:
+	for u in selected_units:
+		if u != null and is_instance_valid(u):
+			u.set_selected(false)
+	selected_units.clear()
+	
 	if selected_unit != null:
 		selected_unit.set_selected(false)
 		selected_unit = null
-		unit_selection_changed.emit(null)
-		var event_bus = get_node_or_null("/root/EventBus")
-		if event_bus != null:
-			event_bus.unit_deselected.emit()
+	
+	unit_selection_changed.emit(null)
+	var event_bus = get_node_or_null("/root/EventBus")
+	if event_bus != null:
+		event_bus.unit_deselected.emit()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not (event is InputEventMouseButton) or not event.is_pressed():
 		return
 	
-	# Klik Kanan: Perintah Gerak Unit ke Provinsi yang dituju
-	if event.button_index == MOUSE_BUTTON_RIGHT and selected_unit != null:
+	# Klik Kanan: Perintah Gerak Unit ke Provinsi yang dituju (Multi-Select Support)
+	if event.button_index == MOUSE_BUTTON_RIGHT and not selected_units.is_empty():
 		var target_prov = _get_province_under_mouse()
 		if target_prov != null:
-			var success = selected_unit.order_move_to(target_prov)
-			if success:
-				print("Perintah gerak: %s -> %s" % [selected_unit.unit_data.unit_name, target_prov.province_name])
+			var success_count = 0
+			for u in selected_units:
+				if u != null and is_instance_valid(u):
+					if u.order_move_to(target_prov):
+						success_count += 1
+			if success_count > 0:
+				print("Perintah gerak serentak (%d divisi): -> %s" % [success_count, target_prov.province_name])
 			get_viewport().set_input_as_handled()
 		else:
 			# Klik kanan di luar provinsi membatalkan seleksi
-			deselect_current_unit()
+			deselect_all_units()
 	
 	# Klik Kiri di area kosong membatalkan seleksi unit
 	elif event.button_index == MOUSE_BUTTON_LEFT:
 		var unit_under_mouse = _get_unit_under_mouse()
 		var prov_under_mouse = _get_province_under_mouse()
 		if unit_under_mouse == null and prov_under_mouse == null:
-			deselect_current_unit()
+			deselect_all_units()
 
 func _get_province_under_mouse() -> Province:
 	if map_manager == null:

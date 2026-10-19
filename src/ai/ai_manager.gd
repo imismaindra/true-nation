@@ -13,6 +13,15 @@ extends Node
 
 @export var infantry_data: UnitData
 @export var tank_data: UnitData
+@export var artillery_data: UnitData
+@export var helicopter_data: UnitData
+@export var submarine_data: UnitData
+
+var munitions_plant_data: BuildingData
+var fortification_data: BuildingData
+var airbase_data: BuildingData
+var naval_dockyard_data: BuildingData
+var arms_factory_data: BuildingData
 
 signal ai_decision_executed(decision_type: String, details: String)
 
@@ -26,6 +35,24 @@ func _ready() -> void:
 		infantry_data = load("res://src/data/units/infantry_division.tres")
 	if tank_data == null:
 		tank_data = load("res://src/data/units/tank_division.tres")
+	if artillery_data == null and ResourceLoader.exists("res://src/data/units/artillery_division.tres"):
+		artillery_data = load("res://src/data/units/artillery_division.tres")
+	if helicopter_data == null and ResourceLoader.exists("res://src/data/units/attack_helicopter_wing.tres"):
+		helicopter_data = load("res://src/data/units/attack_helicopter_wing.tres")
+	if submarine_data == null and ResourceLoader.exists("res://src/data/units/submarine_fleet.tres"):
+		submarine_data = load("res://src/data/units/submarine_fleet.tres")
+	
+	# Load Building Presets untuk AI Konstruksi Mandiri (Sprint 3)
+	if munitions_plant_data == null and ResourceLoader.exists("res://src/data/buildings/munitions_plant.tres"):
+		munitions_plant_data = load("res://src/data/buildings/munitions_plant.tres")
+	if fortification_data == null and ResourceLoader.exists("res://src/data/buildings/fortification.tres"):
+		fortification_data = load("res://src/data/buildings/fortification.tres")
+	if airbase_data == null and ResourceLoader.exists("res://src/data/buildings/airbase.tres"):
+		airbase_data = load("res://src/data/buildings/airbase.tres")
+	if naval_dockyard_data == null and ResourceLoader.exists("res://src/data/buildings/naval_dockyard.tres"):
+		naval_dockyard_data = load("res://src/data/buildings/naval_dockyard.tres")
+	if arms_factory_data == null and ResourceLoader.exists("res://src/data/buildings/arms_factory.tres"):
+		arms_factory_data = load("res://src/data/buildings/arms_factory.tres")
 
 func _on_daily_tick(_day: int, _month: int, _year: int) -> void:
 	execute_ai_turn()
@@ -42,25 +69,97 @@ func execute_ai_turn() -> void:
 	if rival_provinces.is_empty():
 		return # Faksi telah kehilangan seluruh teritorial
 	
-	# 2. Mode Rekrutmen & Produksi Mandiri
-	if rival_units.size() < 3 and production_manager != null:
+	# 2. Mode Konstruksi Fasilitas & Industri Mandiri (Sprint 3)
+	if building_manager != null:
+		_try_manage_construction(rival_provinces)
+	
+	# 3. Mode Rekrutmen & Produksi Mandiri
+	if rival_units.size() < 4 and production_manager != null:
 		_try_recruit_division(rival_provinces)
 	
-	# 3. Mode Ekspansi ke Wilayah Netral yang Belum Dikawal
+	# 4. Mode Ekspansi ke Wilayah Netral yang Belum Dikawal
 	if not idle_units.is_empty():
 		var expansion_done = _try_expand_to_neutral(idle_units)
 		if expansion_done:
 			idle_units = idle_units.filter(func(u): return not u.is_moving and not u.is_in_combat)
 	
-	# 4. Mode Serangan Balas / Invasi (Offensive Counter-Attack)
+	# 5. Mode Serangan Balas / Invasi (Offensive Counter-Attack)
 	if rival_country.munitions >= 40.0 and not idle_units.is_empty():
 		var attack_done = _try_offensive_strike(idle_units)
 		if attack_done:
 			idle_units = idle_units.filter(func(u): return not u.is_moving and not u.is_in_combat)
 	
-	# 5. Mode Bertahan (Garrison & Defense di Perbatasan)
+	# 6. Mode Bertahan (Garrison & Defense di Perbatasan)
 	if not idle_units.is_empty():
 		_try_garrison_borders(idle_units, rival_provinces)
+
+func _try_manage_construction(rival_provinces: Array) -> void:
+	if building_manager == null or rival_provinces.is_empty():
+		return
+	
+	# 1. Cek Stok Amunisi AI: Jika stok amunisi < 100 dan kapasitas pabrik belum cukup
+	if rival_country.munitions < 100.0 and munitions_plant_data != null:
+		for prov in rival_provinces:
+			if not prov.is_sea_zone() and prov.can_construct_building(munitions_plant_data).can:
+				if building_manager.can_construct(rival_country, munitions_plant_data, prov).can:
+					var order = building_manager.start_construction(rival_country, munitions_plant_data, prov)
+					if order != null:
+						var msg = "Membangun Pabrik Amunisi di %s (Stok Amunisi: %.0f)" % [prov.province_name, rival_country.munitions]
+						print("🤖 [AI RIVAL KONSTRUKSI]: %s" % msg)
+						ai_decision_executed.emit("CONSTRUCT", msg)
+						return
+	
+	# 2. Cek Ancaman Perbatasan: Jika berbatasan langsung dengan pemain dan belum dibentengi
+	if fortification_data != null and player_country != null:
+		for prov in rival_provinces:
+			if prov.is_sea_zone() or prov.has_fortification():
+				continue
+			var is_border = false
+			for neighbor in prov.connected_provinces:
+				if neighbor.owner_country == player_country and not neighbor.is_sea_zone():
+					is_border = true
+					break
+			if is_border and building_manager.can_construct(rival_country, fortification_data, prov).can:
+				var order = building_manager.start_construction(rival_country, fortification_data, prov)
+				if order != null:
+					var msg = "Mendirikan Benteng Perbatasan di %s (+35%% Defense)" % prov.province_name
+					print("🤖 [AI RIVAL KONSTRUKSI]: %s" % msg)
+					ai_decision_executed.emit("CONSTRUCT", msg)
+					return
+	
+	# 3. Pembangunan Pangkalan Udara jika belum memiliki Airbase
+	if airbase_data != null:
+		var has_airbase = false
+		for prov in rival_provinces:
+			if prov.has_airbase():
+				has_airbase = true
+				break
+		if not has_airbase:
+			for prov in rival_provinces:
+				if not prov.is_sea_zone() and building_manager.can_construct(rival_country, airbase_data, prov).can:
+					var order = building_manager.start_construction(rival_country, airbase_data, prov)
+					if order != null:
+						var msg = "Membangun Pangkalan Udara di %s" % prov.province_name
+						print("🤖 [AI RIVAL KONSTRUKSI]: %s" % msg)
+						ai_decision_executed.emit("CONSTRUCT", msg)
+						return
+	
+	# 4. Pembangunan Galangan Kapal di wilayah pesisir jika belum ada
+	if naval_dockyard_data != null:
+		var has_dockyard = false
+		for prov in rival_provinces:
+			if prov.has_naval_base():
+				has_dockyard = true
+				break
+		if not has_dockyard:
+			for prov in rival_provinces:
+				if prov.terrain == Province.TerrainType.COASTAL and building_manager.can_construct(rival_country, naval_dockyard_data, prov).can:
+					var order = building_manager.start_construction(rival_country, naval_dockyard_data, prov)
+					if order != null:
+						var msg = "Membangun Galangan Kapal Perang di %s" % prov.province_name
+						print("🤖 [AI RIVAL KONSTRUKSI]: %s" % msg)
+						ai_decision_executed.emit("CONSTRUCT", msg)
+						return
 
 func _try_recruit_division(rival_provinces: Array) -> void:
 	if production_manager == null or rival_provinces.is_empty():
@@ -76,9 +175,13 @@ func _try_recruit_division(rival_provinces: Array) -> void:
 	if target_prov == null:
 		return
 	
-	# Prioritaskan Tank jika sumber daya mencukupi, jika tidak rekrut Infanteri
+	# Variasi rekrutmen taktis: Helikopter, Artileri, Tank, atau Infanteri
 	var chosen_unit: UnitData = null
-	if tank_data != null and production_manager.can_recruit(rival_country, tank_data, target_prov).can:
+	if helicopter_data != null and target_prov.has_airbase() and production_manager.can_recruit(rival_country, helicopter_data, target_prov).can:
+		chosen_unit = helicopter_data
+	elif artillery_data != null and production_manager.can_recruit(rival_country, artillery_data, target_prov).can and randf() > 0.4:
+		chosen_unit = artillery_data
+	elif tank_data != null and production_manager.can_recruit(rival_country, tank_data, target_prov).can:
 		chosen_unit = tank_data
 	elif infantry_data != null and production_manager.can_recruit(rival_country, infantry_data, target_prov).can:
 		chosen_unit = infantry_data

@@ -38,9 +38,10 @@ color = Color(0.08, 0.11, 0.16, 1)
 [node name="CombatSystem" type="Node" parent="."]
 script = ExtResource("10_combat")
 
-[node name="EconomyManager" type="Node" parent="." node_paths=PackedStringArray("map_manager")]
+[node name="EconomyManager" type="Node" parent="." node_paths=PackedStringArray("map_manager", "military_manager")]
 script = ExtResource("5_econ")
 map_manager = NodePath("../WorldMap")
+military_manager = NodePath("../MilitaryManager")
 player_country = ExtResource("6_player")
 
 [node name="ProductionManager" type="Node" parent="." node_paths=PackedStringArray("military_manager")]

@@ -59,6 +59,11 @@ func update_fog_of_war() -> void:
 						for neighbor in base_prov.connected_provinces:
 							if not visible_provinces.has(neighbor):
 								visible_provinces.append(neighbor)
+							# Drone UAV: Sensor pengintai 2-hop radius luas
+							if unit.unit_data.unit_type == UnitData.UnitType.DRONE_UAV:
+								for n2 in neighbor.connected_provinces:
+									if not visible_provinces.has(n2):
+										visible_provinces.append(n2)
 	
 	# 3. Terapkan Status Visibilitas ke Setiap Provinsi
 	for prov in map_manager.provinces:
@@ -76,10 +81,20 @@ func update_fog_of_war() -> void:
 			if unit != null and is_instance_valid(unit):
 				if unit.owner_country != player_country:
 					var in_sight = false
-					if unit.current_province != null and visible_provinces.has(unit.current_province):
-						in_sight = true
-					elif unit.target_province != null and visible_provinces.has(unit.target_province):
-						in_sight = true
+					var is_sub = (unit.unit_data != null and unit.unit_data.unit_type == UnitData.UnitType.SUBMARINE)
+					
+					if is_sub:
+						# Kapal selam musuh berkemampuan siluman bawah air: hanya terdeteksi jika ada armada kawan di provinsi yang sama
+						if unit.current_province != null and visible_provinces.has(unit.current_province):
+							for friendly in military_manager.units:
+								if friendly.owner_country == player_country and friendly.current_province == unit.current_province:
+									in_sight = true
+									break
+					else:
+						if unit.current_province != null and visible_provinces.has(unit.current_province):
+							in_sight = true
+						elif unit.target_province != null and visible_provinces.has(unit.target_province):
+							in_sight = true
 					
 					unit.visible = in_sight
 					# Jika unit musuh tersembunyi, pastikan pemain tidak bisa memilihnya

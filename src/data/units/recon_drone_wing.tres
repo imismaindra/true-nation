@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/military/unit_data.gd" id="1_unitdata"]
+
+[resource]
+script = ExtResource("1_unitdata")
+unit_type = 16
+unit_name = "Skadron Drone Pengintai UAV"
+domain = 2
+max_strength = 100.0
+max_organization = 100.0
+soft_attack = 4.0
+hard_attack = 2.0
+air_attack = 2.0
+naval_attack = 0.0
+defense = 6.0
+speed = 2.5
+production_cost_money = 180.0
+production_cost_steel = 15.0
+production_cost_fuel = 10.0
+production_cost_arms = 40.0
+production_cost_munitions = 10.0
+production_days = 3
+daily_fuel_consumption = 0.2
+daily_money_upkeep = 0.5
+required_manpower = 100

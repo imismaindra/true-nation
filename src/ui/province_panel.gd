@@ -17,6 +17,7 @@ extends PanelContainer
 @onready var btn_close: Button = $MarginContainer/VBoxContainer/Header/BtnClose
 @onready var sep_action: HSeparator = $MarginContainer/VBoxContainer/HSeparator3
 @onready var action_buttons: HBoxContainer = $MarginContainer/VBoxContainer/ActionButtons
+@onready var btn_select_all: Button = $MarginContainer/VBoxContainer/BtnSelectAll
 @onready var btn_recruit: Button = $MarginContainer/VBoxContainer/ActionButtons/BtnRecruit
 @onready var btn_build: Button = $MarginContainer/VBoxContainer/ActionButtons/BtnBuild
 @onready var label_buildings_list: Label = $MarginContainer/VBoxContainer/BuildingSection/LabelBuildingsList
@@ -28,6 +29,7 @@ func _ready() -> void:
 	btn_close.pressed.connect(_on_close_pressed)
 	btn_recruit.pressed.connect(_on_recruit_pressed)
 	btn_build.pressed.connect(_on_build_pressed)
+	btn_select_all.pressed.connect(_on_select_all_pressed)
 	
 	var event_bus = get_node_or_null("/root/EventBus")
 	if event_bus != null:
@@ -77,10 +79,28 @@ func _update_ui() -> void:
 				b_texts.append("%s %s" % [b.icon, b.building_name])
 		label_buildings_list.text = " • ".join(b_texts)
 	
+	# Tombol Seleksi Korps Gabungan Seluruh Pasukan di Provinsi Ini (Sprint 4)
+	var mil_mgr = get_tree().root.find_child("MilitaryManager", true, false)
+	var friendly_count = 0
+	if mil_mgr != null and current_province != null and player_country != null and mil_mgr.has_method("get_units_in_province"):
+		var friendly_units = mil_mgr.get_units_in_province(current_province, player_country)
+		friendly_count = friendly_units.size()
+	
+	if friendly_count > 0:
+		btn_select_all.visible = true
+		btn_select_all.text = "🎯 Pilih Semua Pasukan di Sini (%d Divisi)" % friendly_count
+	else:
+		btn_select_all.visible = false
+	
 	# Opsi Aksi (Hanya aktif untuk wilayah darat milik pemain)
 	var is_player_owned = (current_province.owner_country != null and current_province.owner_country == player_country and not current_province.is_sea_zone())
 	action_buttons.visible = is_player_owned
-	sep_action.visible = is_player_owned
+	sep_action.visible = is_player_owned or friendly_count > 0
+
+func _on_select_all_pressed() -> void:
+	var mil_mgr = get_tree().root.find_child("MilitaryManager", true, false)
+	if mil_mgr != null and current_province != null and mil_mgr.has_method("select_units_in_province"):
+		mil_mgr.select_units_in_province(current_province)
 
 func _on_recruit_pressed() -> void:
 	if recruitment_dialog != null and current_province != null:

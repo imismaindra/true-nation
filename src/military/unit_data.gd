@@ -34,7 +34,10 @@ enum UnitType {
 	FRIGATE,
 	DESTROYER,
 	LANDING_SHIP_DOCK,
-	AIRCRAFT_CARRIER
+	AIRCRAFT_CARRIER,
+	SUBMARINE,
+	# Darat Tambahan
+	MLRS
 }
 
 @export var unit_type: UnitType = UnitType.RIFLEMAN

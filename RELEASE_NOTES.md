@@ -1,3 +1,24 @@
+# Release Notes - True Nation v0.2.1
+
+**Release Date:** 19 Oktober 2026  
+**Version:** `v0.2.1`  
+**Milestone:** Polish, Tactical Unit Roster, AI Autonomous Construction & Quality of Life (QoL)  
+**Compatibility:** Godot Engine 4.3 - 4.7.2+ (Forward+ & Compatibility)
+
+---
+
+## 🌟 Ringkasan Rilis (Release Overview v0.2.1)
+
+Versi **v0.2.1** hadir sebagai pematangan menyeluruh (*polish & tactical expansion*) sebelum melangkah ke Peta Raksasa Nusantara di Versi 0.3. Pembaruan ini mengimplementasikan penuh seluruh **6 Sprint Master Roadmap v0.2.1**:
+1. **Orientasi & Rotasi Halus Pasukan**: Rotasi dinamis haluan jet tempur, kapal perang, serta pembalikan moncong tank secara presisi mengikuti arah gerak.
+2. **Ekspansi Roster Militer Modern**: 4 divisi tempur baru memanfaatkan aset 28 sprite militer (Artileri Medan / MLRS, Helikopter Serbu, Drone Pengintai UAV, Kapal Selam Tempur).
+3. **Kecerdasan Buatan (AI) Konstruksi Fasilitas**: AI rival mampu mendeteksi krisis logistik dan membangun Pabrik Amunisi, Benteng Perbatasan, serta Pangkalan Udara/Laut secara mandiri.
+4. **Tooltip Neraca Ekonomi & Seleksi Korps Gabungan (Multi-Select)**: Visibilitas rinci pendapatan vs pengeluaran komoditas pada TopBar HUD dan tombol gerak serentak seluruh garnisun provinsi.
+5. **Sistem Tata Suara Atmosfer Tempur (Audio Manager)**: Modul audio singleton prosedural 16-bit mandiri (*radio click, movement order beep, booming cannon blast, automatic gunfire, alert sirens*).
+6. **Sistem Simpan & Muat Permainan (Save & Load Manager)**: Persistensi data lengkap berbasis JSON (`user://savegame.json`) dengan tombol UI dan shortcut F5 (Save) / F9 (Load).
+
+---
+
 # Release Notes - True Nation v0.2
 
 **Release Date:** 19 Oktober 2026  

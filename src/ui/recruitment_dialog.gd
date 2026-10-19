@@ -8,8 +8,12 @@ extends PanelContainer
 
 @export var infantry_data: UnitData
 @export var tank_data: UnitData
-@export var frigate_data: UnitData
+@export var artillery_data: UnitData
+@export var helicopter_data: UnitData
 @export var fighter_data: UnitData
+@export var drone_data: UnitData
+@export var frigate_data: UnitData
+@export var submarine_data: UnitData
 
 var target_province: Province = null
 
@@ -26,10 +30,18 @@ func _ready() -> void:
 		infantry_data = load("res://src/data/units/infantry_division.tres")
 	if tank_data == null:
 		tank_data = load("res://src/data/units/tank_division.tres")
-	if frigate_data == null:
-		frigate_data = load("res://src/data/units/frigate_fleet.tres")
+	if artillery_data == null and ResourceLoader.exists("res://src/data/units/artillery_division.tres"):
+		artillery_data = load("res://src/data/units/artillery_division.tres")
+	if helicopter_data == null and ResourceLoader.exists("res://src/data/units/attack_helicopter_wing.tres"):
+		helicopter_data = load("res://src/data/units/attack_helicopter_wing.tres")
 	if fighter_data == null:
 		fighter_data = load("res://src/data/units/fighter_wing.tres")
+	if drone_data == null and ResourceLoader.exists("res://src/data/units/recon_drone_wing.tres"):
+		drone_data = load("res://src/data/units/recon_drone_wing.tres")
+	if frigate_data == null:
+		frigate_data = load("res://src/data/units/frigate_fleet.tres")
+	if submarine_data == null and ResourceLoader.exists("res://src/data/units/submarine_fleet.tres"):
+		submarine_data = load("res://src/data/units/submarine_fleet.tres")
 
 func open_for_province(prov: Province) -> void:
 	if prov == null:
@@ -45,7 +57,16 @@ func _rebuild_cards() -> void:
 	for child in cards_container.get_children():
 		child.queue_free()
 	
-	var unit_list = [infantry_data, tank_data, frigate_data, fighter_data]
+	var unit_list = [
+		infantry_data,
+		tank_data,
+		artillery_data,
+		helicopter_data,
+		fighter_data,
+		drone_data,
+		frigate_data,
+		submarine_data
+	]
 	for data in unit_list:
 		if data != null:
 			_create_unit_card(data)
@@ -67,11 +88,24 @@ func _create_unit_card(data: UnitData) -> void:
 	var icon_label = Label.new()
 	match data.domain:
 		UnitData.Domain.LAND:
-			icon_label.text = "🚜" if data.hard_attack > 10 else "🪖"
+			if data.unit_type in [UnitData.UnitType.ARTILLERY_SP, UnitData.UnitType.MLRS]:
+				icon_label.text = "💥"
+			elif data.hard_attack > 10:
+				icon_label.text = "🚜"
+			else:
+				icon_label.text = "🪖"
 		UnitData.Domain.SEA:
-			icon_label.text = "🚢"
+			if data.unit_type == UnitData.UnitType.SUBMARINE:
+				icon_label.text = "🌊"
+			else:
+				icon_label.text = "🚢"
 		UnitData.Domain.AIR:
-			icon_label.text = "✈️"
+			if data.unit_type == UnitData.UnitType.HELICOPTER:
+				icon_label.text = "🚁"
+			elif data.unit_type == UnitData.UnitType.DRONE_UAV:
+				icon_label.text = "📡"
+			else:
+				icon_label.text = "✈️"
 	icon_label.add_theme_font_size_override("font_size", 22)
 	icon_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	hbox.add_child(icon_label)

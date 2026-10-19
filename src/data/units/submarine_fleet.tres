@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/military/unit_data.gd" id="1_unitdata"]
+
+[resource]
+script = ExtResource("1_unitdata")
+unit_type = 22
+unit_name = "Armada Kapal Selam Tempur"
+domain = 1
+max_strength = 100.0
+max_organization = 100.0
+soft_attack = 4.0
+hard_attack = 10.0
+air_attack = 2.0
+naval_attack = 30.0
+defense = 18.0
+speed = 1.1
+production_cost_money = 600.0
+production_cost_steel = 80.0
+production_cost_fuel = 40.0
+production_cost_arms = 140.0
+production_cost_munitions = 75.0
+production_days = 8
+daily_fuel_consumption = 1.2
+daily_money_upkeep = 3.5
+required_manpower = 400
