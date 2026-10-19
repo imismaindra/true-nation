@@ -131,11 +131,42 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "750 Ribu"
 
+[node name="HSeparator2_5" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="BuildingSection" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="LabelBuildingsTitle" type="Label" parent="MarginContainer/VBoxContainer/BuildingSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.8, 0.5, 1)
+theme_override_font_sizes/font_size = 11
+text = "Fasilitas & Pabrik:"
+
+[node name="LabelBuildingsList" type="Label" parent="MarginContainer/VBoxContainer/BuildingSection"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Belum ada fasilitas"
+autowrap_mode = 2
+
 [node name="HSeparator3" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="BtnRecruit" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="ActionButtons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="BtnRecruit" type="Button" parent="MarginContainer/VBoxContainer/ActionButtons"]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "🎖️ Rekrut Divisi Militer"
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+text = "🎖️ Rekrut Divisi"
+
+[node name="BtnBuild" type="Button" parent="MarginContainer/VBoxContainer/ActionButtons"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+text = "🏗️ Bangun Fasilitas"

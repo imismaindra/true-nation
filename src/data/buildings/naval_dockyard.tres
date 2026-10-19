@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="BuildingData" format=3]
+
+[ext_resource type="Script" path="res://src/economy/building_data.gd" id="1_bld"]
+
+[resource]
+script = ExtResource("1_bld")
+building_id = "naval_dockyard"
+building_name = "Pangkalan Angkatan Laut"
+building_type = 4
+icon = "⚓"
+description = "Galangan kapal militer pesisir untuk merakit dan mereparasi armada kapal perang permukaan."
+build_cost_money = 1000.0
+build_cost_steel = 100.0
+build_cost_fuel = 0.0
+build_days = 18
+requires_coastal = true
+daily_money_upkeep = 35.0
+daily_steel_input = 0.0
+daily_fuel_input = 0.0
+daily_arms_output = 0.0
+daily_munitions_output = 0.0
+daily_steel_output = 0.0
+daily_fuel_output = 0.0
+defense_bonus_percent = 0.0

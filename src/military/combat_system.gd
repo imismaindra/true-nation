@@ -83,7 +83,58 @@ func _on_hourly_tick(_hour: int, _day: int, _month: int, _year: int) -> void:
 			active_battles.remove_at(i)
 
 func _resolve_hourly_combat_round(battle: Battle) -> void:
-	# 1. Hitung total serangan pihak penyerang (kombinasi soft & hard attack)
+	if battle.province == null:
+		return
+	
+	# 1. Konsumsi Amunisi Pihak Penyerang
+	var atk_country: Country = null
+	if not battle.attackers.is_empty():
+		atk_country = battle.attackers[0].owner_country
+	
+	var atk_supply_outage = false
+	if atk_country != null:
+		var total_ammo_needed: float = 0.0
+		for atk in battle.attackers:
+			total_ammo_needed += _get_unit_ammo_consumption(atk)
+		
+		if atk_country.munitions >= total_ammo_needed:
+			atk_country.munitions -= total_ammo_needed
+		else:
+			atk_country.munitions = 0.0
+			atk_supply_outage = true
+			print("🚨 KRISIS AMUNISI! Pasukan penyerang (%s) kehabisan amunisi di %s!" % [
+				atk_country.country_name, battle.province.province_name
+			])
+	
+	# 2. Konsumsi Amunisi Pihak Bertahan
+	var def_country: Country = null
+	if not battle.defenders.is_empty():
+		def_country = battle.defenders[0].owner_country
+	
+	var def_supply_outage = false
+	if def_country != null:
+		var total_ammo_needed: float = 0.0
+		for def in battle.defenders:
+			total_ammo_needed += _get_unit_ammo_consumption(def)
+		
+		if def_country.munitions >= total_ammo_needed:
+			def_country.munitions -= total_ammo_needed
+		else:
+			def_country.munitions = 0.0
+			def_supply_outage = true
+			print("🚨 KRISIS AMUNISI! Garnisun bertahan (%s) kehabisan amunisi di %s!" % [
+				def_country.country_name, battle.province.province_name
+			])
+	
+	# Sinkronisasi status krisis amunisi ke unit
+	for atk in battle.attackers:
+		if atk != null and is_instance_valid(atk):
+			atk.has_supply_outage = atk_supply_outage
+	for def in battle.defenders:
+		if def != null and is_instance_valid(def):
+			def.has_supply_outage = def_supply_outage
+	
+	# 3. Hitung total serangan pihak penyerang (kombinasi soft & hard attack)
 	var total_atk_soft: float = 0.0
 	var total_atk_hard: float = 0.0
 	for atk in battle.attackers:
@@ -91,7 +142,11 @@ func _resolve_hourly_combat_round(battle: Battle) -> void:
 			total_atk_soft += atk.unit_data.soft_attack
 			total_atk_hard += atk.unit_data.hard_attack
 	
-	# 2. Hitung total serangan pihak bertahan
+	var total_atk_power = (total_atk_soft * 0.7) + (total_atk_hard * 0.3)
+	if atk_supply_outage:
+		total_atk_power *= 0.5 # Penalti daya serang -50% saat amunisi habis
+	
+	# 4. Hitung total serangan pihak bertahan
 	var total_def_soft: float = 0.0
 	var total_def_hard: float = 0.0
 	for def in battle.defenders:
@@ -99,19 +154,41 @@ func _resolve_hourly_combat_round(battle: Battle) -> void:
 			total_def_soft += def.unit_data.soft_attack
 			total_def_hard += def.unit_data.hard_attack
 	
-	# 3. Berikan damage ke pihak bertahan (70% soft attack + 30% hard attack)
-	var total_atk_power = (total_atk_soft * 0.7) + (total_atk_hard * 0.3)
-	var dmg_to_defenders = (total_atk_power * 0.25) / float(max(1, battle.defenders.size()))
-	for def in battle.defenders:
-		if def != null:
-			def.take_damage(dmg_to_defenders * 0.2, dmg_to_defenders)
-	
-	# 4. Berikan damage ke pihak penyerang (70% soft attack + 30% hard attack)
 	var total_def_power = (total_def_soft * 0.7) + (total_def_hard * 0.3)
+	if def_supply_outage:
+		total_def_power *= 0.5 # Penalti daya serang -50% saat amunisi habis
+	
+	# 5. Bonus Benteng Pertahanan (Fortification) bagi Pihak Bertahan
+	var defense_bonus = battle.province.get_defense_bonus() # e.g. 0.35 (+35%)
+	var fort_reduction = clampf(defense_bonus, 0.0, 0.7) # Reduksi damage hingga maksimal 70%
+	
+	# 6. Berikan damage ke pihak bertahan
+	var dmg_to_defenders = (total_atk_power * 0.25) / float(max(1, battle.defenders.size()))
+	dmg_to_defenders *= (1.0 - fort_reduction)
+	
+	var def_org_mult = 1.5 if def_supply_outage else 1.0 # Moral lebih cepat runtuh tanpa bekal peluru
+	for def in battle.defenders:
+		if def != null and is_instance_valid(def):
+			def.take_damage(dmg_to_defenders * 0.2, dmg_to_defenders * def_org_mult)
+	
+	# 7. Berikan damage ke pihak penyerang
 	var dmg_to_attackers = (total_def_power * 0.25) / float(max(1, battle.attackers.size()))
+	var atk_org_mult = 1.5 if atk_supply_outage else 1.0
 	for atk in battle.attackers:
-		if atk != null:
-			atk.take_damage(dmg_to_attackers * 0.2, dmg_to_attackers)
+		if atk != null and is_instance_valid(atk):
+			atk.take_damage(dmg_to_attackers * 0.2, dmg_to_attackers * atk_org_mult)
+
+func _get_unit_ammo_consumption(unit: MilitaryUnit) -> float:
+	if unit == null or unit.unit_data == null:
+		return 1.5
+	match unit.unit_data.domain:
+		UnitData.Domain.LAND:
+			return 4.0 if unit.unit_data.hard_attack > 10 else 1.5
+		UnitData.Domain.SEA:
+			return 6.0
+		UnitData.Domain.AIR:
+			return 8.0
+	return 1.5
 
 func _check_battle_ended(battle: Battle) -> bool:
 	# Bersihkan unit yang hancur / mundur

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="BuildingData" format=3]
+
+[ext_resource type="Script" path="res://src/economy/building_data.gd" id="1_bld"]
+
+[resource]
+script = ExtResource("1_bld")
+building_id = "airbase"
+building_name = "Pangkalan Angkatan Udara"
+building_type = 5
+icon = "🛫"
+description = "Landasan pacu militer dan hanggar untuk merakit serta mengoperasikan jet tempur."
+build_cost_money = 800.0
+build_cost_steel = 60.0
+build_cost_fuel = 0.0
+build_days = 12
+requires_coastal = false
+daily_money_upkeep = 30.0
+daily_steel_input = 0.0
+daily_fuel_input = 0.0
+daily_arms_output = 0.0
+daily_munitions_output = 0.0
+daily_steel_output = 0.0
+daily_fuel_output = 0.0
+defense_bonus_percent = 0.0

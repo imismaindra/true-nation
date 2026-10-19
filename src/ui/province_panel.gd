@@ -4,6 +4,7 @@ extends PanelContainer
 
 @export var player_country: Country
 @export var recruitment_dialog: RecruitmentDialog
+@export var construction_dialog: PanelContainer
 
 @onready var label_title: Label = $MarginContainer/VBoxContainer/Header/VBox/LabelTitle
 @onready var label_terrain: Label = $MarginContainer/VBoxContainer/Header/VBox/LabelTerrain
@@ -15,7 +16,10 @@ extends PanelContainer
 @onready var label_population: Label = $MarginContainer/VBoxContainer/ResourceSection/Grid/LabelPopValue
 @onready var btn_close: Button = $MarginContainer/VBoxContainer/Header/BtnClose
 @onready var sep_action: HSeparator = $MarginContainer/VBoxContainer/HSeparator3
-@onready var btn_recruit: Button = $MarginContainer/VBoxContainer/BtnRecruit
+@onready var action_buttons: HBoxContainer = $MarginContainer/VBoxContainer/ActionButtons
+@onready var btn_recruit: Button = $MarginContainer/VBoxContainer/ActionButtons/BtnRecruit
+@onready var btn_build: Button = $MarginContainer/VBoxContainer/ActionButtons/BtnBuild
+@onready var label_buildings_list: Label = $MarginContainer/VBoxContainer/BuildingSection/LabelBuildingsList
 
 var current_province: Province = null
 
@@ -23,6 +27,7 @@ func _ready() -> void:
 	visible = false
 	btn_close.pressed.connect(_on_close_pressed)
 	btn_recruit.pressed.connect(_on_recruit_pressed)
+	btn_build.pressed.connect(_on_build_pressed)
 	
 	var event_bus = get_node_or_null("/root/EventBus")
 	if event_bus != null:
@@ -62,14 +67,28 @@ func _update_ui() -> void:
 	label_fuel.text = "+%.1f / hari" % current_province.base_fuel_output
 	label_population.text = "%s jiwa" % _format_number(current_province.population)
 	
-	# Opsi Rekrut Pasukan (Hanya aktif untuk wilayah darat milik pemain)
-	var is_player_owned = (current_province.owner_country != null and current_province.owner_country == player_country)
-	btn_recruit.visible = is_player_owned
+	# Fasilitas & Pabrik
+	if current_province.buildings.is_empty():
+		label_buildings_list.text = "Belum ada fasilitas dibangun."
+	else:
+		var b_texts: Array[String] = []
+		for b in current_province.buildings:
+			if b != null:
+				b_texts.append("%s %s" % [b.icon, b.building_name])
+		label_buildings_list.text = " • ".join(b_texts)
+	
+	# Opsi Aksi (Hanya aktif untuk wilayah darat milik pemain)
+	var is_player_owned = (current_province.owner_country != null and current_province.owner_country == player_country and not current_province.is_sea_zone())
+	action_buttons.visible = is_player_owned
 	sep_action.visible = is_player_owned
 
 func _on_recruit_pressed() -> void:
 	if recruitment_dialog != null and current_province != null:
 		recruitment_dialog.open_for_province(current_province)
+
+func _on_build_pressed() -> void:
+	if construction_dialog != null and current_province != null:
+		construction_dialog.open_for_province(current_province)
 
 func _on_close_pressed() -> void:
 	visible = false

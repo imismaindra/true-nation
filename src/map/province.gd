@@ -37,17 +37,78 @@ enum TerrainType {
 var is_hovered: bool = false
 var is_selected: bool = false
 
-# Fasilitas yang terpasang di provinsi ini (BuildingType int -> level int)
-var buildings: Dictionary = {}
+# Fasilitas yang terpasang di provinsi ini
+@export var initial_buildings: Array[BuildingData] = []
+var buildings: Array[BuildingData] = []
+var max_building_slots: int = 4
 var stationed_units: Array = []
 
 func _ready() -> void:
+	buildings = initial_buildings.duplicate()
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 	input_event.connect(_on_input_event)
 	
 	_setup_polygon_geometry()
 	update_visuals()
+
+func has_building(b_type: BuildingData.BuildingType) -> bool:
+	for b in buildings:
+		if b != null and b.building_type == b_type:
+			return true
+	return false
+
+func has_building_id(b_id: String) -> bool:
+	for b in buildings:
+		if b != null and b.building_id == b_id:
+			return true
+	return false
+
+func get_building_count(b_type: BuildingData.BuildingType) -> int:
+	var count: int = 0
+	for b in buildings:
+		if b != null and b.building_type == b_type:
+			count += 1
+	return count
+
+func add_building(b_data: BuildingData) -> bool:
+	if b_data == null:
+		return false
+	if buildings.size() >= max_building_slots:
+		return false
+	buildings.append(b_data)
+	return true
+
+func remove_building(b_data: BuildingData) -> bool:
+	var idx = buildings.find(b_data)
+	if idx != -1:
+		buildings.remove_at(idx)
+		return true
+	return false
+
+func get_defense_bonus() -> float:
+	var total: float = 0.0
+	for b in buildings:
+		if b != null:
+			total += b.defense_bonus_percent
+	return total
+
+func has_naval_base() -> bool:
+	return has_building(BuildingData.BuildingType.NAVAL_DOCKYARD)
+
+func has_airbase() -> bool:
+	return has_building(BuildingData.BuildingType.AIRBASE)
+
+func can_construct_building(b_data: BuildingData) -> Dictionary:
+	if b_data == null:
+		return { "can": false, "reason": "Data bangunan tidak valid." }
+	if is_sea_zone():
+		return { "can": false, "reason": "Tidak bisa mendirikan bangunan di zona perairan laut." }
+	if buildings.size() >= max_building_slots:
+		return { "can": false, "reason": "Slot bangunan penuh (%d/%d)." % [buildings.size(), max_building_slots] }
+	if b_data.requires_coastal and terrain != TerrainType.COASTAL:
+		return { "can": false, "reason": "Hanya dapat dibangun di wilayah pesisir pantai (Coastal)." }
+	return { "can": true, "reason": "Bisa dibangun." }
 
 func _setup_polygon_geometry() -> void:
 	if polygon_points.size() >= 3:

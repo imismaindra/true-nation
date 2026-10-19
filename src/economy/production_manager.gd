@@ -52,10 +52,17 @@ func can_recruit(c: Country, data: UnitData, prov: Province) -> Dictionary:
 	if prov.owner_country != c:
 		return { "can": false, "reason": "Wilayah bukan milik negara Anda." }
 	
-	# Domain check
+	# Domain & Facility check
 	if data.domain == UnitData.Domain.SEA:
 		if not prov.is_sea_zone() and prov.terrain != Province.TerrainType.COASTAL:
 			return { "can": false, "reason": "Armada laut hanya bisa dibuat di wilayah pesisir / laut." }
+		if not prov.has_naval_base():
+			return { "can": false, "reason": "Membutuhkan Pangkalan Angkatan Laut (Naval Dockyard) di wilayah ini." }
+	elif data.domain == UnitData.Domain.AIR:
+		if prov.is_sea_zone():
+			return { "can": false, "reason": "Jet tempur tidak dapat dirakit di zona laut lepas." }
+		if not prov.has_airbase():
+			return { "can": false, "reason": "Membutuhkan Pangkalan Angkatan Udara (Airbase) di wilayah ini." }
 	elif data.domain == UnitData.Domain.LAND:
 		if prov.is_sea_zone():
 			return { "can": false, "reason": "Pasukan darat tidak dapat dilatih di zona laut lepas." }

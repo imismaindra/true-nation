@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://df583l7p2q7na"]
+[gd_scene load_steps=16 format=3 uid="uid://df583l7p2q7na"]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_main"]
 [ext_resource type="PackedScene" uid="uid://b7vy5q8m42laq" path="res://src/map/world_map.tscn" id="2_map"]
@@ -13,6 +13,8 @@
 [ext_resource type="Script" path="res://src/economy/production_manager.gd" id="11_prodmgr"]
 [ext_resource type="PackedScene" uid="uid://cx61y89a24nmd" path="res://src/ui/recruitment_dialog.tscn" id="12_recdlg"]
 [ext_resource type="PackedScene" uid="uid://ci84x98p23kla" path="res://src/ui/production_queue_panel.tscn" id="13_prodqueue"]
+[ext_resource type="Script" path="res://src/economy/building_manager.gd" id="14_bldmgr"]
+[ext_resource type="PackedScene" path="res://src/ui/construction_dialog.tscn" id="15_condlg"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
@@ -42,6 +44,11 @@ script = ExtResource("11_prodmgr")
 military_manager = NodePath("../MilitaryManager")
 player_country = ExtResource("6_player")
 
+[node name="BuildingManager" type="Node" parent="." node_paths=PackedStringArray("economy_manager")]
+script = ExtResource("14_bldmgr")
+player_country = ExtResource("6_player")
+economy_manager = NodePath("../EconomyManager")
+
 [node name="RTSCamera2D" parent="." instance=ExtResource("4_cam")]
 position = Vector2(-360, 0)
 
@@ -51,8 +58,9 @@ position = Vector2(-360, 0)
 player_country = ExtResource("6_player")
 economy_manager = NodePath("../../EconomyManager")
 
-[node name="ProductionQueuePanel" parent="UI" node_paths=PackedStringArray("production_manager") instance=ExtResource("13_prodqueue")]
+[node name="ProductionQueuePanel" parent="UI" node_paths=PackedStringArray("production_manager", "building_manager") instance=ExtResource("13_prodqueue")]
 production_manager = NodePath("../../ProductionManager")
+building_manager = NodePath("../../BuildingManager")
 
 [node name="BottomLeftContainer" type="MarginContainer" parent="UI"]
 anchors_preset = 2
@@ -64,10 +72,11 @@ grow_vertical = 0
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_bottom = 12
 
-[node name="ProvincePanel" parent="UI/BottomLeftContainer" node_paths=PackedStringArray("recruitment_dialog") instance=ExtResource("8_provpanel")]
+[node name="ProvincePanel" parent="UI/BottomLeftContainer" node_paths=PackedStringArray("recruitment_dialog", "construction_dialog") instance=ExtResource("8_provpanel")]
 layout_mode = 2
 player_country = ExtResource("6_player")
 recruitment_dialog = NodePath("../../RecruitmentDialog")
+construction_dialog = NodePath("../../ConstructionDialog")
 
 [node name="BottomRightContainer" type="MarginContainer" parent="UI"]
 anchors_preset = 3
@@ -89,3 +98,7 @@ military_manager = NodePath("../../../MilitaryManager")
 [node name="RecruitmentDialog" parent="UI" node_paths=PackedStringArray("production_manager") instance=ExtResource("12_recdlg")]
 player_country = ExtResource("6_player")
 production_manager = NodePath("../../ProductionManager")
+
+[node name="ConstructionDialog" parent="UI" node_paths=PackedStringArray("building_manager") instance=ExtResource("15_condlg")]
+player_country = ExtResource("6_player")
+building_manager = NodePath("../../BuildingManager")

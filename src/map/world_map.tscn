@@ -1,10 +1,15 @@
-[gd_scene format=3 uid="uid://b7vy5q8m42laq"]
+[gd_scene load_steps=11 format=3 uid="uid://b7vy5q8m42laq"]
 
 [ext_resource type="Script" path="res://src/map/map_manager.gd" id="1_mapmgr"]
 [ext_resource type="PackedScene" uid="uid://c6f3q15m8o7yt" path="res://src/map/province.tscn" id="2_prov"]
 [ext_resource type="Resource" uid="uid://dmv7q8x1p35ka" path="res://src/data/countries/player_country.tres" id="3_player"]
 [ext_resource type="Resource" uid="uid://b23x18y4m59la" path="res://src/data/countries/rival_country.tres" id="4_rival"]
 [ext_resource type="Resource" uid="uid://ci15x78m439ka" path="res://src/data/countries/neutral_country.tres" id="5_neutral"]
+[ext_resource type="Resource" path="res://src/data/buildings/arms_factory.tres" id="6_armsfac"]
+[ext_resource type="Resource" path="res://src/data/buildings/airbase.tres" id="7_airbase"]
+[ext_resource type="Resource" path="res://src/data/buildings/naval_dockyard.tres" id="8_dockyard"]
+[ext_resource type="Resource" path="res://src/data/buildings/munitions_plant.tres" id="9_munitfac"]
+[ext_resource type="Resource" path="res://src/data/buildings/fortification.tres" id="10_fort"]
 
 [node name="WorldMap" type="Node2D"]
 script = ExtResource("1_mapmgr")
@@ -25,11 +30,12 @@ base_steel_output = 12.0
 base_fuel_output = 5.0
 population = 2500000
 polygon_points = PackedVector2Array(-460, 150, -250, 150, -220, 310, -430, 320)
+initial_buildings = [ExtResource("6_armsfac"), ExtResource("7_airbase")]
 
 [node name="Prov_Jatim" parent="Provinces" node_paths=PackedStringArray("connected_provinces") instance=ExtResource("2_prov")]
 province_id = "prov_jatim"
 province_name = "Jawa Timur"
-terrain = 0
+terrain = 4
 owner_country = ExtResource("3_player")
 connected_provinces = [NodePath("../Prov_Batavia"), NodePath("../Prov_Laut_Jawa")]
 base_money_output = 35.0
@@ -37,6 +43,7 @@ base_steel_output = 15.0
 base_fuel_output = 2.0
 population = 1800000
 polygon_points = PackedVector2Array(-250, 150, -40, 160, -10, 310, -220, 310)
+initial_buildings = [ExtResource("8_dockyard"), ExtResource("9_munitfac")]
 
 [node name="Prov_Laut_Jawa" parent="Provinces" node_paths=PackedStringArray("connected_provinces") instance=ExtResource("2_prov")]
 province_id = "prov_laut_jawa"
@@ -71,6 +78,7 @@ base_steel_output = 25.0
 base_fuel_output = 20.0
 population = 950000
 polygon_points = PackedVector2Array(-280, -320, -50, -300, -40, -40, -280, -50)
+initial_buildings = [ExtResource("6_armsfac"), ExtResource("10_fort")]
 
 [node name="Prov_Kalbar" parent="Provinces" node_paths=PackedStringArray("connected_provinces") instance=ExtResource("2_prov")]
 province_id = "prov_kalbar"

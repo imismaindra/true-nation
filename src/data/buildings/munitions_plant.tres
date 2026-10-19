@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="BuildingData" format=3]
+
+[ext_resource type="Script" path="res://src/economy/building_data.gd" id="1_bld"]
+
+[resource]
+script = ExtResource("1_bld")
+building_id = "munitions_plant"
+building_name = "Pabrik Amunisi & Rudal"
+building_type = 1
+icon = "🚀"
+description = "Memproses minyak dan baja menjadi amunisi dan rudal untuk memasok pertempuran."
+build_cost_money = 700.0
+build_cost_steel = 30.0
+build_cost_fuel = 25.0
+build_days = 14
+requires_coastal = false
+daily_money_upkeep = 40.0
+daily_steel_input = 2.0
+daily_fuel_input = 4.0
+daily_arms_output = 0.0
+daily_munitions_output = 25.0
+daily_steel_output = 0.0
+daily_fuel_output = 0.0
+defense_bonus_percent = 0.0

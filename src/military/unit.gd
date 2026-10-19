@@ -15,6 +15,7 @@ var current_strength: float = 100.0
 var current_organization: float = 100.0
 var is_selected: bool = false
 var is_in_combat: bool = false
+var has_supply_outage: bool = false
 
 # Pergerakan
 var target_province: Province = null

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="BuildingData" format=3]
+
+[ext_resource type="Script" path="res://src/economy/building_data.gd" id="1_bld"]
+
+[resource]
+script = ExtResource("1_bld")
+building_id = "oil_refinery"
+building_name = "Kilang Minyak Bumi"
+building_type = 3
+icon = "🛢️"
+description = "Memproses minyak mentah menjadi bahan bakar berkualitas tinggi untuk kendaraan tempur dan pabrik."
+build_cost_money = 750.0
+build_cost_steel = 45.0
+build_cost_fuel = 0.0
+build_days = 14
+requires_coastal = false
+daily_money_upkeep = 20.0
+daily_steel_input = 0.0
+daily_fuel_input = 0.0
+daily_arms_output = 0.0
+daily_munitions_output = 0.0
+daily_steel_output = 0.0
+daily_fuel_output = 10.0
+defense_bonus_percent = 0.0
