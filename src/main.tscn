@@ -73,7 +73,8 @@ military_manager = NodePath("../MilitaryManager")
 player_country = ExtResource("6_player")
 
 [node name="RTSCamera2D" parent="." instance=ExtResource("4_cam")]
-position = Vector2(-360, 0)
+position = Vector2(0, 0)
+
 
 [node name="UI" type="CanvasLayer" parent="."]
 

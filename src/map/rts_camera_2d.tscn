@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://src/map/rts_camera_2d.gd" id="1_cam"]
 
 [node name="RTSCamera2D" type="Camera2D"]
-zoom = Vector2(0.65, 0.65)
+zoom = Vector2(0.48, 0.48)
 position_smoothing_enabled = true
 script = ExtResource("1_cam")
+

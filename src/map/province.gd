@@ -226,24 +226,26 @@ func update_visuals() -> void:
 	if is_sea_zone():
 		label_name.visible = true
 		if is_selected:
-			visual_polygon.color = Color(0.22, 0.55, 0.88, 0.22)
-			border_line.default_color = Color(0.38, 0.85, 1.0, 0.9)
-			border_line.width = 2.5
+			visual_polygon.color = Color(0.22, 0.55, 0.88, 0.15)
+			border_line.visible = true
+			border_line.default_color = Color(0.38, 0.85, 1.0, 0.7)
+			border_line.width = 1.8
 			label_name.modulate = Color(0.6, 0.95, 1.0, 1.0)
 		elif is_hovered:
-			visual_polygon.color = Color(0.18, 0.45, 0.75, 0.14)
-			border_line.default_color = Color(0.38, 0.75, 0.95, 0.7)
-			border_line.width = 2.0
+			visual_polygon.color = Color(0.18, 0.45, 0.75, 0.1)
+			border_line.visible = true
+			border_line.default_color = Color(0.38, 0.75, 0.95, 0.5)
+			border_line.width = 1.5
 			label_name.modulate = Color(0.7, 0.9, 1.0, 0.9)
 		else:
-			# Zona laut transparan agar tekstur samudra batimetri terlihat alami
-			visual_polygon.color = Color(0.1, 0.25, 0.45, 0.04)
-			border_line.default_color = Color(0.2, 0.4, 0.65, 0.35)
-			border_line.width = 1.0
-			label_name.modulate = Color(0.4, 0.7, 0.9, 0.6)
+			# Zona laut bebas tanpa garis kotak pembatas, biarkan samudra alami
+			visual_polygon.color = Color(0, 0, 0, 0)
+			border_line.visible = false
+			label_name.modulate = Color(0.45, 0.75, 0.95, 0.55)
 		return
 	
 	# Penanganan daratan kepulauan
+	border_line.visible = true
 	var base_color: Color
 	if owner_country != null:
 		base_color = owner_country.map_color
@@ -269,7 +271,7 @@ func update_visuals() -> void:
 				visual_polygon.color = base_color
 				border_line.default_color = Color(0.06, 0.08, 0.12, 0.85)
 				border_line.width = 1.5
-				label_name.modulate = Color(0.95, 0.95, 0.95, 0.9)
+				label_name.modulate = Color(0.95, 0.95, 0.95, 0.95)
 		
 		VisibilityState.FOGGED:
 			# Wilayah diketahui namun tanpa sensor real-time: daratan tetap terlihat, hanya sedikit lebih teduh
@@ -284,32 +286,32 @@ func update_visuals() -> void:
 				visual_polygon.color = fog_color.lightened(0.12)
 				border_line.default_color = Color(0.7, 0.8, 0.9, 0.8)
 				border_line.width = 2.0
-				label_name.modulate = Color(0.9, 0.9, 0.9, 0.85)
+				label_name.modulate = Color(1.0, 1.0, 1.0, 0.95)
 			else:
 				visual_polygon.color = fog_color
 				border_line.default_color = Color(0.08, 0.1, 0.14, 0.7)
 				border_line.width = 1.2
-				label_name.modulate = Color(0.75, 0.8, 0.85, 0.7)
+				label_name.modulate = Color(0.9, 0.9, 0.9, 0.85)
 		
 		VisibilityState.UNKNOWN:
 			# Shading taktis C4ISR: bentuk kepulauan tetap terlihat, tidak menjadi balok hitam pekat!
-			var shroud_color = base_color.darkened(0.4).lerp(Color(0.1, 0.14, 0.2), 0.45)
+			var shroud_color = base_color.darkened(0.35).lerp(Color(0.12, 0.16, 0.24), 0.4)
 			shroud_color.a = 0.75
 			if is_selected:
 				visual_polygon.color = shroud_color.lightened(0.2)
 				border_line.default_color = Color(1.0, 0.88, 0.2, 0.8)
 				border_line.width = 3.0
-				label_name.modulate = Color(1.0, 1.0, 0.4, 0.8)
+				label_name.modulate = Color(1.0, 1.0, 0.4, 0.9)
 			elif is_hovered:
 				visual_polygon.color = shroud_color.lightened(0.12)
 				border_line.default_color = Color(0.4, 0.55, 0.7, 0.7)
 				border_line.width = 2.0
-				label_name.modulate = Color(0.8, 0.88, 0.95, 0.75)
+				label_name.modulate = Color(1.0, 1.0, 1.0, 0.95)
 			else:
 				visual_polygon.color = shroud_color
 				border_line.default_color = Color(0.08, 0.12, 0.18, 0.55)
 				border_line.width = 1.0
-				label_name.modulate = Color(0.55, 0.65, 0.75, 0.5)
+				label_name.modulate = Color(0.85, 0.88, 0.92, 0.8)
 
 func set_selected(val: bool) -> void:
 	if is_selected != val:

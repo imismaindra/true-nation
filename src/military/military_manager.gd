@@ -52,24 +52,25 @@ func update_unit_formations() -> void:
 		var u_list: Array = prov_units_map[p_id]
 		var count = u_list.size()
 		if count == 1:
-			u_list[0].formation_offset = Vector2.ZERO
+			u_list[0].formation_offset = Vector2(0, -14)
 		elif count == 2:
-			u_list[0].formation_offset = Vector2(-24, 0)
-			u_list[1].formation_offset = Vector2(24, 0)
+			u_list[0].formation_offset = Vector2(-28, -14)
+			u_list[1].formation_offset = Vector2(28, -14)
 		elif count == 3:
-			u_list[0].formation_offset = Vector2(0, -22)
-			u_list[1].formation_offset = Vector2(-26, 16)
-			u_list[2].formation_offset = Vector2(26, 16)
+			u_list[0].formation_offset = Vector2(0, -26)
+			u_list[1].formation_offset = Vector2(-28, 4)
+			u_list[2].formation_offset = Vector2(28, 4)
 		elif count == 4:
-			u_list[0].formation_offset = Vector2(-24, -20)
-			u_list[1].formation_offset = Vector2(24, -20)
-			u_list[2].formation_offset = Vector2(-24, 20)
-			u_list[3].formation_offset = Vector2(24, 20)
+			u_list[0].formation_offset = Vector2(-26, -24)
+			u_list[1].formation_offset = Vector2(26, -24)
+			u_list[2].formation_offset = Vector2(-26, 8)
+			u_list[3].formation_offset = Vector2(26, 8)
 		else:
 			var radius = 28.0 + (count * 2.5)
 			for i in range(count):
 				var angle = (float(i) / float(count)) * TAU
-				u_list[i].formation_offset = Vector2(cos(angle), sin(angle)) * radius
+				u_list[i].formation_offset = Vector2(cos(angle), sin(angle)) * radius + Vector2(0, -8)
+
 
 func spawn_unit(unit_data: UnitData, owner_c: Country, target_province: Province) -> MilitaryUnit:
 	if units_container == null:

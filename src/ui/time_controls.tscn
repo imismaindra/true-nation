@@ -6,31 +6,31 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/ui/icon_fast_forward.svg" id="4_ff"]
 
 [node name="TimeControls" type="PanelContainer"]
-custom_minimum_size = Vector2(330, 40)
-offset_right = 340.0
-offset_bottom = 44.0
+custom_minimum_size = Vector2(245, 34)
+offset_right = 245.0
+offset_bottom = 34.0
 script = ExtResource("1_4h68q")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="LabelTime" type="Label" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 13
 text = "06:00"
 vertical_alignment = 1
 
 [node name="LabelDate" type="Label" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 theme_override_colors/font_color = Color(0.75, 0.82, 0.9, 1)
 text = "1 Jan 2026"
 vertical_alignment = 1
@@ -40,10 +40,10 @@ layout_mode = 2
 
 [node name="SpeedButtons" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
 [node name="BtnPause" type="Button" parent="MarginContainer/HBoxContainer/SpeedButtons"]
-custom_minimum_size = Vector2(30, 26)
+custom_minimum_size = Vector2(24, 22)
 layout_mode = 2
 tooltip_text = "Pause / Resume (Space)"
 icon = ExtResource("2_pause")
@@ -51,7 +51,7 @@ icon_alignment = 1
 expand_icon = true
 
 [node name="BtnSpeed1" type="Button" parent="MarginContainer/HBoxContainer/SpeedButtons"]
-custom_minimum_size = Vector2(34, 26)
+custom_minimum_size = Vector2(24, 22)
 layout_mode = 2
 tooltip_text = "Kecepatan Normal 1x (1)"
 icon = ExtResource("3_play")
@@ -59,22 +59,22 @@ icon_alignment = 1
 expand_icon = true
 
 [node name="BtnSpeed2" type="Button" parent="MarginContainer/HBoxContainer/SpeedButtons"]
-custom_minimum_size = Vector2(34, 26)
+custom_minimum_size = Vector2(26, 22)
 layout_mode = 2
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 10
 tooltip_text = "Kecepatan Taktis 2x (2)"
 text = "2x"
 
 [node name="BtnSpeed3" type="Button" parent="MarginContainer/HBoxContainer/SpeedButtons"]
-custom_minimum_size = Vector2(34, 26)
+custom_minimum_size = Vector2(26, 22)
 layout_mode = 2
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 10
 tooltip_text = "Kecepatan Strategis 3x (3)"
 text = "3x"
 
 [node name="BtnSpeed5" type="Button" parent="MarginContainer/HBoxContainer/SpeedButtons"]
-custom_minimum_size = Vector2(38, 26)
+custom_minimum_size = Vector2(26, 22)
 layout_mode = 2
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 10
 tooltip_text = "Kecepatan Maksimal 5x (5)"
 text = "5x"

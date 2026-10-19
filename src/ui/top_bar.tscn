@@ -21,29 +21,28 @@ script = ExtResource("1_topbar")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
-theme_override_constants/margin_left = 16
+theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 16
+theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 
 [node name="CountrySection" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="ColorRectFlag" type="ColorRect" parent="MarginContainer/HBoxContainer/CountrySection"]
-custom_minimum_size = Vector2(18, 14)
+custom_minimum_size = Vector2(16, 12)
 layout_mode = 2
 size_flags_vertical = 4
 color = Color(0.18, 0.48, 0.88, 1)
 
 [node name="LabelCountryName" type="Label" parent="MarginContainer/HBoxContainer/CountrySection"]
-custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 12
 text = "Republik Nusantara"
 vertical_alignment = 1
 
@@ -52,14 +51,14 @@ layout_mode = 2
 
 [node name="ResourceSection" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 14
+theme_override_constants/separation = 8
 
 [node name="BoxMoney" type="HBoxContainer" parent="MarginContainer/HBoxContainer/ResourceSection"]
 layout_mode = 2
-theme_override_constants/separation = 5
+theme_override_constants/separation = 3
 
 [node name="IconMoney" type="TextureRect" parent="MarginContainer/HBoxContainer/ResourceSection/BoxMoney"]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("3_money")
@@ -69,16 +68,16 @@ stretch_mode = 5
 [node name="LabelMoney" type="Label" parent="MarginContainer/HBoxContainer/ResourceSection/BoxMoney"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 0.9, 0.4, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "15.0K (+85)"
 vertical_alignment = 1
 
 [node name="BoxSteel" type="HBoxContainer" parent="MarginContainer/HBoxContainer/ResourceSection"]
 layout_mode = 2
-theme_override_constants/separation = 5
+theme_override_constants/separation = 3
 
 [node name="IconSteel" type="TextureRect" parent="MarginContainer/HBoxContainer/ResourceSection/BoxSteel"]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("4_steel")
@@ -88,16 +87,16 @@ stretch_mode = 5
 [node name="LabelSteel" type="Label" parent="MarginContainer/HBoxContainer/ResourceSection/BoxSteel"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.85, 0.95, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "800 (+27)"
 vertical_alignment = 1
 
 [node name="BoxFuel" type="HBoxContainer" parent="MarginContainer/HBoxContainer/ResourceSection"]
 layout_mode = 2
-theme_override_constants/separation = 5
+theme_override_constants/separation = 3
 
 [node name="IconFuel" type="TextureRect" parent="MarginContainer/HBoxContainer/ResourceSection/BoxFuel"]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("5_fuel")
@@ -107,16 +106,16 @@ stretch_mode = 5
 [node name="LabelFuel" type="Label" parent="MarginContainer/HBoxContainer/ResourceSection/BoxFuel"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.65, 0.25, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "2,000 (+7)"
 vertical_alignment = 1
 
 [node name="BoxManpower" type="HBoxContainer" parent="MarginContainer/HBoxContainer/ResourceSection"]
 layout_mode = 2
-theme_override_constants/separation = 5
+theme_override_constants/separation = 3
 
 [node name="IconManpower" type="TextureRect" parent="MarginContainer/HBoxContainer/ResourceSection/BoxManpower"]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("6_manpower")
@@ -126,16 +125,16 @@ stretch_mode = 5
 [node name="LabelManpower" type="Label" parent="MarginContainer/HBoxContainer/ResourceSection/BoxManpower"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.85, 0.85, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "85.0K (+430)"
 vertical_alignment = 1
 
 [node name="BoxArms" type="HBoxContainer" parent="MarginContainer/HBoxContainer/ResourceSection"]
 layout_mode = 2
-theme_override_constants/separation = 5
+theme_override_constants/separation = 3
 
 [node name="IconArms" type="TextureRect" parent="MarginContainer/HBoxContainer/ResourceSection/BoxArms"]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("7_arms")
@@ -145,16 +144,16 @@ stretch_mode = 5
 [node name="LabelArms" type="Label" parent="MarginContainer/HBoxContainer/ResourceSection/BoxArms"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.75, 0.5, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "850 (+15)"
 vertical_alignment = 1
 
 [node name="BoxMunitions" type="HBoxContainer" parent="MarginContainer/HBoxContainer/ResourceSection"]
 layout_mode = 2
-theme_override_constants/separation = 5
+theme_override_constants/separation = 3
 
 [node name="IconMunitions" type="TextureRect" parent="MarginContainer/HBoxContainer/ResourceSection/BoxMunitions"]
-custom_minimum_size = Vector2(18, 18)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("8_munitions")
@@ -164,7 +163,7 @@ stretch_mode = 5
 [node name="LabelMunitions" type="Label" parent="MarginContainer/HBoxContainer/ResourceSection/BoxMunitions"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.45, 0.45, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "600 (+20)"
 vertical_alignment = 1
 
@@ -180,10 +179,10 @@ layout_mode = 2
 
 [node name="SaveLoadSection" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 4
 
 [node name="BtnSave" type="Button" parent="MarginContainer/HBoxContainer/SaveLoadSection"]
-custom_minimum_size = Vector2(74, 28)
+custom_minimum_size = Vector2(66, 26)
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "Simpan"
@@ -191,9 +190,10 @@ icon = ExtResource("9_save")
 expand_icon = true
 
 [node name="BtnLoad" type="Button" parent="MarginContainer/HBoxContainer/SaveLoadSection"]
-custom_minimum_size = Vector2(68, 28)
+custom_minimum_size = Vector2(58, 26)
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "Muat"
 icon = ExtResource("10_load")
 expand_icon = true
+
