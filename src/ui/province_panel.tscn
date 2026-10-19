@@ -130,3 +130,12 @@ text = "Populasi:"
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "750 Ribu"
+
+[node name="HSeparator3" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="BtnRecruit" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "🎖️ Rekrut Divisi Militer"

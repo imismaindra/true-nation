@@ -12,6 +12,8 @@ extends PanelContainer
 @onready var label_steel: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxSteel/LabelSteel
 @onready var label_fuel: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxFuel/LabelFuel
 @onready var label_manpower: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxManpower/LabelManpower
+@onready var label_arms: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxArms/LabelArms
+@onready var label_munitions: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxMunitions/LabelMunitions
 
 func _ready() -> void:
 	if economy_manager != null and economy_manager.has_signal("economy_updated"):
@@ -65,6 +67,22 @@ func _update_display() -> void:
 		_format_manpower(player_country.manpower),
 		"+" if pop_rate >= 0 else "",
 		pop_rate
+	]
+	
+	# Persenjataan (Arms)
+	var arms_rate = player_country.daily_income_arms
+	label_arms.text = "%.0f (%s%.0f)" % [
+		player_country.arms,
+		"+" if arms_rate >= 0 else "",
+		arms_rate
+	]
+	
+	# Amunisi & Rudal (Munitions)
+	var munit_rate = player_country.daily_income_munitions
+	label_munitions.text = "%.0f (%s%.0f)" % [
+		player_country.munitions,
+		"+" if munit_rate >= 0 else "",
+		munit_rate
 	]
 
 func _format_currency(val: float) -> String:

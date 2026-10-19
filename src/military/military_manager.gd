@@ -25,7 +25,26 @@ func _collect_units() -> void:
 func _register_unit(unit: MilitaryUnit) -> void:
 	if not units.has(unit):
 		units.append(unit)
-		unit.clicked.connect(_on_unit_clicked)
+		if not unit.clicked.is_connected(_on_unit_clicked):
+			unit.clicked.connect(_on_unit_clicked)
+
+func spawn_unit(unit_data: UnitData, owner_c: Country, target_province: Province) -> MilitaryUnit:
+	if units_container == null:
+		units_container = get_node_or_null("Units")
+		if units_container == null:
+			units_container = self
+	var unit_scene = preload("res://src/military/unit.tscn")
+	var unit_inst = unit_scene.instantiate() as MilitaryUnit
+	unit_inst.unit_data = unit_data
+	unit_inst.owner_country = owner_c
+	unit_inst.current_province = target_province
+	unit_inst.position = target_province.get_center() + target_province.position
+	units_container.add_child(unit_inst)
+	_register_unit(unit_inst)
+	print("🎖️ UNIT BARU DI-DEPLOY: %s di %s (%s)" % [
+		unit_data.unit_name, target_province.province_name, owner_c.country_name
+	])
+	return unit_inst
 
 func _on_unit_clicked(unit: Node2D) -> void:
 	var mil_unit = unit as MilitaryUnit

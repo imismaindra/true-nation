@@ -14,9 +14,13 @@ extends Resource
 @export var steel: float = 500.0
 @export var fuel: float = 1000.0
 @export var manpower: int = 50000
+@export var arms: float = 600.0         # Stok Persenjataan Militer
+@export var munitions: float = 400.0    # Stok Amunisi & Rudal
 
 # Pendapatan & Pengeluaran Harian
 var daily_income_money: float = 0.0
 var daily_income_steel: float = 0.0
 var daily_income_fuel: float = 0.0
 var daily_manpower_growth: int = 0
+var daily_income_arms: float = 0.0
+var daily_income_munitions: float = 0.0

@@ -55,9 +55,12 @@ enum UnitType {
 @export var speed: float = 1.0                # Kecepatan gerak antar provinsi
 
 @export_group("Economic & Logistics")
-@export var production_cost_money: float = 100.0
-@export var production_cost_steel: float = 10.0
-@export var production_days: int = 15
+@export var production_cost_money: float = 250.0
+@export var production_cost_steel: float = 0.0
+@export var production_cost_fuel: float = 0.0
+@export var production_cost_arms: float = 120.0       # Biaya Persenjataan
+@export var production_cost_munitions: float = 30.0   # Bekal Amunisi Awal
+@export var production_days: int = 5                  # Waktu Pelatihan / Produksi (Hari)
 @export var daily_fuel_consumption: float = 0.0
 @export var daily_money_upkeep: float = 1.0
 @export var required_manpower: int = 1000

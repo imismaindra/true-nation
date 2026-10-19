@@ -2,6 +2,9 @@
 # Menampilkan detail data wilayah saat sebuah provinsi diklik di peta.
 extends PanelContainer
 
+@export var player_country: Country
+@export var recruitment_dialog: RecruitmentDialog
+
 @onready var label_title: Label = $MarginContainer/VBoxContainer/Header/VBox/LabelTitle
 @onready var label_terrain: Label = $MarginContainer/VBoxContainer/Header/VBox/LabelTerrain
 @onready var label_owner: Label = $MarginContainer/VBoxContainer/InfoSection/HBoxOwner/LabelOwnerValue
@@ -11,12 +14,15 @@ extends PanelContainer
 @onready var label_fuel: Label = $MarginContainer/VBoxContainer/ResourceSection/Grid/LabelFuelValue
 @onready var label_population: Label = $MarginContainer/VBoxContainer/ResourceSection/Grid/LabelPopValue
 @onready var btn_close: Button = $MarginContainer/VBoxContainer/Header/BtnClose
+@onready var sep_action: HSeparator = $MarginContainer/VBoxContainer/HSeparator3
+@onready var btn_recruit: Button = $MarginContainer/VBoxContainer/BtnRecruit
 
 var current_province: Province = null
 
 func _ready() -> void:
 	visible = false
 	btn_close.pressed.connect(_on_close_pressed)
+	btn_recruit.pressed.connect(_on_recruit_pressed)
 	
 	var event_bus = get_node_or_null("/root/EventBus")
 	if event_bus != null:
@@ -55,6 +61,15 @@ func _update_ui() -> void:
 	label_steel.text = "+%.1f / hari" % current_province.base_steel_output
 	label_fuel.text = "+%.1f / hari" % current_province.base_fuel_output
 	label_population.text = "%s jiwa" % _format_number(current_province.population)
+	
+	# Opsi Rekrut Pasukan (Hanya aktif untuk wilayah darat milik pemain)
+	var is_player_owned = (current_province.owner_country != null and current_province.owner_country == player_country)
+	btn_recruit.visible = is_player_owned
+	sep_action.visible = is_player_owned
+
+func _on_recruit_pressed() -> void:
+	if recruitment_dialog != null and current_province != null:
+		recruitment_dialog.open_for_province(current_province)
 
 func _on_close_pressed() -> void:
 	visible = false
