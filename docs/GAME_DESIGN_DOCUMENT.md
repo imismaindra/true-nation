@@ -265,7 +265,32 @@ res://
     * Mengembangkan `combat_system.gd` untuk resolusi pertempuran real-time per jam, penyerapan damage, sistem moral pukul mundur (*retreat*), dan marker tempur ⚔️.
     * Mengintegrasikan `CombatSystem` ke `main.tscn`.
     * Berhasil divalidasi via Godot Engine CLI tanpa ada error.
+  * **Rilis Tag v0.1**:
+    * Pembersihan seluruh error dan warning debugger Godot.
+    * Dokumentasi `README.md` dan `RELEASE_NOTES.md` selesai.
+    * Commit dan tagging `v0.1` berhasil dipush ke GitHub.
 
+---
 
+## 7. Rencana Pengembangan Versi 0.2: Industri Militer, Rekrutmen & Intelijen Tempur
+Rencana komprehensif, arsitektur data, dan rincian sprint untuk Versi 0.2 telah didokumentasikan secara detail di dokumen terpisah:
+👉 **[ROADMAP_V0.2.md](file:///d:/03%20ProjectGame/true-nation/docs/ROADMAP_V0.2.md)**
 
-
+### Ringkasan Milestone Versi 0.2:
+- [ ] **Langkah 8: Sistem Rekrutmen & Antrian Produksi Militer**
+  - Pembuatan modul `ProductionManager` dan struct `ProductionOrder`.
+  - Antarmuka rekrutmen pasukan di drawer provinsi (`ProvincePanel`).
+  - Alokasi biaya material (Kas, Baja, Minyak, Manpower) dan durasi hari game.
+  - Spawning otomatis divisi baru di ibukota/pangkalan saat selesai.
+- [ ] **Langkah 9: Sistem Pembangunan Infrastruktur Provinsi**
+  - Implementasi fasilitas: Pabrik Baja (+Baja/hari), Kilang Minyak (+Minyak/hari), Pangkalan Udara, Galangan Kapal, dan Benteng (+Defense).
+  - Sistem batas slot bangunan per provinsi.
+- [ ] **Langkah 10: Sistem Kecerdasan Buatan Lawan (Enemy AI)**
+  - Modul `AIManager` pengendali faksi rival (*Krasnovian Federation*).
+  - Siklus FSM: Evaluasi kekuatan, patroli perbatasan, aneksasi provinsi netral, counter-attack, dan rekrutmen darurat.
+- [ ] **Langkah 11: Sistem Kabut Perang (Fog of War) & Pengintaian**
+  - Status visibilitas provinsi (`VISIBLE`, `FOGGED`, `UNKNOWN`).
+  - Radius pandang sensor jet tempur patroli udara dan pangkalan radar.
+- [ ] **Langkah 12: Integrasi Visual Sprite Pixel Art & Efek Tempur**
+  - Pemotongan dan integrasi sprite sheet pixel art kendaraan modern (Tank, Jet, Kapal Perang, Infanteri).
+  - Garis lintasan gerak beranimasi (*marching path lines*) dan partikel tembakan pada marker ⚔️.
