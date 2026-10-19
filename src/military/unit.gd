@@ -63,17 +63,62 @@ func _load_unit_sprite() -> void:
 	if unit_sprite == null or unit_data == null:
 		return
 	
+	if unit_data.sprite_top_down != null:
+		unit_sprite.texture = unit_data.sprite_top_down
+		return
+	
 	var tex_path = ""
-	match unit_data.domain:
-		UnitData.Domain.LAND:
-			if unit_data.hard_attack > 10.0:
-				tex_path = "res://assets/sprites/units/army/tank.png"
-			else:
-				tex_path = "res://assets/sprites/units/army/infantry.png"
-		UnitData.Domain.SEA:
+	match unit_data.unit_type:
+		UnitData.UnitType.RIFLEMAN:
+			tex_path = "res://assets/sprites/units/army/infantry_rifleman.png"
+		UnitData.UnitType.SNIPER:
+			tex_path = "res://assets/sprites/units/army/infantry_sniper.png"
+		UnitData.UnitType.MEDIC:
+			tex_path = "res://assets/sprites/units/army/infantry_medic.png"
+		UnitData.UnitType.ENGINEER:
+			tex_path = "res://assets/sprites/units/army/infantry_engineer.png"
+		UnitData.UnitType.AT_SPECIALIST:
+			tex_path = "res://assets/sprites/units/army/infantry_at.png"
+		UnitData.UnitType.MAIN_BATTLE_TANK:
+			tex_path = "res://assets/sprites/units/army/tank_mbt.png"
+		UnitData.UnitType.LIGHT_TANK, UnitData.UnitType.MEDIUM_TANK:
+			tex_path = "res://assets/sprites/units/army/tank_light.png"
+		UnitData.UnitType.IFV:
+			tex_path = "res://assets/sprites/units/army/tank_ifv.png"
+		UnitData.UnitType.APC:
+			tex_path = "res://assets/sprites/units/army/tank_apc.png"
+		UnitData.UnitType.ARTILLERY_SP:
+			tex_path = "res://assets/sprites/units/army/tank_artillery.png"
+		UnitData.UnitType.FIGHTER_JET:
+			tex_path = "res://assets/sprites/units/air/fighter_jet.png"
+		UnitData.UnitType.MULTIROLE_FIGHTER:
+			tex_path = "res://assets/sprites/units/air/fighter_multirole.png"
+		UnitData.UnitType.ATTACK_AIRCRAFT:
+			tex_path = "res://assets/sprites/units/air/aircraft_attack.png"
+		UnitData.UnitType.TRANSPORT_AIRCRAFT:
+			tex_path = "res://assets/sprites/units/air/aircraft_transport.png"
+		UnitData.UnitType.HELICOPTER:
+			tex_path = "res://assets/sprites/units/air/helicopter.png"
+		UnitData.UnitType.DRONE_UAV:
+			tex_path = "res://assets/sprites/units/air/drone_uav.png"
+		UnitData.UnitType.CORVETTE:
+			tex_path = "res://assets/sprites/units/navy/corvette.png"
+		UnitData.UnitType.FRIGATE:
 			tex_path = "res://assets/sprites/units/navy/frigate.png"
-		UnitData.Domain.AIR:
-			tex_path = "res://assets/sprites/units/air/fighter.png"
+		UnitData.UnitType.DESTROYER:
+			tex_path = "res://assets/sprites/units/navy/destroyer.png"
+		UnitData.UnitType.LANDING_SHIP_DOCK:
+			tex_path = "res://assets/sprites/units/navy/landing_ship.png"
+		UnitData.UnitType.AIRCRAFT_CARRIER:
+			tex_path = "res://assets/sprites/units/navy/aircraft_carrier.png"
+		_:
+			match unit_data.domain:
+				UnitData.Domain.LAND:
+					tex_path = "res://assets/sprites/units/army/tank.png" if unit_data.hard_attack > 10.0 else "res://assets/sprites/units/army/infantry.png"
+				UnitData.Domain.SEA:
+					tex_path = "res://assets/sprites/units/navy/frigate.png"
+				UnitData.Domain.AIR:
+					tex_path = "res://assets/sprites/units/air/fighter.png"
 	
 	if tex_path != "" and ResourceLoader.exists(tex_path):
 		unit_sprite.texture = load(tex_path)
@@ -81,7 +126,7 @@ func _load_unit_sprite() -> void:
 func _process(delta: float) -> void:
 	# Animasi mengapung halus untuk sprite kendaraan
 	if unit_sprite != null and unit_sprite.texture != null:
-		unit_sprite.position.y = -20.0 + sin(Time.get_ticks_msec() * 0.0035) * 1.5
+		unit_sprite.position.y = -22.0 + sin(Time.get_ticks_msec() * 0.0035) * 1.5
 	
 	# Interpolasi posisi visual secara halus saat sedang bergerak
 	if is_moving and target_province != null:

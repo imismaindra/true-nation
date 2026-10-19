@@ -19,8 +19,8 @@ end_cap_mode = 2
 [node name="Visual" type="Node2D" parent="."]
 
 [node name="UnitSprite" type="Sprite2D" parent="Visual"]
-position = Vector2(0, -20)
-scale = Vector2(0.9, 0.9)
+position = Vector2(0, -22)
+scale = Vector2(0.28, 0.28)
 
 [node name="SelectionRing" type="Line2D" parent="Visual"]
 visible = false
