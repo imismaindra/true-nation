@@ -120,16 +120,18 @@ func is_sea_zone() -> bool:
 
 func _on_mouse_entered() -> void:
 	set_highlighted(true)
-	if EventBus:
-		EventBus.province_hovered.emit(self)
+	var event_bus = get_node_or_null("/root/EventBus")
+	if event_bus != null:
+		event_bus.province_hovered.emit(self)
 
 func _on_mouse_exited() -> void:
 	set_highlighted(false)
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
-		if EventBus:
-			EventBus.province_clicked.emit(self)
+		var event_bus = get_node_or_null("/root/EventBus")
+		if event_bus != null:
+			event_bus.province_clicked.emit(self)
 		get_viewport().set_input_as_handled()
 
 func get_terrain_name() -> String:

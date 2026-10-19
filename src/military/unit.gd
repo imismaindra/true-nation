@@ -144,8 +144,9 @@ func _arrive_at_target() -> void:
 				var old_owner = current_province.owner_country
 				current_province.owner_country = owner_country
 				current_province.update_visuals()
-				if EventBus:
-					EventBus.province_owner_changed.emit(current_province, old_owner, owner_country)
+				var event_bus = get_node_or_null("/root/EventBus")
+				if event_bus != null:
+					event_bus.province_owner_changed.emit(current_province, old_owner, owner_country)
 	
 	movement_completed.emit(self, current_province)
 

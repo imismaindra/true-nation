@@ -18,8 +18,9 @@ func _ready() -> void:
 	visible = false
 	btn_close.pressed.connect(_on_close_pressed)
 	
-	if EventBus:
-		EventBus.province_clicked.connect(_on_province_clicked)
+	var event_bus = get_node_or_null("/root/EventBus")
+	if event_bus != null:
+		event_bus.province_clicked.connect(_on_province_clicked)
 
 func _on_province_clicked(province: Province) -> void:
 	if province == null:

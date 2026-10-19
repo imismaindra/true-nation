@@ -46,16 +46,18 @@ func _on_unit_clicked(unit: Node2D) -> void:
 	selected_unit = mil_unit
 	selected_unit.set_selected(true)
 	unit_selection_changed.emit(selected_unit)
-	if EventBus:
-		EventBus.unit_selected.emit(selected_unit)
+	var event_bus = get_node_or_null("/root/EventBus")
+	if event_bus != null:
+		event_bus.unit_selected.emit(selected_unit)
 
 func deselect_current_unit() -> void:
 	if selected_unit != null:
 		selected_unit.set_selected(false)
 		selected_unit = null
 		unit_selection_changed.emit(null)
-		if EventBus:
-			EventBus.unit_deselected.emit()
+		var event_bus = get_node_or_null("/root/EventBus")
+		if event_bus != null:
+			event_bus.unit_deselected.emit()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not (event is InputEventMouseButton) or not event.is_pressed():

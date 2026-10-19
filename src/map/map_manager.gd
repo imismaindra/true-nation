@@ -16,8 +16,9 @@ func _ready() -> void:
 	_collect_provinces()
 	_build_visual_connections()
 	
-	if EventBus:
-		EventBus.province_clicked.connect(_on_province_clicked)
+	var event_bus = get_node_or_null("/root/EventBus")
+	if event_bus != null:
+		event_bus.province_clicked.connect(_on_province_clicked)
 
 func _collect_provinces() -> void:
 	provinces.clear()
@@ -80,8 +81,9 @@ func deselect_current_province() -> void:
 	if selected_province != null:
 		selected_province.set_selected(false)
 		selected_province = null
-		if EventBus:
-			EventBus.province_clicked.emit(null)
+		var event_bus = get_node_or_null("/root/EventBus")
+		if event_bus != null:
+			event_bus.province_clicked.emit(null)
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Klik kanan di peta kosong membatalkan seleksi provinsi
