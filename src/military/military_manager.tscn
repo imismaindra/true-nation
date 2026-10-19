@@ -1,0 +1,36 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://src/military/military_manager.gd" id="1_milmgr"]
+[ext_resource type="PackedScene" path="res://src/military/unit.tscn" id="2_unit"]
+[ext_resource type="Resource" path="res://src/data/units/infantry_division.tres" id="3_inf"]
+[ext_resource type="Resource" path="res://src/data/units/tank_division.tres" id="4_tank"]
+[ext_resource type="Resource" uid="uid://dmv7q8x1p35ka" path="res://src/data/countries/player_country.tres" id="5_player"]
+[ext_resource type="Resource" uid="uid://b23x18y4m59la" path="res://src/data/countries/rival_country.tres" id="6_rival"]
+[ext_resource type="Resource" path="res://src/data/units/frigate_fleet.tres" id="7_frigate"]
+[ext_resource type="Resource" path="res://src/data/units/fighter_wing.tres" id="8_fighter"]
+
+[node name="MilitaryManager" type="Node2D"]
+script = ExtResource("1_milmgr")
+player_country = ExtResource("5_player")
+
+[node name="Units" type="Node2D" parent="."]
+
+[node name="Unit_Inf_Batavia" parent="Units" instance=ExtResource("2_unit")]
+unit_data = ExtResource("3_inf")
+owner_country = ExtResource("5_player")
+
+[node name="Unit_Tank_Jatim" parent="Units" instance=ExtResource("2_unit")]
+unit_data = ExtResource("4_tank")
+owner_country = ExtResource("5_player")
+
+[node name="Unit_Frigate_LautJawa" parent="Units" instance=ExtResource("2_unit")]
+unit_data = ExtResource("7_frigate")
+owner_country = ExtResource("5_player")
+
+[node name="Unit_Fighter_Batavia" parent="Units" instance=ExtResource("2_unit")]
+unit_data = ExtResource("8_fighter")
+owner_country = ExtResource("5_player")
+
+[node name="Unit_Inf_Borneo" parent="Units" instance=ExtResource("2_unit")]
+unit_data = ExtResource("3_inf")
+owner_country = ExtResource("6_rival")

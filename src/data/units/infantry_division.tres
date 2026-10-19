@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://b5g87x41p9kla"]
+
+[ext_resource type="Script" path="res://src/military/unit_data.gd" id="1_unitdata"]
+
+[resource]
+script = ExtResource("1_unitdata")
+unit_type = 0
+unit_name = "Divisi Infanteri Mekanis"
+domain = 0
+max_strength = 100.0
+max_organization = 100.0
+soft_attack = 14.0
+hard_attack = 4.0
+air_attack = 2.0
+naval_attack = 0.0
+defense = 22.0
+speed = 1.0
+production_cost_money = 120.0
+production_cost_steel = 15.0
+production_days = 12
+daily_fuel_consumption = 0.5
+daily_money_upkeep = 1.5
+required_manpower = 1200

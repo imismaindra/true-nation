@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Country" load_steps=2 format=3 uid="uid://b23x18y4m59la"]
+
+[ext_resource type="Script" path="res://src/core/country.gd" id="1_country"]
+
+[resource]
+script = ExtResource("1_country")
+id = "FDN"
+country_name = "Koalisi Utara"
+map_color = Color(0.82, 0.22, 0.22, 1)
+is_player = false
+money = 12000.0
+steel = 650.0
+fuel = 1800.0
+manpower = 70000

@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://c6f3q15m8o7yt"]
+
+[ext_resource type="Script" path="res://src/map/province.gd" id="1_prov"]
+
+[node name="Province" type="Area2D"]
+script = ExtResource("1_prov")
+
+[node name="VisualPolygon" type="Polygon2D" parent="."]
+color = Color(0.25, 0.45, 0.75, 0.8)
+
+[node name="BorderLine" type="Line2D" parent="."]
+width = 2.0
+default_color = Color(0.1, 0.1, 0.12, 0.9)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+
+[node name="LabelName" type="Label" parent="."]
+offset_right = 120.0
+offset_bottom = 23.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 13
+text = "Nama Wilayah"
+horizontal_alignment = 1
+vertical_alignment = 1

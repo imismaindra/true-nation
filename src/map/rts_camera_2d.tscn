@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://b00gsk4p8o34l"]
+
+[ext_resource type="Script" path="res://src/map/rts_camera_2d.gd" id="1_cam"]
+
+[node name="RTSCamera2D" type="Camera2D"]
+position_smoothing_enabled = true
+script = ExtResource("1_cam")

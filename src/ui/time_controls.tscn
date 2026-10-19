@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://ci84vy1a25nmd"]
+
+[ext_resource type="Script" path="res://src/ui/time_controls.gd" id="1_4h68q"]
+
+[node name="TimeControls" type="PanelContainer"]
+custom_minimum_size = Vector2(320, 48)
+offset_right = 340.0
+offset_bottom = 48.0
+script = ExtResource("1_4h68q")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LabelTime" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "06:00"
+vertical_alignment = 1
+
+[node name="LabelDate" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+text = "1 Januari 2026"
+vertical_alignment = 1
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="SpeedButtons" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BtnPause" type="Button" parent="MarginContainer/HBoxContainer/SpeedButtons"]
+custom_minimum_size = Vector2(32, 28)
+layout_mode = 2
+tooltip_text = "Pause / Resume (Space)"
+text = "⏸"
+
+[node name="BtnSpeed1" type="Button" parent="MarginContainer/HBoxContainer/SpeedButtons"]
+custom_minimum_size = Vector2(30, 28)
+layout_mode = 2
+tooltip_text = "Kecepatan 1x (1)"
+text = "▶"
+
+[node name="BtnSpeed2" type="Button" parent="MarginContainer/HBoxContainer/SpeedButtons"]
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+tooltip_text = "Kecepatan 2x (2)"
+text = "▶▶"
+
+[node name="BtnSpeed3" type="Button" parent="MarginContainer/HBoxContainer/SpeedButtons"]
+custom_minimum_size = Vector2(38, 28)
+layout_mode = 2
+tooltip_text = "Kecepatan 3x (3)"
+text = "▶▶▶"
+
+[node name="BtnSpeed5" type="Button" parent="MarginContainer/HBoxContainer/SpeedButtons"]
+custom_minimum_size = Vector2(44, 28)
+layout_mode = 2
+tooltip_text = "Kecepatan 5x (5)"
+text = "▶▶▶▶"

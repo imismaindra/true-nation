@@ -1,0 +1,132 @@
+[gd_scene format=3 uid="uid://dp6bvh87k2o1p"]
+
+[ext_resource type="Script" path="res://src/ui/province_panel.gd" id="1_provpanel"]
+
+[node name="ProvincePanel" type="PanelContainer"]
+custom_minimum_size = Vector2(280, 240)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -260.0
+offset_right = 300.0
+grow_vertical = 0
+script = ExtResource("1_provpanel")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelTitle" type="Label" parent="MarginContainer/VBoxContainer/Header/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Nama Wilayah"
+
+[node name="LabelTerrain" type="Label" parent="MarginContainer/VBoxContainer/Header/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 11
+text = "Tipe Medan"
+
+[node name="BtnClose" type="Button" parent="MarginContainer/VBoxContainer/Header"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 0
+text = "✕"
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="InfoSection" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="HBoxOwner" type="HBoxContainer" parent="MarginContainer/VBoxContainer/InfoSection"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ColorRectFlag" type="ColorRect" parent="MarginContainer/VBoxContainer/InfoSection/HBoxOwner"]
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.2, 0.5, 0.8, 1)
+
+[node name="LabelOwnerValue" type="Label" parent="MarginContainer/VBoxContainer/InfoSection/HBoxOwner"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Republik Nusantara"
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LabelEconomyHeader" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_font_sizes/font_size = 12
+text = "PRODUKSI HARIAN"
+
+[node name="ResourceSection" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Grid" type="GridContainer" parent="MarginContainer/VBoxContainer/ResourceSection"]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 4
+columns = 2
+
+[node name="LabelMoneyKey" type="Label" parent="MarginContainer/VBoxContainer/ResourceSection/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.8, 0.3, 1)
+theme_override_font_sizes/font_size = 12
+text = "Kas Negara:"
+
+[node name="LabelMoneyValue" type="Label" parent="MarginContainer/VBoxContainer/ResourceSection/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "+25.0 / hari"
+
+[node name="LabelSteelKey" type="Label" parent="MarginContainer/VBoxContainer/ResourceSection/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.85, 0.9, 1)
+theme_override_font_sizes/font_size = 12
+text = "Baja / Industri:"
+
+[node name="LabelSteelValue" type="Label" parent="MarginContainer/VBoxContainer/ResourceSection/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "+5.0 / hari"
+
+[node name="LabelFuelKey" type="Label" parent="MarginContainer/VBoxContainer/ResourceSection/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.5, 0.2, 1)
+theme_override_font_sizes/font_size = 12
+text = "Bahan Bakar:"
+
+[node name="LabelFuelValue" type="Label" parent="MarginContainer/VBoxContainer/ResourceSection/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "+2.0 / hari"
+
+[node name="LabelPopKey" type="Label" parent="MarginContainer/VBoxContainer/ResourceSection/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.9, 0.6, 1)
+theme_override_font_sizes/font_size = 12
+text = "Populasi:"
+
+[node name="LabelPopValue" type="Label" parent="MarginContainer/VBoxContainer/ResourceSection/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "750 Ribu"

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://dmv8x71a25nmd"]
+
+[ext_resource type="Script" path="res://src/military/unit_data.gd" id="1_unitdata"]
+
+[resource]
+script = ExtResource("1_unitdata")
+unit_type = 18
+unit_name = "Armada Fregat Patroli"
+domain = 1
+max_strength = 100.0
+max_organization = 100.0
+soft_attack = 8.0
+hard_attack = 12.0
+air_attack = 16.0
+naval_attack = 25.0
+defense = 24.0
+speed = 2.5
+production_cost_money = 600.0
+production_cost_steel = 90.0
+production_days = 40
+daily_fuel_consumption = 4.0
+daily_money_upkeep = 5.0
+required_manpower = 600

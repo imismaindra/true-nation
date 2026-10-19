@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="UnitData" format=3 uid="uid://ci84vy1a88kla"]
+
+[ext_resource type="Script" path="res://src/military/unit_data.gd" id="1_unitdata"]
+
+[resource]
+script = ExtResource("1_unitdata")
+unit_type = 11
+unit_name = "Skuadron Jet Tempur (F-16)"
+domain = 2
+max_strength = 100.0
+max_organization = 100.0
+soft_attack = 18.0
+hard_attack = 15.0
+air_attack = 30.0
+naval_attack = 10.0
+defense = 16.0
+speed = 5.0
+production_cost_money = 750.0
+production_cost_steel = 70.0
+production_days = 30
+daily_fuel_consumption = 6.0
+daily_money_upkeep = 6.0
+required_manpower = 200
