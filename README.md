@@ -33,8 +33,8 @@ Inspired by *Hearts of Iron IV*, *Victoria*, and *Conflict of Nations*, **True N
   - Reconnaissance sensors: Airbases and Fighter Jets uncover distant provinces and reveal hidden enemy troops.
   - Enemy units outside sensor lines of sight are visually camouflaged.
 
-- 🎨 **Retro Pixel Art Visuals & Combat FX**
-  - Custom pixel art vehicle sprites (Infantry, Main Battle Tank, Guided Missile Frigate, Fighter Jet).
+- 🎨 **Modern Military Top-Down Visuals & Combat FX**
+  - High-resolution top-down unit sprites across 28 modern military variants (Army, Armor, Air, and Navy).
   - Dynamic animated Marching Line showing unit destination.
   - Gunfire muzzle flashes and smoke puff particle effects during combat.
   - Strategic Pop-Up Notification Banner (`NotificationBanner`) for major geopolitical events.

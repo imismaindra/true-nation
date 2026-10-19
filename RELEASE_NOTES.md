@@ -61,14 +61,16 @@ Versi **v0.2** membawa lompatan besar pada aspek simulasi geopolitik dan perang 
 - **Pengintaian Udara**: Skuadron jet tempur membuka kabut perang hingga 1 hop provinsi tetangga.
 - **Kamuflase Tempur**: Unit musuh di luar jangkauan sensor disembunyikan secara visual (`unit.visible = false`).
 
-### 6. Integrasi Sprite Pixel Art & Efek Tempur (Step 12)
-- Visual retro modern autentik dengan sprite pixel art kendaraan:
-  - 🪖 Infanteri berkamuflase taktis dengan rompi tempur (`infantry.png`).
-  - 🚜 Main Battle Tank dengan roda rantai, kubah meriam, dan laras 120mm (`tank.png`).
-  - 🚢 Fregat patroli siluman dengan meriam haluan dan tiang radar (`frigate.png`).
-  - ✈️ Jet tempur supersonik bersayap delta dengan kanopi kaca (`fighter.png`).
-- Animasi mengambang idle (*gentle float*) untuk seluruh sprite kendaraan di atas peta.
-- Garis pandu beranimasi (*Marching Line*) dari posisi unit menuju provinsi target.
+### 6. Integrasi Sprite Top-Down Militer Modern (28 Varian Bersih) (Step 12)
+- Visual top-down RTS modern yang bersih dengan transparansi penuh dari `Modern Military Unit Sprite Sheet`:
+  - 🪖 **Tentara Modern (7 Varian)**: Rifleman (default), Rifleman Bergerak, Sniper Ghillie, Machine Gunner, Medic, Engineer, AT Specialist.
+  - 🚜 **Tank & Kendaraan Lapis Baja (7 Varian)**: Main Battle Tank (default), Light Tank, IFV Bradley, APC 8x8, Artileri 155mm, MLRS Rocket Launcher, Recon Vehicle (Humvee).
+  - ✈️ **Pesawat & Helikopter (7 Varian)**: Fighter Jet F-16 (default), Multirole Jet Su-30, Attack Aircraft A-10, Transport C-130, Helikopter Serbu AH-64, Drone Pengintai UAV, Pesawat Radar AWACS.
+  - 🚢 **Armada Tempur Laut (7 Varian)**: Fregat Patroli (default), Destroyer Peluru Kendali, Korvet Cepat, Kapal Pendarat Amfibi (LSD), Kapal Induk Supercarrier, Kapal Selam Tempur, Kapal Patroli Pantai.
+- Skala sprite otomatis proporsional (`scale = Vector2(0.28, 0.28)`) di atas kartu divisi dan peta taktis.
+- Dynamic Unit Loader pada [unit.gd](file:///d:/03%20ProjectGame/true-nation/src/military/unit.gd) yang otomatis memuat tekstur spesifik berdasarkan `UnitData.UnitType`.
+- Animasi mengambang idle (*gentle float*) untuk seluruh sprite di atas peta.
+- Garis pandu rute beranimasi (*Marching Line*) dari posisi unit menuju provinsi target.
 - Efek partikel tembakan meriam (*muzzle flash sparks*) dan asap mesiu (*smoke puff*) saat bertempur.
 - Banner notifikasi pop-up elegan [NotificationBanner](file:///d:/03%20ProjectGame/true-nation/src/ui/notification_banner.tscn) di HUD atas saat wilayah direbut, divisi selesai dilatih, atau terjadi krisis amunisi.
 
