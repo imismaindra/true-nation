@@ -300,3 +300,9 @@ Menambahkan 2 komoditas manufaktur militer di atas 4 sumber daya primer:
 - [ ] **Langkah 12: Integrasi Visual Sprite Pixel Art & Efek Tempur**
   - Pemotongan dan integrasi sprite sheet pixel art kendaraan modern (Tank, Jet, Kapal Perang, Infanteri).
   - Garis lintasan gerak beranimasi (*marching path lines*) dan partikel tembakan pada marker ⚔️.
+
+---
+
+## 8. Rencana Milestone Versi 0.3: The Great World Map
+- **Target Utama**: Peta dunia skala penuh / regional Nusantara & Asia Tenggara (20–50+ provinsi nyata dengan kontur geografis riil, pelabuhan bersejarah, dan selat strategis).
+- Mengintegrasikan seluruh sistem ekonomi, pabrik senjata, amunisi, dan AI yang telah matang di Versi 0.2 ke dalam peta dunia nyata.

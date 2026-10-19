@@ -194,3 +194,14 @@ Mengubah tampilan prototipe geometris menjadi sajian visual game perang retro mo
 - **Bebas Kompilasi Error**: Setiap skrip baru harus divalidasi dengan Godot CLI headless console (`Godot_v4.7.2-stable_win64_console.exe`).
 - **Singleton Safety**: Seluruh akses antar-manajer (`TimeManager`, `EventBus`, `EconomyManager`, `MilitaryManager`, `ProductionManager`) wajib menggunakan `get_node_or_null()`.
 - **Data-Driven**: Seluruh biaya unit, persenjataan, amunisi, dan bangunan disimpan dalam Godot Resource (`.tres`) terpisah untuk kemudahan tuning dan modding di masa depan.
+
+---
+
+## 🔭 Visi Versi 0.3: The Great World Map & Global Factions
+Sesuai kesepakatan desain, **pembentukan peta dunia skala penuh (*Realistic World Map*) dialokasikan sebagai milestone utama di Versi 0.3**:
+- **Tujuan Versi 0.2**: Menyelesaikan dan mematangkan seluruh loop gameplay (Rantai Industri, Rekrutmen Pasukan, Konsumsi Amunisi, Pabrik, dan AI Musuh) di laboratorium 7 provinsi saat ini hingga seimbang dan bebas bug.
+- **Fitur Utama Versi 0.3**:
+  1. **Peta Skala Besar / Regional Nusantara & Dunia**: Mengonversi garis pantai geografis nyata menjadi puluhan hingga ratusan provinsi dan selat strategis (Selat Malaka, Laut Natuna, Selat Sunda, dsb).
+  2. **Metode Peta**: Implementasi Vektor Geografis Riil / Map Color ID ala Paradox untuk manajemen ratusan provinsi secara efisien.
+  3. **Faksi Internasional**: Pembagian negara-negara berdaulat dengan aliansi geopolitik, perbatasan historis, dan pangkalan militer dunia nyata.
+
