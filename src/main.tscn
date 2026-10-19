@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://df583l7p2q7na"]
+[gd_scene load_steps=20 format=3 uid="uid://df583l7p2q7na"]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_main"]
 [ext_resource type="PackedScene" uid="uid://b7vy5q8m42laq" path="res://src/map/world_map.tscn" id="2_map"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" path="res://src/ai/ai_manager.gd" id="16_aimgr"]
 [ext_resource type="Resource" uid="uid://b23x18y4m59la" path="res://src/data/countries/rival_country.tres" id="17_rival"]
 [ext_resource type="Script" path="res://src/map/fog_of_war_manager.gd" id="18_fog"]
+[ext_resource type="PackedScene" path="res://src/ui/notification_banner.tscn" id="19_banner"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
@@ -77,6 +78,11 @@ player_country = ExtResource("6_player")
 economy_manager = NodePath("../../EconomyManager")
 
 [node name="ProductionQueuePanel" parent="UI" node_paths=PackedStringArray("production_manager", "building_manager") instance=ExtResource("13_prodqueue")]
+production_manager = NodePath("../../ProductionManager")
+building_manager = NodePath("../../BuildingManager")
+
+[node name="NotificationBanner" parent="UI" node_paths=PackedStringArray("production_manager", "building_manager") instance=ExtResource("19_banner")]
+player_country = ExtResource("6_player")
 production_manager = NodePath("../../ProductionManager")
 building_manager = NodePath("../../BuildingManager")
 

@@ -25,6 +25,11 @@ var _start_position: Vector2 = Vector2.ZERO
 var _target_position: Vector2 = Vector2.ZERO
 
 # Komponen Visual Internal
+@onready var visual_node: Node2D = $Visual
+@onready var unit_sprite: Sprite2D = $Visual/UnitSprite
+@onready var marching_line: Line2D = $MarchingLine
+@onready var combat_particles: CPUParticles2D = $Visual/CombatParticles
+@onready var smoke_particles: CPUParticles2D = $Visual/SmokeParticles
 @onready var selection_ring: Line2D = $Visual/SelectionRing
 @onready var bg_color_rect: ColorRect = $Visual/BadgeContainer/BgColor
 @onready var flag_bar: ColorRect = $Visual/BadgeContainer/FlagBar
@@ -39,6 +44,8 @@ func _ready() -> void:
 		current_strength = unit_data.max_strength
 		current_organization = unit_data.max_organization
 	
+	_load_unit_sprite()
+	
 	# Hubungkan dengan detak per jam TimeManager
 	var time_mgr = get_node_or_null("/root/TimeManager")
 	if time_mgr != null:
@@ -52,11 +59,52 @@ func _ready() -> void:
 	
 	_update_visuals()
 
+func _load_unit_sprite() -> void:
+	if unit_sprite == null or unit_data == null:
+		return
+	
+	var tex_path = ""
+	match unit_data.domain:
+		UnitData.Domain.LAND:
+			if unit_data.hard_attack > 10.0:
+				tex_path = "res://assets/sprites/units/army/tank.png"
+			else:
+				tex_path = "res://assets/sprites/units/army/infantry.png"
+		UnitData.Domain.SEA:
+			tex_path = "res://assets/sprites/units/navy/frigate.png"
+		UnitData.Domain.AIR:
+			tex_path = "res://assets/sprites/units/air/fighter.png"
+	
+	if tex_path != "" and ResourceLoader.exists(tex_path):
+		unit_sprite.texture = load(tex_path)
+
 func _process(delta: float) -> void:
+	# Animasi mengapung halus untuk sprite kendaraan
+	if unit_sprite != null and unit_sprite.texture != null:
+		unit_sprite.position.y = -20.0 + sin(Time.get_ticks_msec() * 0.0035) * 1.5
+	
 	# Interpolasi posisi visual secara halus saat sedang bergerak
 	if is_moving and target_province != null:
 		var target_world_pos = _start_position.lerp(_target_position, movement_progress)
 		global_position = global_position.lerp(target_world_pos, delta * 10.0)
+	
+	# Marching Line dinamis saat bergerak dan dipilih
+	if marching_line != null:
+		if is_moving and is_selected and target_province != null:
+			marching_line.visible = true
+			var target_local = to_local(_target_position)
+			marching_line.points = [Vector2.ZERO, target_local]
+		else:
+			marching_line.visible = false
+	
+	# Efek partikel kilatan tembakan dan asap saat pertempuran
+	if combat_particles != null and smoke_particles != null:
+		combat_particles.emitting = is_in_combat
+		smoke_particles.emitting = is_in_combat
+		if is_in_combat:
+			visual_node.position = Vector2(randf_range(-0.8, 0.8), randf_range(-0.8, 0.8))
+		else:
+			visual_node.position = Vector2.ZERO
 
 func _on_hourly_tick(_hour: int, _day: int, _month: int, _year: int) -> void:
 	# Pemulihan moral perlahan saat tidak bertempur dan tidak bergerak
