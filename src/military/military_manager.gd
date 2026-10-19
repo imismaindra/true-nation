@@ -3,8 +3,6 @@
 class_name MilitaryManager
 extends Node2D
 
-const MilitaryUnit = preload("res://src/military/unit.gd")
-
 @export var map_manager: Node2D
 @export var player_country: Country
 

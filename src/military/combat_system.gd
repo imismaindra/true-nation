@@ -3,12 +3,10 @@
 class_name CombatSystem
 extends Node
 
-const MilitaryUnit = preload("res://src/military/unit.gd")
-
 class Battle:
 	var province: Province
-	var attackers: Array[MilitaryUnit] = []
-	var defenders: Array[MilitaryUnit] = []
+	var attackers: Array = []
+	var defenders: Array = []
 	var battle_marker: Node2D = null
 	var is_active: bool = true
 
@@ -35,7 +33,7 @@ func check_and_start_battle(prov: Province, potential_attacker: MilitaryUnit, mi
 			return
 	
 	# Cari musuh yang ada di provinsi tersebut
-	var defenders: Array[MilitaryUnit] = []
+	var defenders: Array = []
 	for u in military_manager.units:
 		if u.current_province == prov and u.owner_country != potential_attacker.owner_country and not u.is_moving:
 			defenders.append(u)
@@ -85,7 +83,7 @@ func _on_hourly_tick(_hour: int, _day: int, _month: int, _year: int) -> void:
 			active_battles.remove_at(i)
 
 func _resolve_hourly_combat_round(battle: Battle) -> void:
-	# 1. Hitung total serangan pihak penyerang
+	# 1. Hitung total serangan pihak penyerang (kombinasi soft & hard attack)
 	var total_atk_soft: float = 0.0
 	var total_atk_hard: float = 0.0
 	for atk in battle.attackers:
@@ -101,14 +99,16 @@ func _resolve_hourly_combat_round(battle: Battle) -> void:
 			total_def_soft += def.unit_data.soft_attack
 			total_def_hard += def.unit_data.hard_attack
 	
-	# 3. Berikan damage ke pihak bertahan (fokus moral/organization terlebih dahulu)
-	var dmg_to_defenders = (total_atk_soft * 0.25) / float(max(1, battle.defenders.size()))
+	# 3. Berikan damage ke pihak bertahan (70% soft attack + 30% hard attack)
+	var total_atk_power = (total_atk_soft * 0.7) + (total_atk_hard * 0.3)
+	var dmg_to_defenders = (total_atk_power * 0.25) / float(max(1, battle.defenders.size()))
 	for def in battle.defenders:
 		if def != null:
 			def.take_damage(dmg_to_defenders * 0.2, dmg_to_defenders)
 	
-	# 4. Berikan damage ke pihak penyerang
-	var dmg_to_attackers = (total_def_soft * 0.25) / float(max(1, battle.attackers.size()))
+	# 4. Berikan damage ke pihak penyerang (70% soft attack + 30% hard attack)
+	var total_def_power = (total_def_soft * 0.7) + (total_def_hard * 0.3)
+	var dmg_to_attackers = (total_def_power * 0.25) / float(max(1, battle.attackers.size()))
 	for atk in battle.attackers:
 		if atk != null:
 			atk.take_damage(dmg_to_attackers * 0.2, dmg_to_attackers)

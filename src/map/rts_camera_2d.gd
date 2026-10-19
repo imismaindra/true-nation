@@ -111,7 +111,6 @@ func _zoom_towards_mouse(factor: float, mouse_screen_pos: Vector2) -> void:
 	
 	if _target_zoom != old_zoom:
 		# Pertahankan titik dunia di bawah kursor agar zoom terasa natural
-		var mouse_world_before = get_global_mouse_position()
 		var viewport_center = get_viewport_rect().size * 0.5
 		var mouse_offset_from_center = (mouse_screen_pos - viewport_center)
 		

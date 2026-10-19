@@ -2,8 +2,6 @@
 # Menampilkan detail divisi militer yang sedang dipilih pemain.
 extends PanelContainer
 
-const MilitaryUnit = preload("res://src/military/unit.gd")
-
 @export var military_manager: Node
 
 @onready var label_title: Label = $MarginContainer/VBoxContainer/Header/VBox/LabelTitle
