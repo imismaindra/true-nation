@@ -1,7 +1,7 @@
 [gd_scene load_steps=20 format=3 uid="uid://df583l7p2q7na"]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_main"]
-[ext_resource type="PackedScene" uid="uid://b7vy5q8m42laq" path="res://src/map/world_map.tscn" id="2_map"]
+[ext_resource type="PackedScene" path="res://src/map/world_map.tscn" id="2_map"]
 [ext_resource type="PackedScene" path="res://src/military/military_manager.tscn" id="3_milmgr"]
 [ext_resource type="PackedScene" uid="uid://b00gsk4p8o34l" path="res://src/map/rts_camera_2d.tscn" id="4_cam"]
 [ext_resource type="Script" path="res://src/economy/economy_manager.gd" id="5_econ"]
@@ -19,17 +19,20 @@
 [ext_resource type="Resource" uid="uid://b23x18y4m59la" path="res://src/data/countries/rival_country.tres" id="17_rival"]
 [ext_resource type="Script" path="res://src/map/fog_of_war_manager.gd" id="18_fog"]
 [ext_resource type="PackedScene" path="res://src/ui/notification_banner.tscn" id="19_banner"]
+[ext_resource type="Texture2D" path="res://assets/sprites/map/ocean_texture.png" id="20_ocean"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
 
-[node name="OceanBackground" type="ColorRect" parent="."]
-offset_left = -4000.0
-offset_top = -4000.0
-offset_right = 4000.0
-offset_bottom = 4000.0
+[node name="OceanBackground" type="TextureRect" parent="."]
+texture_repeat = 2
+offset_left = -6000.0
+offset_top = -6000.0
+offset_right = 6000.0
+offset_bottom = 6000.0
 mouse_filter = 2
-color = Color(0.08, 0.11, 0.16, 1)
+texture = ExtResource("20_ocean")
+stretch_mode = 1
 
 [node name="WorldMap" parent="." instance=ExtResource("2_map")]
 

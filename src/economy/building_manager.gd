@@ -73,7 +73,7 @@ func can_construct(c: Country, data: BuildingData, prov: Province) -> Dictionary
 func start_construction(c: Country, data: BuildingData, prov: Province) -> ConstructionOrder:
 	var check = can_construct(c, data, prov)
 	if not check.can:
-		print("⚠️ GAGAL KONSTRUKSI: %s" % check.reason)
+		print("[WARN] GAGAL KONSTRUKSI: %s" % check.reason)
 		return null
 	
 	# Potong biaya konstruksi
@@ -94,7 +94,7 @@ func start_construction(c: Country, data: BuildingData, prov: Province) -> Const
 	active_orders.append(order)
 	construction_started.emit(order)
 	
-	print("🏗️ MEMULAI KONSTRUKSI: %s di %s | Durasi: %d hari" % [
+	print("[BUILD] MEMULAI KONSTRUKSI: %s di %s | Durasi: %d hari" % [
 		data.building_name, prov.province_name, order.total_days
 	])
 	
@@ -132,11 +132,11 @@ func _complete_construction(order: ConstructionOrder) -> void:
 	if order.target_province != null and order.building_data != null:
 		var ok = order.target_province.add_building(order.building_data)
 		if ok:
-			print("✅ KONSTRUKSI SELESAI: %s di %s!" % [
+			print("[COMPLETE] KONSTRUKSI SELESAI: %s di %s!" % [
 				order.building_data.building_name, order.target_province.province_name
 			])
 		else:
-			print("⚠️ GAGAL MENEMPATKAN BANGUNAN: Slot penuh di %s." % order.target_province.province_name)
+			print("[WARN] GAGAL MENEMPATKAN BANGUNAN: Slot penuh di %s." % order.target_province.province_name)
 	
 	# Perbarui ekonomi setelah bangunan aktif
 	if economy_manager != null:

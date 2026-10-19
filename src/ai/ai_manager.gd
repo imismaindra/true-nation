@@ -108,7 +108,7 @@ func _try_manage_construction(rival_provinces: Array) -> void:
 					order = building_manager.start_construction(rival_country, munitions_plant_data, prov)
 					if order != null:
 						msg = "Membangun Pabrik Amunisi di %s (Stok Amunisi: %.0f)" % [prov.province_name, rival_country.munitions]
-						print("🤖 [AI RIVAL KONSTRUKSI]: %s" % msg)
+						print("[AI RIVAL KONSTRUKSI]: %s" % msg)
 						ai_decision_executed.emit("CONSTRUCT", msg)
 						return
 	
@@ -126,7 +126,7 @@ func _try_manage_construction(rival_provinces: Array) -> void:
 				order = building_manager.start_construction(rival_country, fortification_data, prov)
 				if order != null:
 					msg = "Mendirikan Benteng Perbatasan di %s (+35%% Defense)" % prov.province_name
-					print("🤖 [AI RIVAL KONSTRUKSI]: %s" % msg)
+					print("[AI RIVAL KONSTRUKSI]: %s" % msg)
 					ai_decision_executed.emit("CONSTRUCT", msg)
 					return
 	
@@ -143,7 +143,7 @@ func _try_manage_construction(rival_provinces: Array) -> void:
 					order = building_manager.start_construction(rival_country, airbase_data, prov)
 					if order != null:
 						msg = "Membangun Pangkalan Udara di %s" % prov.province_name
-						print("🤖 [AI RIVAL KONSTRUKSI]: %s" % msg)
+						print("[AI RIVAL KONSTRUKSI]: %s" % msg)
 						ai_decision_executed.emit("CONSTRUCT", msg)
 						return
 	
@@ -160,7 +160,7 @@ func _try_manage_construction(rival_provinces: Array) -> void:
 					order = building_manager.start_construction(rival_country, naval_dockyard_data, prov)
 					if order != null:
 						msg = "Membangun Galangan Kapal Perang di %s" % prov.province_name
-						print("🤖 [AI RIVAL KONSTRUKSI]: %s" % msg)
+						print("[AI RIVAL KONSTRUKSI]: %s" % msg)
 						ai_decision_executed.emit("CONSTRUCT", msg)
 						return
 
@@ -193,7 +193,7 @@ func _try_recruit_division(rival_provinces: Array) -> void:
 		var order = production_manager.recruit_unit(rival_country, chosen_unit, target_prov)
 		if order != null:
 			var msg = "Melatih %s di %s" % [chosen_unit.unit_name, target_prov.province_name]
-			print("🤖 [AI RIVAL]: %s" % msg)
+			print("[AI RIVAL]: %s" % msg)
 			ai_decision_executed.emit("RECRUIT", msg)
 
 func _try_expand_to_neutral(idle_units: Array) -> bool:
@@ -221,7 +221,7 @@ func _try_expand_to_neutral(idle_units: Array) -> bool:
 						target_neutral.province_name,
 						next_hop.province_name
 					]
-					print("🤖 [AI RIVAL EKSPANSI]: %s" % msg)
+					print("[AI RIVAL EKSPANSI]: %s" % msg)
 					ai_decision_executed.emit("EXPANSION", msg)
 					return true
 	return false
@@ -247,7 +247,7 @@ func _try_offensive_strike(idle_units: Array) -> bool:
 						unit.unit_data.unit_name if unit.unit_data else "Divisi",
 						neighbor.province_name
 					]
-					print("🤖 [AI RIVAL SERANGAN]: %s" % msg)
+					print("[AI RIVAL SERANGAN]: %s" % msg)
 					ai_decision_executed.emit("OFFENSIVE", msg)
 					return true
 			elif neighbor.is_sea_zone():
@@ -261,7 +261,7 @@ func _try_offensive_strike(idle_units: Array) -> bool:
 								neighbor.province_name,
 								sea_neighbor.province_name
 							]
-							print("🤖 [AI RIVAL AMPHIBIOUS]: %s" % msg)
+							print("[AI RIVAL AMPHIBIOUS]: %s" % msg)
 							ai_decision_executed.emit("AMPHIBIOUS_OFFENSIVE", msg)
 							return true
 	return false
@@ -291,7 +291,7 @@ func _try_garrison_borders(idle_units: Array, rival_provinces: Array) -> void:
 				var next_step = find_next_step(unit_to_send.current_province, border)
 				if next_step != null:
 					unit_to_send.order_move_to(next_step)
-					print("🤖 [AI RIVAL GARNISUN]: Menjaga perbatasan %s" % border.province_name)
+					print("[AI RIVAL GARNISUN]: Menjaga perbatasan %s" % border.province_name)
 
 func find_next_step(from_prov: Province, target_prov: Province) -> Province:
 	if from_prov == null or target_prov == null or from_prov == target_prov:

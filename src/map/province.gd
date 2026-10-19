@@ -128,13 +128,81 @@ func _setup_polygon_geometry() -> void:
 	
 	label_name.text = province_name
 
+var _visual_centroid: Vector2 = Vector2.ZERO
+
 func get_center() -> Vector2:
+	if _visual_centroid != Vector2.ZERO:
+		return _visual_centroid
+	_visual_centroid = _calculate_visual_centroid()
+	return _visual_centroid
+
+func _calculate_visual_centroid() -> Vector2:
 	if polygon_points.is_empty():
 		return Vector2.ZERO
-	var sum = Vector2.ZERO
+	if polygon_points.size() < 3:
+		return polygon_points[0]
+	
+	# 1. Formula momen luas poligon (Green's theorem centroid)
+	var area_sum: float = 0.0
+	var cx: float = 0.0
+	var cy: float = 0.0
+	var n = polygon_points.size()
+	
+	for i in range(n):
+		var p1 = polygon_points[i]
+		var p2 = polygon_points[(i + 1) % n]
+		var cross = (p1.x * p2.y) - (p2.x * p1.y)
+		area_sum += cross
+		cx += (p1.x + p2.x) * cross
+		cy += (p1.y + p2.y) * cross
+	
+	var total_area = area_sum * 0.5
+	if abs(total_area) > 0.01:
+		var candidate = Vector2(cx / (6.0 * total_area), cy / (6.0 * total_area))
+		if Geometry2D.is_point_in_polygon(candidate, polygon_points):
+			return candidate
+	
+	# 2. Fallback: Cari titik interior terbaik jika centroid momen berada di luar bentuk poligon
+	var min_pt = polygon_points[0]
+	var max_pt = polygon_points[0]
 	for pt in polygon_points:
-		sum += pt
-	return sum / float(polygon_points.size())
+		min_pt.x = min(min_pt.x, pt.x)
+		min_pt.y = min(min_pt.y, pt.y)
+		max_pt.x = max(max_pt.x, pt.x)
+		max_pt.y = max(max_pt.y, pt.y)
+	
+	var best_pt = Vector2.ZERO
+	var max_dist = -1.0
+	for step_y in range(1, 9):
+		for step_x in range(1, 9):
+			var test_pos = Vector2(
+				lerpf(min_pt.x, max_pt.x, float(step_x) / 9.0),
+				lerpf(min_pt.y, max_pt.y, float(step_y) / 9.0)
+			)
+			if Geometry2D.is_point_in_polygon(test_pos, polygon_points):
+				var min_dist_to_edge = 999999.0
+				for k in range(n):
+					var p1 = polygon_points[k]
+					var p2 = polygon_points[(k + 1) % n]
+					var d = _distance_point_to_segment(test_pos, p1, p2)
+					min_dist_to_edge = min(min_dist_to_edge, d)
+				if min_dist_to_edge > max_dist:
+					max_dist = min_dist_to_edge
+					best_pt = test_pos
+	
+	if max_dist > 0.0:
+		return best_pt
+	
+	return (min_pt + max_pt) * 0.5
+
+func _distance_point_to_segment(p: Vector2, a: Vector2, b: Vector2) -> float:
+	var ab = b - a
+	var ab_len2 = ab.length_squared()
+	if ab_len2 == 0.0:
+		return p.distance_to(a)
+	var t = clampf((p - a).dot(ab) / ab_len2, 0.0, 1.0)
+	var proj = a + t * ab
+	return p.distance_to(proj)
 
 enum VisibilityState {
 	VISIBLE,

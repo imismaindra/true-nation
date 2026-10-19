@@ -1,16 +1,17 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://src/ui/unit_panel.gd" id="1_unitpanel"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/icon_unit_infantry.svg" id="2_inf"]
 
 [node name="UnitPanel" type="PanelContainer"]
-custom_minimum_size = Vector2(280, 270)
+custom_minimum_size = Vector2(290, 280)
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -300.0
-offset_top = -290.0
+offset_left = -310.0
+offset_top = -300.0
 grow_horizontal = 0
 grow_vertical = 0
 script = ExtResource("1_unitpanel")
@@ -18,16 +19,25 @@ script = ExtResource("1_unitpanel")
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
 theme_override_constants/margin_left = 14
-theme_override_constants/margin_top = 12
+theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 14
-theme_override_constants/margin_bottom = 12
+theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="Header" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="IconSymbol" type="TextureRect" parent="MarginContainer/VBoxContainer/Header"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("2_inf")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="VBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Header"]
 layout_mode = 2
@@ -35,20 +45,20 @@ size_flags_horizontal = 3
 
 [node name="LabelTitle" type="Label" parent="MarginContainer/VBoxContainer/Header/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 14
 text = "Nama Divisi"
 
 [node name="LabelType" type="Label" parent="MarginContainer/VBoxContainer/Header/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_color = Color(0.7, 0.75, 0.85, 1)
 theme_override_font_sizes/font_size = 11
-text = "Matra Darat"
+text = "Matra Darat | Operasional"
 
 [node name="BtnClose" type="Button" parent="MarginContainer/VBoxContainer/Header"]
-custom_minimum_size = Vector2(24, 24)
+custom_minimum_size = Vector2(22, 22)
 layout_mode = 2
 size_flags_vertical = 0
-text = "✕"
+text = "X"
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -68,7 +78,7 @@ color = Color(0.18, 0.48, 0.88, 1)
 
 [node name="LabelOwnerValue" type="Label" parent="MarginContainer/VBoxContainer/InfoSection/HBoxOwner"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 12
 text = "Republik Nusantara"
 
 [node name="StatusSection" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
@@ -76,12 +86,12 @@ layout_mode = 2
 
 [node name="LabelStatus" type="Label" parent="MarginContainer/VBoxContainer/StatusSection"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "⏸ Siaga di Ibu Kota Batavia"
+theme_override_font_sizes/font_size = 11
+text = "[SIAGA] Bertugas di Ibu Kota Batavia"
 
 [node name="CombatBars" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
 [node name="HBoxStr" type="HBoxContainer" parent="MarginContainer/VBoxContainer/CombatBars"]
 layout_mode = 2
@@ -89,11 +99,11 @@ layout_mode = 2
 [node name="LabelStr" type="Label" parent="MarginContainer/VBoxContainer/CombatBars/HBoxStr"]
 custom_minimum_size = Vector2(65, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 10
 text = "Strength:"
 
 [node name="BarStrength" type="ProgressBar" parent="MarginContainer/VBoxContainer/CombatBars"]
-custom_minimum_size = Vector2(0, 8)
+custom_minimum_size = Vector2(0, 6)
 layout_mode = 2
 value = 100.0
 show_percentage = false
@@ -104,12 +114,12 @@ layout_mode = 2
 [node name="LabelOrg" type="Label" parent="MarginContainer/VBoxContainer/CombatBars/HBoxOrg"]
 custom_minimum_size = Vector2(65, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 10
 text = "Moral (Org):"
 
 [node name="BarOrg" type="ProgressBar" parent="MarginContainer/VBoxContainer/CombatBars"]
 modulate = Color(0.2, 0.85, 0.4, 1)
-custom_minimum_size = Vector2(0, 8)
+custom_minimum_size = Vector2(0, 6)
 layout_mode = 2
 value = 100.0
 show_percentage = false
@@ -120,49 +130,67 @@ layout_mode = 2
 [node name="StatsGrid" type="GridContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/h_separation = 8
-theme_override_constants/v_separation = 3
+theme_override_constants/v_separation = 2
 columns = 4
 
 [node name="LabelSoftKey" type="Label" parent="MarginContainer/VBoxContainer/StatsGrid"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
-theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 10
 text = "Soft Atk:"
 
 [node name="LabelSoftVal" type="Label" parent="MarginContainer/VBoxContainer/StatsGrid"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 10
 text = "14"
 
 [node name="LabelHardKey" type="Label" parent="MarginContainer/VBoxContainer/StatsGrid"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
-theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 10
 text = "Hard Atk:"
 
 [node name="LabelHardVal" type="Label" parent="MarginContainer/VBoxContainer/StatsGrid"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 10
 text = "4"
 
 [node name="LabelDefKey" type="Label" parent="MarginContainer/VBoxContainer/StatsGrid"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
-theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 10
 text = "Defense:"
 
 [node name="LabelDefVal" type="Label" parent="MarginContainer/VBoxContainer/StatsGrid"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 10
 text = "22"
 
 [node name="LabelSpeedKey" type="Label" parent="MarginContainer/VBoxContainer/StatsGrid"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
-theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 10
 text = "Speed:"
 
 [node name="LabelSpeedVal" type="Label" parent="MarginContainer/VBoxContainer/StatsGrid"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 10
 text = "15 km/h"
+
+[node name="ActionButtons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="BtnHalt" type="Button" parent="MarginContainer/VBoxContainer/ActionButtons"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+text = "Batal Gerak"
+
+[node name="BtnRetreat" type="Button" parent="MarginContainer/VBoxContainer/ActionButtons"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+text = "Mundur Taktis"

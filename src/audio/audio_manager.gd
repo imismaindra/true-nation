@@ -20,7 +20,7 @@ func _ready() -> void:
 	_init_audio_streams()
 	_create_audio_players()
 	_connect_event_bus()
-	print("🔊 AudioManager: Tata suara taktis & atmosfer medan tempur terpasang.")
+	print("[AUDIO] AudioManager: Tata suara taktis & atmosfer medan tempur terpasang.")
 
 func _create_audio_players() -> void:
 	_player_ui = AudioStreamPlayer.new()

@@ -54,17 +54,18 @@ func check_and_start_battle(prov: Province, potential_attacker: MilitaryUnit, mi
 	_create_battle_marker(new_battle)
 	active_battles.append(new_battle)
 	battle_started.emit(new_battle)
-	print("⚔️ PERTEMPURAN PECAH DI %s! Penyerang: %d unit vs Bertahan: %d unit" % [
+	print("[COMBAT] PERTEMPURAN PECAH DI %s! Penyerang: %d unit vs Bertahan: %d unit" % [
 		prov.province_name, new_battle.attackers.size(), new_battle.defenders.size()
 	])
 
 func _create_battle_marker(battle: Battle) -> void:
 	var marker = Node2D.new()
-	var label = Label.new()
-	label.text = "⚔️"
-	label.add_theme_font_size_override("font_size", 20)
-	label.position = Vector2(-12, -40)
-	marker.add_child(label)
+	marker.z_index = 25
+	var spr = Sprite2D.new()
+	spr.texture = load("res://assets/sprites/ui/icon_battle.svg")
+	spr.scale = Vector2(0.45, 0.45)
+	spr.position = Vector2(0, -32)
+	marker.add_child(spr)
 	marker.position = battle.province.get_center() + battle.province.position
 	battle.province.add_child(marker)
 	battle.battle_marker = marker
@@ -102,7 +103,7 @@ func _resolve_hourly_combat_round(battle: Battle) -> void:
 		else:
 			atk_country.munitions = 0.0
 			atk_supply_outage = true
-			print("🚨 KRISIS AMUNISI! Pasukan penyerang (%s) kehabisan amunisi di %s!" % [
+			print("[SUPPLY ALERT] Pasukan penyerang (%s) kehabisan amunisi di %s!" % [
 				atk_country.country_name, battle.province.province_name
 			])
 	
@@ -122,7 +123,7 @@ func _resolve_hourly_combat_round(battle: Battle) -> void:
 		else:
 			def_country.munitions = 0.0
 			def_supply_outage = true
-			print("🚨 KRISIS AMUNISI! Garnisun bertahan (%s) kehabisan amunisi di %s!" % [
+			print("[SUPPLY ALERT] Garnisun bertahan (%s) kehabisan amunisi di %s!" % [
 				def_country.country_name, battle.province.province_name
 			])
 	
@@ -216,13 +217,13 @@ func _end_battle(battle: Battle) -> void:
 	var winner_country: Country = null
 	if not battle.attackers.is_empty():
 		winner_country = battle.attackers[0].owner_country
-		print("🏆 PENYERANG MENANG DI %s!" % battle.province.province_name)
+		print("[VICTORY] PENYERANG MENANG DI %s!" % battle.province.province_name)
 		# Penyerang merebut wilayah
 		battle.province.owner_country = winner_country
 		battle.province.update_visuals()
 	elif not battle.defenders.is_empty():
 		winner_country = battle.defenders[0].owner_country
-		print("🛡️ BERTAHAN SUKSES DI %s!" % battle.province.province_name)
+		print("[DEFENSE] BERTAHAN SUKSES DI %s!" % battle.province.province_name)
 	
 	# Reset status tempur unit
 	for u in battle.attackers + battle.defenders:

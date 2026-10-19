@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="50%" stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+    <linearGradient id="innerGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer Shield -->
+  <polygon points="32,4 56,14 56,36 32,58 8,36 8,14" fill="url(#innerGrad)" stroke="url(#goldGrad)" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Inner Ring -->
+  <circle cx="32" cy="32" r="16" fill="none" stroke="url(#goldGrad)" stroke-width="2.5" stroke-dasharray="6,2"/>
+  <!-- Currency / Star Insignia -->
+  <polygon points="32,20 35,28 44,28 37,33 40,42 32,37 24,42 27,33 20,28 29,28" fill="url(#goldGrad)"/>
+</svg>

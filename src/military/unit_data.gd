@@ -47,6 +47,34 @@ enum UnitType {
 @export var sprite_top_down: Texture2D
 @export var sprite_side_profile: Texture2D
 
+func get_tactical_symbol_texture() -> Texture2D:
+	if icon_ui != null:
+		return icon_ui
+	var path = ""
+	match domain:
+		Domain.SEA:
+			if unit_type == UnitType.SUBMARINE:
+				path = "res://assets/sprites/ui/icon_unit_submarine.svg"
+			else:
+				path = "res://assets/sprites/ui/icon_unit_naval.svg"
+		Domain.AIR:
+			if unit_type == UnitType.HELICOPTER:
+				path = "res://assets/sprites/ui/icon_unit_helicopter.svg"
+			elif unit_type == UnitType.DRONE_UAV:
+				path = "res://assets/sprites/ui/icon_unit_drone.svg"
+			else:
+				path = "res://assets/sprites/ui/icon_unit_air.svg"
+		Domain.LAND:
+			if unit_type in [UnitType.LIGHT_TANK, UnitType.MEDIUM_TANK, UnitType.MAIN_BATTLE_TANK, UnitType.IFV, UnitType.APC]:
+				path = "res://assets/sprites/ui/icon_unit_tank.svg"
+			elif unit_type in [UnitType.ARTILLERY_SP, UnitType.MLRS]:
+				path = "res://assets/sprites/ui/icon_unit_artillery.svg"
+			else:
+				path = "res://assets/sprites/ui/icon_unit_infantry.svg"
+	if path != "" and ResourceLoader.exists(path):
+		return load(path)
+	return load("res://assets/sprites/ui/icon_unit_infantry.svg")
+
 @export_group("Combat Stats")
 @export var max_strength: float = 100.0       # HP / Jumlah Personel
 @export var max_organization: float = 100.0   # Moral / Disiplin Tempur

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect x="6" y="14" width="52" height="36" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5"/>
+  <!-- NATO Aviation Propeller / Delta Wing Arc -->
+  <path d="M12,42 C20,24 44,24 52,42" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="32" cy="30" r="4" fill="#38bdf8"/>
+</svg>

@@ -1,105 +1,509 @@
-[gd_scene load_steps=11 format=3 uid="uid://b7vy5q8m42laq"]
+[gd_scene format=3]
 
-[ext_resource type="Script" path="res://src/map/map_manager.gd" id="1_mapmgr"]
-[ext_resource type="PackedScene" uid="uid://c6f3q15m8o7yt" path="res://src/map/province.tscn" id="2_prov"]
-[ext_resource type="Resource" uid="uid://dmv7q8x1p35ka" path="res://src/data/countries/player_country.tres" id="3_player"]
-[ext_resource type="Resource" uid="uid://b23x18y4m59la" path="res://src/data/countries/rival_country.tres" id="4_rival"]
-[ext_resource type="Resource" uid="uid://ci15x78m439ka" path="res://src/data/countries/neutral_country.tres" id="5_neutral"]
-[ext_resource type="Resource" path="res://src/data/buildings/arms_factory.tres" id="6_armsfac"]
-[ext_resource type="Resource" path="res://src/data/buildings/airbase.tres" id="7_airbase"]
-[ext_resource type="Resource" path="res://src/data/buildings/naval_dockyard.tres" id="8_dockyard"]
-[ext_resource type="Resource" path="res://src/data/buildings/munitions_plant.tres" id="9_munitfac"]
-[ext_resource type="Resource" path="res://src/data/buildings/fortification.tres" id="10_fort"]
+[ext_resource type="Script" path="res://src/map/map_manager.gd" id="1_lwq0s"]
+[ext_resource type="Resource" path="res://src/data/countries/player_country.tres" id="2_rp54x"]
+[ext_resource type="PackedScene" path="res://src/map/province.tscn" id="3_0w18e"]
+[ext_resource type="Script" path="res://src/map/province.gd" id="4_1nw0s"]
+[ext_resource type="Resource" path="res://src/data/countries/neutral_country.tres" id="5_kvtgn"]
+[ext_resource type="Script" path="res://src/economy/building_data.gd" id="6_ama67"]
+[ext_resource type="Resource" path="res://src/data/buildings/oil_refinery.tres" id="7_wmcn1"]
+[ext_resource type="Resource" path="res://src/data/buildings/arms_factory.tres" id="8_phcg3"]
+[ext_resource type="Resource" path="res://src/data/buildings/steel_foundry.tres" id="9_w2c21"]
+[ext_resource type="Resource" path="res://src/data/buildings/fortification.tres" id="10_k7vvr"]
+[ext_resource type="Resource" path="res://src/data/buildings/munitions_plant.tres" id="11_ptkot"]
+[ext_resource type="Resource" path="res://src/data/buildings/airbase.tres" id="12_3q2po"]
+[ext_resource type="Resource" path="res://src/data/buildings/naval_dockyard.tres" id="13_o4niy"]
+[ext_resource type="Resource" path="res://src/data/countries/rival_country.tres" id="14_w74hq"]
 
-[node name="WorldMap" type="Node2D"]
-script = ExtResource("1_mapmgr")
-player_country = ExtResource("3_player")
+[node name="WorldMap" type="Node2D" unique_id=1887807454]
+script = ExtResource("1_lwq0s")
+player_country = ExtResource("2_rp54x")
 
-[node name="Connections" type="Node2D" parent="."]
+[node name="Connections" type="Node2D" parent="." unique_id=37174273]
 
-[node name="Provinces" type="Node2D" parent="."]
+[node name="Provinces" type="Node2D" parent="." unique_id=30984012]
 
-[node name="Prov_Batavia" parent="Provinces" node_paths=PackedStringArray("connected_provinces") instance=ExtResource("2_prov")]
+[node name="Prov_Aceh" type="Area2D" parent="Provinces" unique_id=2132275206 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_aceh"
+province_name = "Aceh & Sabang"
+terrain = 4
+owner_country = ExtResource("5_kvtgn")
+connected_provinces = [NodePath("../Prov_Sumut"), NodePath("../Prov_Malaka")]
+base_money_output = 20.0
+base_fuel_output = 30.0
+population = 1400000
+polygon_points = PackedVector2Array(-1580, -430, -1430, -450, -1350, -370, -1390, -310, -1530, -340)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("7_wmcn1")])
+
+[node name="Prov_Sumut" type="Area2D" parent="Provinces" unique_id=919023524 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_sumut"
+province_name = "Sumatera Utara"
+terrain = 1
+owner_country = ExtResource("5_kvtgn")
+connected_provinces = [NodePath("../Prov_Aceh"), NodePath("../Prov_Riau"), NodePath("../Prov_Sumbar"), NodePath("../Prov_Malaka")]
+base_money_output = 35.0
+base_steel_output = 12.0
+base_fuel_output = 10.0
+population = 3200000
+polygon_points = PackedVector2Array(-1430, -450, -1250, -290, -1200, -210, -1310, -200, -1390, -310, -1350, -370)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("8_phcg3")])
+
+[node name="Prov_Riau" type="Area2D" parent="Provinces" unique_id=1926762939 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_riau"
+province_name = "Riau & Dumai"
+owner_country = ExtResource("5_kvtgn")
+connected_provinces = [NodePath("../Prov_Sumut"), NodePath("../Prov_Sumbar"), NodePath("../Prov_Sumsel"), NodePath("../Prov_Malaka"), NodePath("../Prov_Karimata"), NodePath("../Prov_Natuna")]
+base_money_output = 30.0
+base_steel_output = 8.0
+base_fuel_output = 55.0
+population = 2200000
+polygon_points = PackedVector2Array(-1250, -290, -1070, -140, -1010, -100, -1120, -70, -1200, -210)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("7_wmcn1"), ExtResource("9_w2c21")])
+
+[node name="Prov_Sumbar" type="Area2D" parent="Provinces" unique_id=791381073 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_sumbar"
+province_name = "Sumatera Barat"
+terrain = 2
+owner_country = ExtResource("5_kvtgn")
+connected_provinces = [NodePath("../Prov_Sumut"), NodePath("../Prov_Riau"), NodePath("../Prov_Sumsel")]
+base_money_output = 22.0
+base_steel_output = 16.0
+base_fuel_output = 5.0
+population = 1800000
+polygon_points = PackedVector2Array(-1310, -200, -1200, -210, -1120, -70, -1160, 20, -1270, -70)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("10_k7vvr")])
+
+[node name="Prov_Sumsel" type="Area2D" parent="Provinces" unique_id=482315342 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_sumsel"
+province_name = "Sumatera Selatan"
+owner_country = ExtResource("2_rp54x")
+connected_provinces = [NodePath("../Prov_Riau"), NodePath("../Prov_Sumbar"), NodePath("../Prov_Lampung"), NodePath("../Prov_Karimata")]
+base_money_output = 32.0
+base_steel_output = 22.0
+base_fuel_output = 35.0
+population = 2600000
+polygon_points = PackedVector2Array(-1120, -70, -1010, -100, -890, -10, -920, 90, -1060, 70, -1160, 20)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("7_wmcn1"), ExtResource("11_ptkot")])
+
+[node name="Prov_Lampung" type="Area2D" parent="Provinces" unique_id=1821187823 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_lampung"
+province_name = "Lampung"
+terrain = 4
+owner_country = ExtResource("2_rp54x")
+connected_provinces = [NodePath("../Prov_Sumsel"), NodePath("../Prov_Sunda")]
+base_money_output = 26.0
+base_steel_output = 10.0
+base_fuel_output = 8.0
+population = 2000000
+polygon_points = PackedVector2Array(-1060, 70, -920, 90, -840, 150, -860, 210, -950, 220, -1040, 130)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("10_k7vvr")])
+
+[node name="Prov_Banten" type="Area2D" parent="Provinces" unique_id=571474780 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_banten"
+province_name = "Banten & Cilegon"
+terrain = 3
+owner_country = ExtResource("2_rp54x")
+connected_provinces = [NodePath("../Prov_Sunda"), NodePath("../Prov_Batavia"), NodePath("../Prov_Jabar")]
+base_money_output = 32.0
+base_steel_output = 40.0
+base_fuel_output = 5.0
+population = 2800000
+polygon_points = PackedVector2Array(-780, 200, -650, 210, -660, 310, -790, 300)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("9_w2c21"), ExtResource("10_k7vvr")])
+
+[node name="Prov_Batavia" type="Area2D" parent="Provinces" unique_id=1115583397 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
 province_id = "prov_batavia"
 province_name = "Ibu Kota Batavia"
 terrain = 3
-owner_country = ExtResource("3_player")
-connected_provinces = [NodePath("../Prov_Jatim"), NodePath("../Prov_Laut_Jawa"), NodePath("../Prov_Karimata")]
-base_money_output = 50.0
-base_steel_output = 12.0
-base_fuel_output = 5.0
-population = 2500000
-polygon_points = PackedVector2Array(-460, 150, -250, 150, -220, 310, -430, 320)
-initial_buildings = [ExtResource("6_armsfac"), ExtResource("7_airbase")]
+owner_country = ExtResource("2_rp54x")
+connected_provinces = [NodePath("../Prov_Banten"), NodePath("../Prov_Jabar"), NodePath("../Prov_Jawa")]
+base_money_output = 65.0
+base_steel_output = 16.0
+base_fuel_output = 8.0
+population = 4600000
+polygon_points = PackedVector2Array(-650, 210, -510, 210, -510, 290, -660, 290)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("8_phcg3"), ExtResource("12_3q2po")])
 
-[node name="Prov_Jatim" parent="Provinces" node_paths=PackedStringArray("connected_provinces") instance=ExtResource("2_prov")]
+[node name="Prov_Jabar" type="Area2D" parent="Provinces" unique_id=739362097 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_jabar"
+province_name = "Jawa Barat"
+terrain = 2
+owner_country = ExtResource("2_rp54x")
+connected_provinces = [NodePath("../Prov_Banten"), NodePath("../Prov_Batavia"), NodePath("../Prov_Jateng")]
+base_money_output = 42.0
+base_steel_output = 24.0
+base_fuel_output = 6.0
+population = 4200000
+polygon_points = PackedVector2Array(-660, 290, -510, 290, -360, 280, -380, 350, -670, 340)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("8_phcg3")])
+
+[node name="Prov_Jateng" type="Area2D" parent="Provinces" unique_id=386466775 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_jateng"
+province_name = "Jawa Tengah"
+owner_country = ExtResource("2_rp54x")
+connected_provinces = [NodePath("../Prov_Jabar"), NodePath("../Prov_Jogja"), NodePath("../Prov_Jatim"), NodePath("../Prov_Jawa")]
+base_money_output = 36.0
+base_steel_output = 18.0
+base_fuel_output = 4.0
+population = 3800000
+polygon_points = PackedVector2Array(-360, 230, -160, 230, -160, 320, -360, 320)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("9_w2c21")])
+
+[node name="Prov_Jogja" type="Area2D" parent="Provinces" unique_id=2041802276 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_jogja"
+province_name = "D.I. Yogyakarta"
+terrain = 1
+owner_country = ExtResource("2_rp54x")
+connected_provinces = [NodePath("../Prov_Jateng"), NodePath("../Prov_Jatim")]
+base_steel_output = 8.0
+population = 1600000
+polygon_points = PackedVector2Array(-250, 310, -160, 310, -170, 360, -260, 360)
+
+[node name="Prov_Jatim" type="Area2D" parent="Provinces" unique_id=691935363 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
 province_id = "prov_jatim"
 province_name = "Jawa Timur"
 terrain = 4
-owner_country = ExtResource("3_player")
-connected_provinces = [NodePath("../Prov_Batavia"), NodePath("../Prov_Laut_Jawa")]
-base_money_output = 35.0
-base_steel_output = 15.0
-base_fuel_output = 2.0
-population = 1800000
-polygon_points = PackedVector2Array(-250, 150, -40, 160, -10, 310, -220, 310)
-initial_buildings = [ExtResource("8_dockyard"), ExtResource("9_munitfac")]
+owner_country = ExtResource("2_rp54x")
+connected_provinces = [NodePath("../Prov_Jateng"), NodePath("../Prov_Jogja"), NodePath("../Prov_Bali"), NodePath("../Prov_Jawa")]
+base_money_output = 46.0
+base_steel_output = 32.0
+base_fuel_output = 10.0
+population = 4100000
+polygon_points = PackedVector2Array(-160, 230, 70, 230, 80, 350, -160, 340)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("13_o4niy"), ExtResource("11_ptkot")])
 
-[node name="Prov_Laut_Jawa" parent="Provinces" node_paths=PackedStringArray("connected_provinces") instance=ExtResource("2_prov")]
-province_id = "prov_laut_jawa"
-province_name = "Laut Jawa"
-terrain = 5
-connected_provinces = [NodePath("../Prov_Batavia"), NodePath("../Prov_Jatim"), NodePath("../Prov_Kalsel"), NodePath("../Prov_Karimata")]
-base_money_output = 0.0
-base_steel_output = 0.0
-base_fuel_output = 0.0
-population = 0
-polygon_points = PackedVector2Array(-460, -50, -40, -40, -40, 160, -460, 150)
+[node name="Prov_Bali" type="Area2D" parent="Provinces" unique_id=855779526 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_bali"
+province_name = "Bali"
+terrain = 4
+owner_country = ExtResource("2_rp54x")
+connected_provinces = [NodePath("../Prov_Jatim"), NodePath("../Prov_Ntb"), NodePath("../Prov_Flores")]
+base_money_output = 26.0
+base_steel_output = 6.0
+population = 1300000
+polygon_points = PackedVector2Array(100, 290, 190, 290, 180, 360, 90, 360)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("13_o4niy")])
 
-[node name="Prov_Karimata" parent="Provinces" node_paths=PackedStringArray("connected_provinces") instance=ExtResource("2_prov")]
-province_id = "prov_karimata"
-province_name = "Selat Karimata"
-terrain = 5
-connected_provinces = [NodePath("../Prov_Batavia"), NodePath("../Prov_Laut_Jawa"), NodePath("../Prov_Kalbar"), NodePath("../Prov_Sumatera")]
-base_money_output = 0.0
-base_steel_output = 0.0
-base_fuel_output = 0.0
-population = 0
-polygon_points = PackedVector2Array(-660, -250, -480, -60, -460, 150, -680, 60)
-
-[node name="Prov_Kalsel" parent="Provinces" node_paths=PackedStringArray("connected_provinces") instance=ExtResource("2_prov")]
-province_id = "prov_kalsel"
-province_name = "Borneo Selatan"
+[node name="Prov_Ntb" type="Area2D" parent="Provinces" unique_id=1921252245 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_ntb"
+province_name = "Nusa Tenggara Barat"
 terrain = 1
-owner_country = ExtResource("4_rival")
-connected_provinces = [NodePath("../Prov_Laut_Jawa"), NodePath("../Prov_Kalbar")]
-base_money_output = 20.0
-base_steel_output = 25.0
-base_fuel_output = 20.0
-population = 950000
-polygon_points = PackedVector2Array(-280, -320, -50, -300, -40, -40, -280, -50)
-initial_buildings = [ExtResource("6_armsfac"), ExtResource("10_fort")]
+owner_country = ExtResource("5_kvtgn")
+connected_provinces = [NodePath("../Prov_Bali"), NodePath("../Prov_Ntt"), NodePath("../Prov_Flores")]
+base_money_output = 18.0
+base_steel_output = 14.0
+population = 1200000
+polygon_points = PackedVector2Array(210, 300, 430, 300, 420, 370, 200, 370)
 
-[node name="Prov_Kalbar" parent="Provinces" node_paths=PackedStringArray("connected_provinces") instance=ExtResource("2_prov")]
+[node name="Prov_Ntt" type="Area2D" parent="Provinces" unique_id=355990829 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_ntt"
+province_name = "Nusa Tenggara Timur"
+terrain = 2
+owner_country = ExtResource("5_kvtgn")
+connected_provinces = [NodePath("../Prov_Ntb"), NodePath("../Prov_Flores"), NodePath("../Prov_Banda")]
+base_money_output = 16.0
+base_steel_output = 8.0
+population = 1100000
+polygon_points = PackedVector2Array(450, 310, 700, 320, 680, 410, 440, 390)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("10_k7vvr")])
+
+[node name="Prov_Kalbar" type="Area2D" parent="Provinces" unique_id=577447079 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
 province_id = "prov_kalbar"
 province_name = "Borneo Barat"
-terrain = 1
-owner_country = ExtResource("4_rival")
-connected_provinces = [NodePath("../Prov_Kalsel"), NodePath("../Prov_Karimata")]
-base_money_output = 18.0
-base_steel_output = 20.0
+owner_country = ExtResource("5_kvtgn")
+connected_provinces = [NodePath("../Prov_Kalteng"), NodePath("../Prov_Kaltara"), NodePath("../Prov_Karimata"), NodePath("../Prov_Natuna")]
+base_money_output = 22.0
+base_steel_output = 26.0
 base_fuel_output = 10.0
-population = 800000
-polygon_points = PackedVector2Array(-510, -310, -280, -320, -280, -50, -480, -60)
+population = 1500000
+polygon_points = PackedVector2Array(-520, -260, -350, -280, -340, -100, -500, -80)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("9_w2c21")])
 
-[node name="Prov_Sumatera" parent="Provinces" node_paths=PackedStringArray("connected_provinces") instance=ExtResource("2_prov")]
-province_id = "prov_sumatera"
-province_name = "Sumatera Timur"
-terrain = 4
-owner_country = ExtResource("5_neutral")
-connected_provinces = [NodePath("../Prov_Karimata")]
-base_money_output = 25.0
-base_steel_output = 8.0
-base_fuel_output = 15.0
+[node name="Prov_Kalteng" type="Area2D" parent="Provinces" unique_id=1794219438 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_kalteng"
+province_name = "Borneo Tengah"
+owner_country = ExtResource("14_w74hq")
+connected_provinces = [NodePath("../Prov_Kalbar"), NodePath("../Prov_Kalsel"), NodePath("../Prov_Kaltim"), NodePath("../Prov_Jawa")]
+base_money_output = 20.0
+base_steel_output = 22.0
+base_fuel_output = 16.0
 population = 1200000
-polygon_points = PackedVector2Array(-920, -200, -660, -250, -680, 60, -900, 120)
+polygon_points = PackedVector2Array(-350, -280, -170, -280, -160, -70, -340, -100)
+
+[node name="Prov_Kalsel" type="Area2D" parent="Provinces" unique_id=1000931091 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_kalsel"
+province_name = "Borneo Selatan"
+terrain = 4
+owner_country = ExtResource("14_w74hq")
+connected_provinces = [NodePath("../Prov_Kalteng"), NodePath("../Prov_Kaltim"), NodePath("../Prov_Jawa")]
+base_steel_output = 30.0
+base_fuel_output = 28.0
+population = 1400000
+polygon_points = PackedVector2Array(-250, -70, -60, -70, -50, 40, -240, 40)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("7_wmcn1"), ExtResource("10_k7vvr")])
+
+[node name="Prov_Kaltim" type="Area2D" parent="Provinces" unique_id=1418665380 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_kaltim"
+province_name = "Borneo Timur & IKN"
+terrain = 1
+owner_country = ExtResource("14_w74hq")
+connected_provinces = [NodePath("../Prov_Kaltara"), NodePath("../Prov_Kalteng"), NodePath("../Prov_Kalsel"), NodePath("../Prov_Makassar")]
+base_money_output = 36.0
+base_steel_output = 24.0
+base_fuel_output = 65.0
+population = 1800000
+polygon_points = PackedVector2Array(-170, -280, 20, -260, 30, -70, -160, -70)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("7_wmcn1"), ExtResource("13_o4niy")])
+
+[node name="Prov_Kaltara" type="Area2D" parent="Provinces" unique_id=1629000197 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_kaltara"
+province_name = "Borneo Utara"
+terrain = 2
+owner_country = ExtResource("14_w74hq")
+connected_provinces = [NodePath("../Prov_Kalbar"), NodePath("../Prov_Kaltim"), NodePath("../Prov_Makassar"), NodePath("../Prov_Natuna")]
+base_money_output = 20.0
+base_steel_output = 18.0
+base_fuel_output = 42.0
+population = 900000
+polygon_points = PackedVector2Array(-190, -420, 10, -410, 20, -260, -170, -280)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("12_3q2po")])
+
+[node name="Prov_Sulsel" type="Area2D" parent="Provinces" unique_id=398935543 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_sulsel"
+province_name = "Sulawesi Selatan"
+terrain = 4
+owner_country = ExtResource("5_kvtgn")
+connected_provinces = [NodePath("../Prov_Sulteng"), NodePath("../Prov_Sultra"), NodePath("../Prov_Makassar"), NodePath("../Prov_Flores")]
+base_money_output = 32.0
+base_steel_output = 16.0
+base_fuel_output = 5.0
+population = 2500000
+polygon_points = PackedVector2Array(140, 60, 250, 50, 270, 210, 160, 220)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("13_o4niy")])
+
+[node name="Prov_Sulteng" type="Area2D" parent="Provinces" unique_id=604587174 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_sulteng"
+province_name = "Sulawesi Tengah"
+terrain = 2
+owner_country = ExtResource("5_kvtgn")
+connected_provinces = [NodePath("../Prov_Sulsel"), NodePath("../Prov_Sultra"), NodePath("../Prov_Sulut"), NodePath("../Prov_Makassar")]
+base_money_output = 28.0
+base_steel_output = 48.0
+base_fuel_output = 12.0
+population = 1300000
+polygon_points = PackedVector2Array(150, -110, 370, -90, 340, 40, 140, 50)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("9_w2c21")])
+
+[node name="Prov_Sultra" type="Area2D" parent="Provinces" unique_id=965220608 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_sultra"
+province_name = "Sulawesi Tenggara"
+terrain = 1
+owner_country = ExtResource("5_kvtgn")
+connected_provinces = [NodePath("../Prov_Sulsel"), NodePath("../Prov_Sulteng"), NodePath("../Prov_Banda"), NodePath("../Prov_Flores")]
+base_money_output = 22.0
+base_steel_output = 42.0
+base_fuel_output = 8.0
+population = 1100000
+polygon_points = PackedVector2Array(260, 50, 370, 40, 380, 180, 270, 180)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("9_w2c21")])
+
+[node name="Prov_Sulut" type="Area2D" parent="Provinces" unique_id=1734468335 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_sulut"
+province_name = "Sulawesi Utara"
+terrain = 4
+owner_country = ExtResource("14_w74hq")
+connected_provinces = [NodePath("../Prov_Sulteng"), NodePath("../Prov_Malut"), NodePath("../Prov_Makassar")]
+base_money_output = 24.0
+base_steel_output = 16.0
+base_fuel_output = 12.0
+population = 1200000
+polygon_points = PackedVector2Array(240, -250, 460, -190, 440, -110, 230, -110)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("13_o4niy"), ExtResource("10_k7vvr")])
+
+[node name="Prov_Malut" type="Area2D" parent="Provinces" unique_id=1243142516 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_malut"
+province_name = "Maluku Utara"
+terrain = 4
+owner_country = ExtResource("5_kvtgn")
+connected_provinces = [NodePath("../Prov_Sulut"), NodePath("../Prov_Maluku"), NodePath("../Prov_Papua Barat")]
+base_money_output = 20.0
+base_steel_output = 36.0
+base_fuel_output = 5.0
+population = 850000
+polygon_points = PackedVector2Array(500, -210, 670, -200, 650, -60, 490, -70)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("9_w2c21")])
+
+[node name="Prov_Maluku" type="Area2D" parent="Provinces" unique_id=1280785656 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_maluku"
+province_name = "Kepulauan Maluku"
+terrain = 4
+owner_country = ExtResource("5_kvtgn")
+connected_provinces = [NodePath("../Prov_Malut"), NodePath("../Prov_Papua Barat"), NodePath("../Prov_Banda")]
+base_money_output = 24.0
+base_steel_output = 15.0
+base_fuel_output = 8.0
+population = 980000
+polygon_points = PackedVector2Array(530, -30, 790, -20, 770, 120, 520, 110)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("13_o4niy")])
+
+[node name="Prov_Papua Barat" type="Area2D" parent="Provinces" unique_id=4983199 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_papua_barat"
+province_name = "Papua Barat"
+terrain = 2
+owner_country = ExtResource("5_kvtgn")
+connected_provinces = [NodePath("../Prov_Malut"), NodePath("../Prov_Maluku"), NodePath("../Prov_Papua"), NodePath("../Prov_Papua Selatan")]
+base_money_output = 26.0
+base_steel_output = 22.0
+base_fuel_output = 32.0
+population = 920000
+polygon_points = PackedVector2Array(830, -180, 1060, -170, 1030, -10, 820, -20)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("7_wmcn1")])
+
+[node name="Prov_Papua" type="Area2D" parent="Provinces" unique_id=84208377 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_papua"
+province_name = "Papua Utara"
+terrain = 2
+owner_country = ExtResource("5_kvtgn")
+connected_provinces = [NodePath("../Prov_Papua Barat"), NodePath("../Prov_Papua Selatan")]
+base_money_output = 32.0
+base_steel_output = 32.0
+base_fuel_output = 20.0
+population = 1600000
+polygon_points = PackedVector2Array(1060, -200, 1560, -200, 1560, 40, 1050, 20)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("10_k7vvr"), ExtResource("9_w2c21")])
+
+[node name="Prov_Papua Selatan" type="Area2D" parent="Provinces" unique_id=288413497 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "prov_papua_selatan"
+province_name = "Papua Selatan"
+owner_country = ExtResource("5_kvtgn")
+connected_provinces = [NodePath("../Prov_Papua Barat"), NodePath("../Prov_Papua"), NodePath("../Prov_Banda")]
+base_money_output = 24.0
+base_steel_output = 16.0
+base_fuel_output = 15.0
+population = 1100000
+polygon_points = PackedVector2Array(1050, 20, 1560, 40, 1550, 260, 1030, 240)
+
+[node name="Prov_Malaka" type="Area2D" parent="Provinces" unique_id=476506135 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "sea_malaka"
+province_name = "Selat Malaka"
+terrain = 5
+connected_provinces = [NodePath("../Prov_Aceh"), NodePath("../Prov_Sumut"), NodePath("../Prov_Riau"), NodePath("../Prov_Natuna")]
+base_money_output = 0.0
+base_steel_output = 0.0
+base_fuel_output = 0.0
+population = 0
+polygon_points = PackedVector2Array(-1480, -310, -1090, -140, -1110, -40, -1380, -200)
+
+[node name="Prov_Natuna" type="Area2D" parent="Provinces" unique_id=848244078 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "sea_natuna"
+province_name = "Laut Natuna Utara"
+terrain = 5
+connected_provinces = [NodePath("../Prov_Malaka"), NodePath("../Prov_Karimata"), NodePath("../Prov_Riau"), NodePath("../Prov_Kalbar"), NodePath("../Prov_Kaltara")]
+base_money_output = 0.0
+base_steel_output = 0.0
+base_fuel_output = 0.0
+population = 0
+polygon_points = PackedVector2Array(-1030, -440, -330, -440, -330, -300, -880, -300)
+
+[node name="Prov_Karimata" type="Area2D" parent="Provinces" unique_id=884379085 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "sea_karimata"
+province_name = "Selat Karimata"
+terrain = 5
+connected_provinces = [NodePath("../Prov_Natuna"), NodePath("../Prov_Riau"), NodePath("../Prov_Sumsel"), NodePath("../Prov_Kalbar"), NodePath("../Prov_Jawa"), NodePath("../Prov_Sunda")]
+base_money_output = 0.0
+base_steel_output = 0.0
+base_fuel_output = 0.0
+population = 0
+polygon_points = PackedVector2Array(-840, -140, -540, -140, -540, 70, -840, 70)
+
+[node name="Prov_Sunda" type="Area2D" parent="Provinces" unique_id=791353229 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "sea_sunda"
+province_name = "Selat Sunda"
+terrain = 5
+connected_provinces = [NodePath("../Prov_Lampung"), NodePath("../Prov_Banten"), NodePath("../Prov_Karimata"), NodePath("../Prov_Jawa")]
+base_money_output = 0.0
+base_steel_output = 0.0
+base_fuel_output = 0.0
+population = 0
+polygon_points = PackedVector2Array(-820, 110, -660, 110, -660, 200, -820, 200)
+
+[node name="Prov_Jawa" type="Area2D" parent="Provinces" unique_id=1624154869 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "sea_jawa"
+province_name = "Laut Jawa"
+terrain = 5
+connected_provinces = [NodePath("../Prov_Sunda"), NodePath("../Prov_Karimata"), NodePath("../Prov_Batavia"), NodePath("../Prov_Jateng"), NodePath("../Prov_Jatim"), NodePath("../Prov_Kalsel"), NodePath("../Prov_Kalteng"), NodePath("../Prov_Makassar"), NodePath("../Prov_Flores")]
+base_money_output = 0.0
+base_steel_output = 0.0
+base_fuel_output = 0.0
+population = 0
+polygon_points = PackedVector2Array(-510, 70, 80, 70, 80, 200, -510, 200)
+
+[node name="Prov_Makassar" type="Area2D" parent="Provinces" unique_id=726732581 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "sea_makassar"
+province_name = "Selat Makassar"
+terrain = 5
+connected_provinces = [NodePath("../Prov_Jawa"), NodePath("../Prov_Kaltim"), NodePath("../Prov_Kaltara"), NodePath("../Prov_Sulsel"), NodePath("../Prov_Sulteng"), NodePath("../Prov_Sulut"), NodePath("../Prov_Flores")]
+base_money_output = 0.0
+base_steel_output = 0.0
+base_fuel_output = 0.0
+population = 0
+polygon_points = PackedVector2Array(30, -250, 130, -250, 130, 60, 30, 60)
+
+[node name="Prov_Flores" type="Area2D" parent="Provinces" unique_id=1913440052 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "sea_flores"
+province_name = "Laut Flores"
+terrain = 5
+connected_provinces = [NodePath("../Prov_Jawa"), NodePath("../Prov_Makassar"), NodePath("../Prov_Bali"), NodePath("../Prov_Ntb"), NodePath("../Prov_Ntt"), NodePath("../Prov_Sulsel"), NodePath("../Prov_Sultra"), NodePath("../Prov_Banda")]
+base_money_output = 0.0
+base_steel_output = 0.0
+base_fuel_output = 0.0
+population = 0
+polygon_points = PackedVector2Array(110, 200, 540, 200, 540, 290, 110, 290)
+
+[node name="Prov_Banda" type="Area2D" parent="Provinces" unique_id=1046327640 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+script = ExtResource("4_1nw0s")
+province_id = "sea_banda"
+province_name = "Laut Banda"
+terrain = 5
+connected_provinces = [NodePath("../Prov_Flores"), NodePath("../Prov_Sultra"), NodePath("../Prov_Maluku"), NodePath("../Prov_Ntt"), NodePath("../Prov_Papua Selatan")]
+base_money_output = 0.0
+base_steel_output = 0.0
+base_fuel_output = 0.0
+population = 0
+polygon_points = PackedVector2Array(530, 120, 1010, 120, 1010, 270, 530, 270)

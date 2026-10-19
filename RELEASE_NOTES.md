@@ -1,3 +1,54 @@
+# Release Notes - True Nation v0.3
+
+**Release Date:** 19 Oktober 2026  
+**Version:** `v0.3`  
+**Milestone:** Nusantara Archipelago Theater, Tactical Ocean Texture, Unit Polish & Anti-Clumping, C4ISR Vector Design & Complete Anti-Slop UI Elimination  
+**Compatibility:** Godot Engine 4.3 - 4.7.2+ (Forward+ & Compatibility)
+
+---
+
+## 🌟 Ringkasan Rilis (Release Overview v0.3)
+
+Versi **v0.3** menandai revolusi visual dan geopolitik terbesar bagi *True Nation*. Seluruh prototipe visual awal ditransformasikan menjadi ruang komando militer profesional berkelas internasional (**C4ISR Modern War Room**), mencakup seluruh kepulauan Indonesia dari Sabang sampai Merauke:
+
+1. **Eliminasi Total 100% "AI Slop" & Sistem Vektor SVG Kustom**:
+   - Seluruh karakter literal emoji teks (`🪙`, `⚙️`, `🛢️`, `👥`, `🔫`, `🚀`, `💾`, `📂`, `🎖️`, `🎯`, `⚔️`, `🪖`) telah dihapus secara permanen dari UI, skrip, dan scene.
+   - Digantikan oleh 25+ file ikon SVG vektor resolusi tinggi (`assets/sprites/ui/`) untuk komoditas ekonomi, fasilitas teritorial, tombol kontrol waktu, berkas operasi simpan/muat, dan lambang taktis NATO.
+   - Pemasangan tema global **C4ISR Tactical Dark Theme** (`assets/ui/tactical_theme.tres`) dengan palet warna Deep Navy Slate, garis tepi baja presisi, dan aksen Cyber Cyan & Emerald Tactical.
+
+2. **Teater Kepulauan Nusantara (37 Provinsi Strategis)**:
+   - Pemugaran peta dari 7 poligon mainan menjadi **37 wilayah geopolitik komprehensif**:
+     - 6 Provinsi Sumatera (Aceh, Sumut, Riau, Sumbar, Sumsel, Lampung)
+     - 6 Provinsi Jawa (Banten, Batavia, Jabar, Jateng, Jogja, Jatim)
+     - 3 Provinsi Bali & Nusa Tenggara (Bali, NTB, NTT)
+     - 5 Provinsi Kalimantan (Kalbar, Kalteng, Kalsel, Kaltim, Kaltara)
+     - 4 Provinsi Sulawesi (Sulsel, Sulteng, Sultra, Sulut)
+     - 5 Wilayah Maluku & Papua (Malut, Maluku, Papua Barat, Papua, Papua Selatan)
+     - 8 Titik Cekik Maritim & Selat Strategis ALKI (Selat Malaka, Laut Natuna, Selat Sunda, Selat Karimata, Laut Jawa, Selat Makassar, Laut Flores, Laut Banda).
+
+3. **Tekstur Samudra Taktis (*Seamless Bathymetric Ocean Texture*)**:
+   - Latar belakang laut tidak lagi biru polos datar, melainkan menggunakan tekstur batimetri maritim berulang (`assets/sprites/map/ocean_texture.png`) yang menggambarkan kedalaman laut dangkal (*continental shelf*) dan palung samudra dalam.
+
+4. **Kalkulasi Sentroid Daratan Visual Presisi**:
+   - Algoritma Green's Theorem terpadu dengan fallback pole-of-inaccessibility (`_calculate_visual_centroid()`) pada [province.gd](file:///d:/03%20ProjectGame/true-nation/src/map/province.gd), memastikan penempatan nama provinsi, lencana fasilitas, dan garnisun militer selalu berada kokoh di atas daratan kering tanpa meleset ke laut.
+
+5. **Polish Unit Perang & Formasi Anti-Clumping**:
+   - Simbol taktis modern (*Tactical NATO Icons*) pada badge unit.
+   - **Formasi Sebar Otomatis**: Saat lebih dari 1 divisi berada di provinsi yang sama, unit secara cerdas mengatur formasi offset taktis (linear berjarak, segitiga, atau formasi 2x2) sehingga tidak lagi saling menumpuk.
+   - Border seleksi sudut taktis (*Cyber Cyan corner brackets*).
+   - Efek visual peringatan mundur taktis (*Retreat Alert Flash*) ketika organisasi divisi jatuh di bawah 15%.
+   - Tombol perintah langsung **Batal Gerak (Halt)** dan **Mundur Taktis (Retreat)** pada panel unit.
+
+6. **Refaktor UI/UX Dossier & Military SITREP Ticker**:
+   - TopBar responsif dengan indikator SVG, delta harian, dan tooltip neraca ekonomi terintegrasi.
+   - Dossier Provinsi & Unit dengan layout militer terstruktur, bar status presisi, dan tombol aksi standar.
+   - Ticker notifikasi intelijen tempur (`NotificationBanner`) dengan garis aksen status berwarna dinamis.
+
+7. **Verifikasi Penuh Engine Godot 4.7.2**:
+   - Diuji langsung pada console headless Godot 4.7.2: 0 parse error, 0 compile warnings, simulasi multi-frame berjalan stabil pada 60 FPS.
+
+---
+
 # Release Notes - True Nation v0.2.1
 
 **Release Date:** 19 Oktober 2026  

@@ -42,7 +42,7 @@ func _rebuild_queue_ui() -> void:
 		return
 	
 	visible = true
-	label_header.text = "🏭 ANTRIAN PRODUKSI & KONSTRUKSI (%d)" % total_count
+	label_header.text = "LOGISTIK & KONSTRUKSI (%d)" % total_count
 	
 	# 1. Antrian Unit Militer
 	if production_manager != null:
@@ -59,29 +59,29 @@ func _create_unit_order_view(order: ProductionManager.ProductionOrder) -> void:
 	item_box.add_theme_constant_override("separation", 3)
 	
 	var hbox_top = HBoxContainer.new()
+	hbox_top.add_theme_constant_override("separation", 6)
 	
-	# Icon Matra
-	var icon_str = "🪖"
+	# Texture Icon Matra Taktis
+	var icon_rect = TextureRect.new()
+	icon_rect.custom_minimum_size = Vector2(16, 16)
+	icon_rect.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	if order.unit_data != null:
-		match order.unit_data.domain:
-			UnitData.Domain.LAND:
-				icon_str = "🚜" if order.unit_data.hard_attack > 10 else "🪖"
-			UnitData.Domain.SEA:
-				icon_str = "🚢"
-			UnitData.Domain.AIR:
-				icon_str = "✈️"
+		icon_rect.texture = order.unit_data.get_tactical_symbol_texture()
+	hbox_top.add_child(icon_rect)
 	
 	var label_title = Label.new()
 	label_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var unit_name = order.unit_data.unit_name if order.unit_data else "Divisi"
 	var prov_name = order.target_province.province_name if order.target_province else "Wilayah"
-	label_title.text = "%s %s (%s)" % [icon_str, unit_name.substr(0, 14), prov_name]
+	label_title.text = "%s (%s)" % [unit_name.substr(0, 14), prov_name]
 	label_title.add_theme_font_size_override("font_size", 11)
 	hbox_top.add_child(label_title)
 	
 	# Tombol Batal
 	var btn_cancel = Button.new()
-	btn_cancel.text = "✕"
+	btn_cancel.text = "X"
 	btn_cancel.custom_minimum_size = Vector2(18, 18)
 	btn_cancel.tooltip_text = "Batalkan pesanan (Refund 80% biaya)"
 	btn_cancel.pressed.connect(func(): _on_cancel_unit_order(order.order_id))
@@ -91,7 +91,7 @@ func _create_unit_order_view(order: ProductionManager.ProductionOrder) -> void:
 	
 	# Progress bar
 	var bar = ProgressBar.new()
-	bar.custom_minimum_size = Vector2(0, 10)
+	bar.custom_minimum_size = Vector2(0, 8)
 	bar.show_percentage = false
 	bar.value = order.get_progress_ratio() * 100.0
 	item_box.add_child(bar)
@@ -114,20 +114,30 @@ func _create_bld_order_view(order) -> void:
 	item_box.add_theme_constant_override("separation", 3)
 	
 	var hbox_top = HBoxContainer.new()
+	hbox_top.add_theme_constant_override("separation", 6)
 	
-	var icon_str = order.building_data.icon if order.building_data else "🏗️"
+	# Texture Icon Bangunan Taktis
+	var icon_rect = TextureRect.new()
+	icon_rect.custom_minimum_size = Vector2(16, 16)
+	icon_rect.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	if order.building_data != null:
+		icon_rect.texture = order.building_data.get_icon_texture()
+	hbox_top.add_child(icon_rect)
+	
 	var label_title = Label.new()
 	label_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var bld_name = order.building_data.building_name if order.building_data else "Fasilitas"
 	var prov_name = order.target_province.province_name if order.target_province else "Wilayah"
-	label_title.text = "%s %s (%s)" % [icon_str, bld_name.substr(0, 14), prov_name]
+	label_title.text = "%s (%s)" % [bld_name.substr(0, 14), prov_name]
 	label_title.add_theme_font_size_override("font_size", 11)
 	label_title.add_theme_color_override("font_color", Color(0.95, 0.85, 0.6))
 	hbox_top.add_child(label_title)
 	
 	# Tombol Batal
 	var btn_cancel = Button.new()
-	btn_cancel.text = "✕"
+	btn_cancel.text = "X"
 	btn_cancel.custom_minimum_size = Vector2(18, 18)
 	btn_cancel.tooltip_text = "Batalkan konstruksi (Refund 80% biaya)"
 	btn_cancel.pressed.connect(func(): _on_cancel_bld_order(order.order_id))

@@ -51,16 +51,19 @@ func _build_visual_connections() -> void:
 			
 			var center_b = neighbor.get_center() + neighbor.position
 			
-			# Garis rute antar provinsi
+			# Garis rute antar provinsi taktis
 			var line = Line2D.new()
 			line.points = PackedVector2Array([center_a, center_b])
-			line.width = 2.0
 			
-			# Warna jalur: Biru jika antar zona laut, kuning gading jika antar daratan
-			if prov.is_sea_zone() or neighbor.is_sea_zone():
-				line.default_color = Color(0.3, 0.6, 0.9, 0.35) # Jalur pelayaran laut
+			if prov.is_sea_zone() and neighbor.is_sea_zone():
+				line.width = 2.5
+				line.default_color = Color(0.12, 0.55, 0.85, 0.35) # Alur Laut Kepulauan (ALKI)
+			elif prov.is_sea_zone() or neighbor.is_sea_zone():
+				line.width = 2.0
+				line.default_color = Color(0.22, 0.74, 0.97, 0.5) # Jalur Penyeberangan Selat / Pendaratan
 			else:
-				line.default_color = Color(0.9, 0.85, 0.6, 0.4) # Jalur jalan darat
+				line.width = 1.8
+				line.default_color = Color(0.85, 0.82, 0.75, 0.4) # Koridor Darat Antar-Provinsi
 			
 			connections_container.add_child(line)
 

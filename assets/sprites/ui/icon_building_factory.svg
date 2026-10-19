@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="facGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+  </defs>
+  <!-- Background Badge -->
+  <rect x="6" y="6" width="52" height="52" rx="8" fill="#0f172a" stroke="url(#facGrad)" stroke-width="2"/>
+  <!-- Factory Sawtooth Roof Silhouette -->
+  <polygon points="12,50 12,30 22,38 22,30 32,38 32,22 42,30 42,16 52,16 52,50" fill="#1e293b" stroke="url(#facGrad)" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Smoke Plumes -->
+  <path d="M46,14 C46,10 50,8 48,4" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <!-- Factory Windows -->
+  <rect x="16" y="42" width="6" height="8" fill="#38bdf8" rx="1"/>
+  <rect x="26" y="42" width="6" height="8" fill="#38bdf8" rx="1"/>
+  <rect x="36" y="42" width="6" height="8" fill="#38bdf8" rx="1"/>
+</svg>

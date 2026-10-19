@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect x="6" y="14" width="52" height="36" rx="4" fill="#0f172a" stroke="#ef4444" stroke-width="2.5"/>
+  <!-- NATO Artillery Solid Center Ball -->
+  <circle cx="32" cy="32" r="8" fill="#ef4444"/>
+</svg>

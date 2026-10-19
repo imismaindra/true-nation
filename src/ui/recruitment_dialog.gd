@@ -84,31 +84,14 @@ func _create_unit_card(data: UnitData) -> void:
 	hbox.add_theme_constant_override("separation", 12)
 	margin.add_child(hbox)
 	
-	# Icon Matra
-	var icon_label = Label.new()
-	match data.domain:
-		UnitData.Domain.LAND:
-			if data.unit_type in [UnitData.UnitType.ARTILLERY_SP, UnitData.UnitType.MLRS]:
-				icon_label.text = "💥"
-			elif data.hard_attack > 10:
-				icon_label.text = "🚜"
-			else:
-				icon_label.text = "🪖"
-		UnitData.Domain.SEA:
-			if data.unit_type == UnitData.UnitType.SUBMARINE:
-				icon_label.text = "🌊"
-			else:
-				icon_label.text = "🚢"
-		UnitData.Domain.AIR:
-			if data.unit_type == UnitData.UnitType.HELICOPTER:
-				icon_label.text = "🚁"
-			elif data.unit_type == UnitData.UnitType.DRONE_UAV:
-				icon_label.text = "📡"
-			else:
-				icon_label.text = "✈️"
-	icon_label.add_theme_font_size_override("font_size", 22)
-	icon_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	hbox.add_child(icon_label)
+	# Icon Matra Taktis
+	var icon_rect = TextureRect.new()
+	icon_rect.custom_minimum_size = Vector2(32, 32)
+	icon_rect.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon_rect.texture = data.get_tactical_symbol_texture()
+	hbox.add_child(icon_rect)
 	
 	# Info Unit & Biaya
 	var vbox_info = VBoxContainer.new()
@@ -120,7 +103,7 @@ func _create_unit_card(data: UnitData) -> void:
 	vbox_info.add_child(label_name)
 	
 	var label_costs = Label.new()
-	label_costs.text = "Biaya: $%d | 👥 %d | 🔫 %d | 🚀 %d | ⏱️ %d Hari" % [
+	label_costs.text = "Kas: $%d | Personel: %d | Senjata: %d | Amunisi: %d | Waktu: %d Hari" % [
 		int(data.production_cost_money),
 		data.required_manpower,
 		int(data.production_cost_arms),
@@ -128,7 +111,7 @@ func _create_unit_card(data: UnitData) -> void:
 		data.production_days
 	]
 	label_costs.add_theme_font_size_override("font_size", 10)
-	label_costs.add_theme_color_override("font_color", Color(0.8, 0.8, 0.85))
+	label_costs.add_theme_color_override("font_color", Color(0.8, 0.85, 0.95))
 	vbox_info.add_child(label_costs)
 	
 	hbox.add_child(vbox_info)

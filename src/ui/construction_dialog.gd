@@ -83,12 +83,14 @@ func _create_building_card(data: BuildingData) -> void:
 	hbox.add_theme_constant_override("separation", 12)
 	margin.add_child(hbox)
 	
-	# Icon Bangunan
-	var icon_label = Label.new()
-	icon_label.text = data.icon
-	icon_label.add_theme_font_size_override("font_size", 22)
-	icon_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	hbox.add_child(icon_label)
+	# Icon Bangunan Taktis
+	var icon_rect = TextureRect.new()
+	icon_rect.custom_minimum_size = Vector2(32, 32)
+	icon_rect.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon_rect.texture = data.get_icon_texture()
+	hbox.add_child(icon_rect)
 	
 	# Info Bangunan
 	var vbox_info = VBoxContainer.new()
@@ -106,7 +108,7 @@ func _create_building_card(data: BuildingData) -> void:
 	vbox_info.add_child(label_desc)
 	
 	var label_costs = Label.new()
-	label_costs.text = "Biaya: $%d | ⚙️ %d Baja | 🛢️ %d Minyak | ⏱️ %d Hari" % [
+	label_costs.text = "Biaya: $%d | Baja: %d | Minyak: %d | Waktu: %d Hari" % [
 		int(data.build_cost_money),
 		int(data.build_cost_steel),
 		int(data.build_cost_fuel),

@@ -45,7 +45,7 @@ text = "Tipe Medan"
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_vertical = 0
-text = "✕"
+text = "X"
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -158,7 +158,7 @@ visible = false
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
-text = "🎯 Pilih Semua Pasukan di Sini"
+text = "Pilih Semua Pasukan"
 
 [node name="ActionButtons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -169,11 +169,11 @@ custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 11
-text = "🎖️ Rekrut Divisi"
+text = "Rekrut Divisi"
 
 [node name="BtnBuild" type="Button" parent="MarginContainer/VBoxContainer/ActionButtons"]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 11
-text = "🏗️ Bangun Fasilitas"
+text = "Bangun Fasilitas"

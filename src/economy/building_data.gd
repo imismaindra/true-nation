@@ -16,8 +16,13 @@ enum BuildingType {
 @export var building_id: String = "arms_factory"
 @export var building_name: String = "Pabrik Senjata Militer"
 @export var building_type: BuildingType = BuildingType.ARMS_FACTORY
-@export var icon: String = "🏭"
+@export var icon: String = "res://assets/sprites/ui/icon_building_factory.svg"
 @export_multiline var description: String = ""
+
+func get_icon_texture() -> Texture2D:
+	if icon != "" and ResourceLoader.exists(icon):
+		return load(icon)
+	return load("res://assets/sprites/ui/icon_building_factory.svg")
 
 @export_group("Construction Costs & Time")
 @export var build_cost_money: float = 600.0

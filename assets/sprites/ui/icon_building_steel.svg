@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="foundryGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#cbd5e1"/>
+      <stop offset="50%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="52" height="52" rx="8" fill="#0f172a" stroke="url(#foundryGrad)" stroke-width="2"/>
+  <!-- Blast Furnace Silo -->
+  <path d="M22,50 L24,24 C24,20 28,18 32,18 C36,18 40,20 42,24 L44,50 Z" fill="#1e293b" stroke="url(#foundryGrad)" stroke-width="2"/>
+  <!-- Molten Flow Window -->
+  <rect x="29" y="38" width="6" height="8" rx="1" fill="#f97316"/>
+  <!-- Heat Chimney Pipes -->
+  <path d="M16,50 L16,32 L20,32" fill="none" stroke="#94a3b8" stroke-width="2"/>
+  <path d="M48,50 L48,32 L44,32" fill="none" stroke="#94a3b8" stroke-width="2"/>
+</svg>

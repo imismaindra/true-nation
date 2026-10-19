@@ -76,8 +76,8 @@ func _update_ui() -> void:
 		var b_texts: Array[String] = []
 		for b in current_province.buildings:
 			if b != null:
-				b_texts.append("%s %s" % [b.icon, b.building_name])
-		label_buildings_list.text = " • ".join(b_texts)
+				b_texts.append("• %s" % b.building_name)
+		label_buildings_list.text = "  ".join(b_texts)
 	
 	# Tombol Seleksi Korps Gabungan Seluruh Pasukan di Provinsi Ini (Sprint 4)
 	var mil_mgr = get_tree().root.find_child("MilitaryManager", true, false)
@@ -88,7 +88,7 @@ func _update_ui() -> void:
 	
 	if friendly_count > 0:
 		btn_select_all.visible = true
-		btn_select_all.text = "🎯 Pilih Semua Pasukan di Sini (%d Divisi)" % friendly_count
+		btn_select_all.text = "Pilih Semua Pasukan (%d Divisi)" % friendly_count
 	else:
 		btn_select_all.visible = false
 	

@@ -86,7 +86,7 @@ func can_recruit(c: Country, data: UnitData, prov: Province) -> Dictionary:
 func recruit_unit(c: Country, data: UnitData, prov: Province) -> ProductionOrder:
 	var check = can_recruit(c, data, prov)
 	if not check.can:
-		print("⚠️ GAGAL REKRUT: %s" % check.reason)
+		print("[WARN] GAGAL REKRUT: %s" % check.reason)
 		return null
 	
 	# Potong sumber daya negara
@@ -110,7 +110,7 @@ func recruit_unit(c: Country, data: UnitData, prov: Province) -> ProductionOrder
 	active_orders.append(order)
 	order_started.emit(order)
 	
-	print("🏭 MEMULAI REKRUTMEN: %s di %s | Durasi: %d hari" % [
+	print("[RECRUIT] MEMULAI REKRUTMEN: %s di %s | Durasi: %d hari" % [
 		data.unit_name, prov.province_name, order.total_days
 	])
 	
@@ -149,7 +149,7 @@ func _on_hourly_tick(_hour: int, _day: int, _month: int, _year: int) -> void:
 
 func _complete_order(order: ProductionOrder) -> void:
 	if military_manager == null:
-		print("❌ GAGAL DEPLOY: MilitaryManager tidak terhubung.")
+		print("[ERROR] GAGAL DEPLOY: MilitaryManager tidak terhubung.")
 		return
 	
 	var unit_inst = military_manager.spawn_unit(order.unit_data, order.country, order.target_province)

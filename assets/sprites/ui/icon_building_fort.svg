@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="fortGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#94a3b8"/>
+      <stop offset="50%" stop-color="#64748b"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+  </defs>
+  <!-- Background Badge Shield -->
+  <polygon points="32,4 58,16 58,40 32,60 6,40 6,16" fill="#0b0f17" stroke="#64748b" stroke-width="2"/>
+  <!-- Bastion Fortress Wall & Crenellations -->
+  <polygon points="12,50 12,24 18,24 18,28 24,28 24,24 30,24 30,28 34,28 34,24 40,24 40,28 46,28 46,24 52,24 52,50" fill="url(#fortGrad)" stroke="#cbd5e1" stroke-width="1.5"/>
+  <!-- Reinforced Steel Bunker Gate -->
+  <path d="M26,50 L26,38 C26,35 29,33 32,33 C35,33 38,35 38,38 L38,50 Z" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
+  <!-- Turret Slits -->
+  <rect x="18" y="34" width="4" height="2" fill="#0f172a"/>
+  <rect x="42" y="34" width="4" height="2" fill="#0f172a"/>
+</svg>

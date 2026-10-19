@@ -116,7 +116,7 @@ func _update_display() -> void:
 		
 		# Tooltip Kas
 		box_money.tooltip_text = (
-			"💰 NERACA KAS NEGARA\n" +
+			"[KAS NEGARA]\n" +
 			"• Pendapatan Wilayah: +$%.1f/hari\n" % b.money.income_prov +
 			"• Biaya Operasional Pabrik: -$%.1f/hari\n" % b.money.expense_buildings +
 			"• Pemeliharaan Divisi Militer: -$%.1f/hari\n" % b.money.expense_units +
@@ -128,7 +128,7 @@ func _update_display() -> void:
 		
 		# Tooltip Baja
 		box_steel.tooltip_text = (
-			"⚙️ PASOKAN INDUSTRI BAJA\n" +
+			"[INDUSTRI BAJA]\n" +
 			"• Tambang Wilayah: +%.1f ton/hari\n" % b.steel.output_prov +
 			"• Pabrik Peleburan Baja: +%.1f ton/hari\n" % b.steel.output_buildings +
 			"• Konsumsi Industri Manufaktur: -%.1f ton/hari\n" % b.steel.input_buildings +
@@ -138,7 +138,7 @@ func _update_display() -> void:
 		
 		# Tooltip Bahan Bakar
 		box_fuel.tooltip_text = (
-			"🛢️ CADANGAN BAHAN BAKAR & MINYAK\n" +
+			"[BAHAN BAKAR & MINYAK]\n" +
 			"• Ladang Minyak: +%.1f barel/hari\n" % b.fuel.output_prov +
 			"• Kilang Minyak Aktif: +%.1f barel/hari\n" % b.fuel.output_refinery +
 			"• Konsumsi Industri: -%.1f barel/hari\n" % b.fuel.input_buildings +
@@ -149,7 +149,7 @@ func _update_display() -> void:
 		
 		# Tooltip Manpower
 		box_manpower.tooltip_text = (
-			"🎖️ CADANGAN TENAGA MANUSIA (MANPOWER)\n" +
+			"[TENAGA MANUSIA - MANPOWER]\n" +
 			"• Total Populasi Negara: %s jiwa\n" % _format_number(b.manpower.total_population) +
 			"• Pertumbuhan / Rekrutmen: +%d personel/hari\n" % b.manpower.growth_daily +
 			"• Digunakan untuk melatih divisi baru & mengisi personel tempur."
@@ -157,17 +157,17 @@ func _update_display() -> void:
 		
 		# Tooltip Persenjataan
 		box_arms.tooltip_text = (
-			"🔫 GUDANG PERSENJATAAN INFANTERI\n" +
+			"[PERSENJATAAN INFANTERI]\n" +
 			"• Produksi Pabrik Senjata: +%.1f unit/hari\n" % b.arms.output_factories +
 			"• Digunakan saat pelatihan divisi baru."
 		)
 		
 		# Tooltip Amunisi
 		box_munitions.tooltip_text = (
-			"🚀 CADANGAN AMUNISI & LOGISTIK TEMPUR\n" +
+			"[AMUNISI & LOGISTIK TEMPUR]\n" +
 			"• Produksi Pabrik Amunisi: +%.1f peti/hari\n" % b.munitions.output_plants +
 			"• Dikonsumsi oleh divisi saat bertempur aktif.\n" +
-			"⚠️ Pasukan tanpa amunisi menderita penalti tempur -50%!"
+			"[PERINGATAN] Pasukan tanpa amunisi menderita penalti tempur -50%!"
 		)
 
 func _format_currency(val: float) -> String:

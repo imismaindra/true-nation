@@ -34,12 +34,12 @@ func save_game(custom_path: String = SAVE_FILE_PATH) -> bool:
 	
 	if main_node == null or time_mgr == null:
 		var err_msg = "Gagal simpan: Sistem utama permainan belum terinisialisasi."
-		print("❌ [SaveManager]: %s" % err_msg)
+		print("[ERROR] [SaveManager]: %s" % err_msg)
 		game_saved.emit(false, err_msg)
 		return false
 	
 	var save_dict: Dictionary = {
-		"version": "0.2.1",
+		"version": "0.3",
 		"timestamp": Time.get_datetime_string_from_system(),
 		"time": {
 			"hour": time_mgr.hour,
@@ -108,7 +108,7 @@ func save_game(custom_path: String = SAVE_FILE_PATH) -> bool:
 	if file == null:
 		var err = FileAccess.get_open_error()
 		var msg = "Gagal menulis file penyimpanan (Error code: %d)." % err
-		print("❌ [SaveManager]: %s" % msg)
+		print("[ERROR] [SaveManager]: %s" % msg)
 		game_saved.emit(false, msg)
 		return false
 	
@@ -117,11 +117,11 @@ func save_game(custom_path: String = SAVE_FILE_PATH) -> bool:
 	file.close()
 	
 	var success_msg = "Permainan berhasil disimpan ke %s!" % custom_path
-	print("💾 [SaveManager]: %s" % success_msg)
+	print("[SAVE] [SaveManager]: %s" % success_msg)
 	game_saved.emit(true, success_msg)
 	
 	if banner != null and banner.has_method("show_notification"):
-		banner.show_notification("💾", "PERMAINAN DISIMPAN: Progres strategis tersimpan aman!", Color(0.3, 0.9, 0.5), 3.5)
+		banner.show_notification("save", "PERMAINAN DISIMPAN: Progres strategis tersimpan aman!", Color(0.3, 0.9, 0.5), 3.5)
 	
 	var audio_mgr = get_node_or_null("/root/AudioManager")
 	if audio_mgr != null and audio_mgr.has_method("play_ui_click"):
@@ -133,14 +133,14 @@ func load_game(custom_path: String = SAVE_FILE_PATH) -> bool:
 	var err_msg: String = ""
 	if not FileAccess.file_exists(custom_path):
 		err_msg = "File penyimpanan tidak ditemukan (%s)." % custom_path
-		print("⚠️ [SaveManager]: %s" % err_msg)
+		print("[WARN] [SaveManager]: %s" % err_msg)
 		game_loaded.emit(false, err_msg)
 		return false
 	
 	var file = FileAccess.open(custom_path, FileAccess.READ)
 	if file == null:
 		err_msg = "Gagal membaca berkas simpanan."
-		print("❌ [SaveManager]: %s" % err_msg)
+		print("[ERROR] [SaveManager]: %s" % err_msg)
 		game_loaded.emit(false, err_msg)
 		return false
 	
@@ -150,7 +150,7 @@ func load_game(custom_path: String = SAVE_FILE_PATH) -> bool:
 	var parsed = JSON.parse_string(content)
 	if parsed == null or typeof(parsed) != TYPE_DICTIONARY:
 		err_msg = "Format file savegame korup atau tidak valid."
-		print("❌ [SaveManager]: %s" % err_msg)
+		print("[ERROR] [SaveManager]: %s" % err_msg)
 		game_loaded.emit(false, err_msg)
 		return false
 	
@@ -164,7 +164,7 @@ func load_game(custom_path: String = SAVE_FILE_PATH) -> bool:
 	
 	if main_node == null or time_mgr == null or map_mgr == null:
 		err_msg = "Gagal memuat: Node peta atau sistem game belum siap."
-		print("❌ [SaveManager]: %s" % err_msg)
+		print("[ERROR] [SaveManager]: %s" % err_msg)
 		game_loaded.emit(false, err_msg)
 		return false
 	
@@ -272,11 +272,11 @@ func load_game(custom_path: String = SAVE_FILE_PATH) -> bool:
 		fog_mgr.update_fog_of_war()
 	
 	var success_msg = "Permainan berhasil dimuat dari %s!" % custom_path
-	print("📂 [SaveManager]: %s" % success_msg)
+	print("[LOAD] [SaveManager]: %s" % success_msg)
 	game_loaded.emit(true, success_msg)
 	
 	if banner != null and banner.has_method("show_notification"):
-		banner.show_notification("📂", "PERMAINAN DIMUAT: Situasi taktis berhasil dipulihkan!", Color(0.3, 0.85, 1.0), 3.5)
+		banner.show_notification("load", "PERMAINAN DIMUAT: Situasi taktis berhasil dipulihkan!", Color(0.3, 0.85, 1.0), 3.5)
 	
 	var audio_mgr = get_node_or_null("/root/AudioManager")
 	if audio_mgr != null and audio_mgr.has_method("play_order_move"):

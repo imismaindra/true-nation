@@ -16,6 +16,11 @@ var selected_units: Array[MilitaryUnit] = []
 
 func _ready() -> void:
 	_collect_units()
+	update_unit_formations()
+	
+	var time_mgr = get_node_or_null("/root/TimeManager")
+	if time_mgr != null:
+		time_mgr.hourly_tick.connect(func(_h, _d, _m, _y): update_unit_formations())
 
 func _collect_units() -> void:
 	units.clear()
@@ -28,6 +33,43 @@ func _register_unit(unit: MilitaryUnit) -> void:
 		units.append(unit)
 		if not unit.clicked.is_connected(_on_unit_clicked):
 			unit.clicked.connect(_on_unit_clicked)
+		if not unit.movement_completed.is_connected(_on_unit_movement_completed):
+			unit.movement_completed.connect(_on_unit_movement_completed)
+
+func _on_unit_movement_completed(_unit: Node2D, _prov: Province) -> void:
+	update_unit_formations()
+
+func update_unit_formations() -> void:
+	var prov_units_map: Dictionary = {}
+	for u in units:
+		if u != null and is_instance_valid(u) and not u.is_moving and u.current_province != null:
+			var p_id = u.current_province.province_id
+			if not prov_units_map.has(p_id):
+				prov_units_map[p_id] = []
+			prov_units_map[p_id].append(u)
+	
+	for p_id in prov_units_map:
+		var u_list: Array = prov_units_map[p_id]
+		var count = u_list.size()
+		if count == 1:
+			u_list[0].formation_offset = Vector2.ZERO
+		elif count == 2:
+			u_list[0].formation_offset = Vector2(-24, 0)
+			u_list[1].formation_offset = Vector2(24, 0)
+		elif count == 3:
+			u_list[0].formation_offset = Vector2(0, -22)
+			u_list[1].formation_offset = Vector2(-26, 16)
+			u_list[2].formation_offset = Vector2(26, 16)
+		elif count == 4:
+			u_list[0].formation_offset = Vector2(-24, -20)
+			u_list[1].formation_offset = Vector2(24, -20)
+			u_list[2].formation_offset = Vector2(-24, 20)
+			u_list[3].formation_offset = Vector2(24, 20)
+		else:
+			var radius = 28.0 + (count * 2.5)
+			for i in range(count):
+				var angle = (float(i) / float(count)) * TAU
+				u_list[i].formation_offset = Vector2(cos(angle), sin(angle)) * radius
 
 func spawn_unit(unit_data: UnitData, owner_c: Country, target_province: Province) -> MilitaryUnit:
 	if units_container == null:
@@ -42,7 +84,8 @@ func spawn_unit(unit_data: UnitData, owner_c: Country, target_province: Province
 	unit_inst.position = target_province.get_center() + target_province.position
 	units_container.add_child(unit_inst)
 	_register_unit(unit_inst)
-	print("🎖️ UNIT BARU DI-DEPLOY: %s di %s (%s)" % [
+	update_unit_formations()
+	print("[UNIT DEPLOYED]: %s di %s (%s)" % [
 		unit_data.unit_name, target_province.province_name, owner_c.country_name
 	])
 	return unit_inst
@@ -87,7 +130,7 @@ func select_units_in_province(prov: Province) -> int:
 		var event_bus = get_node_or_null("/root/EventBus")
 		if event_bus != null:
 			event_bus.unit_selected.emit(selected_unit)
-		print("🎯 KORPS GABUNGAN: %d divisi dipilih di %s" % [selected_units.size(), prov.province_name])
+		print("[CORPS] KORPS GABUNGAN: %d divisi dipilih di %s" % [selected_units.size(), prov.province_name])
 	
 	return selected_units.size()
 

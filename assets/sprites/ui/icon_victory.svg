@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="laurelGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="50%" stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#a16207"/>
+    </linearGradient>
+  </defs>
+  <!-- Central Victory Star -->
+  <polygon points="32,8 37,22 52,22 40,31 44,46 32,37 20,46 24,31 12,22 27,22" fill="url(#laurelGrad)" stroke="#713f12" stroke-width="1.5"/>
+  <!-- Laurel Branch Left -->
+  <path d="M16,48 C12,40 12,28 18,18" fill="none" stroke="url(#laurelGrad)" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Laurel Branch Right -->
+  <path d="M48,48 C52,40 52,28 46,18" fill="none" stroke="url(#laurelGrad)" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Base Chevron Ribbon -->
+  <polygon points="20,52 32,46 44,52 40,58 32,54 24,58" fill="url(#laurelGrad)"/>
+</svg>

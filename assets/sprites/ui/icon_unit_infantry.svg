@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Tactical Box -->
+  <rect x="6" y="14" width="52" height="36" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5"/>
+  <!-- NATO Infantry Crossed Diagonals -->
+  <line x1="6" y1="14" x2="58" y2="50" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+  <line x1="58" y1="14" x2="6" y2="50" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+</svg>

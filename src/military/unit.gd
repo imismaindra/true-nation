@@ -30,14 +30,17 @@ var _target_position: Vector2 = Vector2.ZERO
 @onready var marching_line: Line2D = $MarchingLine
 @onready var combat_particles: CPUParticles2D = $Visual/CombatParticles
 @onready var smoke_particles: CPUParticles2D = $Visual/SmokeParticles
-@onready var selection_ring: Line2D = $Visual/SelectionRing
+@onready var selection_visual: Node2D = $Visual/SelectionVisual
+@onready var retreat_alert: Sprite2D = $Visual/RetreatAlert
 @onready var bg_color_rect: ColorRect = $Visual/BadgeContainer/BgColor
 @onready var flag_bar: ColorRect = $Visual/BadgeContainer/FlagBar
-@onready var label_icon: Label = $Visual/BadgeContainer/HBox/LabelIcon
+@onready var icon_texture: TextureRect = $Visual/BadgeContainer/HBox/IconTexture
 @onready var label_name: Label = $Visual/BadgeContainer/HBox/LabelName
 @onready var bar_organization: ProgressBar = $Visual/BarOrganization
 @onready var bar_movement: ProgressBar = $Visual/BarMovement
 @onready var click_area: Area2D = $ClickArea
+
+var formation_offset: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	if unit_data != null:
@@ -161,9 +164,23 @@ func _process(delta: float) -> void:
 							var tilt = clampf(move_dir.y * (0.18 if unit_sprite.flip_h else -0.18), -0.22, 0.22)
 							unit_sprite.rotation = lerp_angle(unit_sprite.rotation, tilt, delta * 10.0)
 	else:
-		# Saat berhenti, kembalikan chassis darat ke posisi tegak secara natural
+		# Saat siaga / garnison, posisikan unit mengikuti formasi sebar anti-tumpuk
+		if current_province != null:
+			var center_pos = current_province.get_center() + current_province.position
+			var target_formation_pos = center_pos + formation_offset
+			global_position = global_position.lerp(target_formation_pos, delta * 8.0)
+		
+		# Kembalikan chassis darat ke posisi tegak secara natural
 		if unit_sprite != null and unit_data != null and unit_data.domain == UnitData.Domain.LAND:
 			unit_sprite.rotation = lerp_angle(unit_sprite.rotation, 0.0, delta * 6.0)
+	
+	# Peringatan mundur saat moral/organisasi rendah
+	if retreat_alert != null:
+		if current_organization <= 15.0 or (is_in_combat and current_organization <= 25.0):
+			retreat_alert.visible = true
+			retreat_alert.modulate.a = 0.5 + sin(Time.get_ticks_msec() * 0.01) * 0.5
+		else:
+			retreat_alert.visible = false
 	
 	# Marching Line dinamis saat bergerak dan dipilih
 	if marching_line != null:
@@ -243,6 +260,15 @@ func order_move_to(new_province: Province) -> bool:
 	
 	return true
 
+func halt_movement() -> void:
+	if is_moving and not is_in_combat:
+		is_moving = false
+		target_province = null
+		if bar_movement != null:
+			bar_movement.visible = false
+		if marching_line != null:
+			marching_line.visible = false
+
 func _arrive_at_target() -> void:
 	is_moving = false
 	movement_progress = 0.0
@@ -291,11 +317,11 @@ func take_damage(strength_dmg: float, org_dmg: float) -> void:
 	
 	if current_strength <= 0.0:
 		# Unit musnah gugur dalam tugas
-		print("💀 DIVISI %s HANCUR DALAM PERTEMPURAN!" % (unit_data.unit_name if unit_data else "Unit"))
+		print("[KIA] DIVISI %s HANCUR DALAM PERTEMPURAN!" % (unit_data.unit_name if unit_data else "Unit"))
 		queue_free()
 	elif current_organization <= 0.0:
 		# Moral habis, divisi terpaksa mundur
-		print("⚠️ DIVISI %s PUKUL MUNDUR!" % (unit_data.unit_name if unit_data else "Unit"))
+		print("[RETREAT] DIVISI %s PUKUL MUNDUR!" % (unit_data.unit_name if unit_data else "Unit"))
 		retreat()
 
 func retreat() -> void:
@@ -316,38 +342,26 @@ func retreat() -> void:
 
 func set_selected(val: bool) -> void:
 	is_selected = val
-	selection_ring.visible = is_selected
+	if selection_visual != null:
+		selection_visual.visible = is_selected
+	z_index = 12 if is_selected else 2
 
 func _update_visuals() -> void:
-	if owner_country != null:
+	if owner_country != null and flag_bar != null:
 		flag_bar.color = owner_country.map_color
 	
 	if unit_data != null:
-		label_name.text = unit_data.unit_name.substr(0, 12)
-		match unit_data.domain:
-			UnitData.Domain.SEA:
-				if unit_data.unit_type == UnitData.UnitType.SUBMARINE:
-					label_icon.text = "🌊" # Kapal Selam Tempur
-				else:
-					label_icon.text = "🚢" # Armada Kapal Permukaan
-			UnitData.Domain.AIR:
-				if unit_data.unit_type == UnitData.UnitType.HELICOPTER:
-					label_icon.text = "🚁" # Helikopter Serbu
-				elif unit_data.unit_type == UnitData.UnitType.DRONE_UAV:
-					label_icon.text = "📡" # Drone Pengintai
-				else:
-					label_icon.text = "✈️" # Skuadron Jet Tempur
-			UnitData.Domain.LAND:
-				if unit_data.unit_type in [UnitData.UnitType.LIGHT_TANK, UnitData.UnitType.MEDIUM_TANK, UnitData.UnitType.MAIN_BATTLE_TANK]:
-					label_icon.text = "🚜" # Tank / Armor
-				elif unit_data.unit_type in [UnitData.UnitType.ARTILLERY_SP, UnitData.UnitType.MLRS]:
-					label_icon.text = "💥" # Artileri Medan / MLRS
-				else:
-					label_icon.text = "🪖" # Infanteri
+		if label_name != null:
+			label_name.text = unit_data.unit_name.substr(0, 12)
+		if icon_texture != null:
+			icon_texture.texture = unit_data.get_tactical_symbol_texture()
 	
-	bar_organization.value = current_organization
-	selection_ring.visible = is_selected
-	bar_movement.visible = is_moving
+	if bar_organization != null:
+		bar_organization.value = current_organization
+	if selection_visual != null:
+		selection_visual.visible = is_selected
+	if bar_movement != null:
+		bar_movement.visible = is_moving
 
 func _on_click_area_input(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():

@@ -1,54 +1,52 @@
-# True Nation 🌍⚔️
+# True Nation
 > **Modern Grand Strategy RTS (Real-Time with Pause) Engine in Godot 4.7+**
 
-Inspired by *Hearts of Iron IV*, *Victoria*, and *Conflict of Nations*, **True Nation** is a 2D strategic simulation game featuring tri-matra military operations (Army, Navy, Air Force), dynamic provincial territorial control, resource-driven national economy, and an event-driven tick clock engine.
+Inspired by *Hearts of Iron IV*, *Victoria*, and *Conflict of Nations*, **True Nation** is a strategic simulation game featuring tri-matra military operations (Army, Navy, Air Force), dynamic provincial territorial control, resource-driven national economy, and an event-driven tick clock engine set across the Indonesian archipelago.
 
 ---
 
-## 🎮 Core Features (Version 0.2.1)
+## Core Features (Version 0.3)
 
-- ⏱️ **Real-Time with Pause Engine (Tick System)**
+- **C4ISR Tactical Dark UI & 100% Anti-Slop Vector Design**
+  - Crisp high-resolution SVG vector iconography (`assets/sprites/ui/`) replacing all generic emoji strings.
+  - Project-wide C4ISR Tactical Dark Theme (`assets/ui/tactical_theme.tres`) with Deep Navy Slate cards, Cyber Cyan accents, and standardized typography.
+  - Responsive TopBar with daily commodity deltas, integrated balance tooltips, and tactical Save/Load controls.
+
+- **Nusantara Archipelago Theater (37 Strategic Regions)**
+  - Expansive strategic map encompassing 29 land provinces from Sabang to Merauke (Sumatra, Java, Bali/Nusra, Kalimantan, Sulawesi, Maluku, Papua).
+  - 8 Strategic Maritime Chokepoints and ALKI shipping lanes (Malacca Strait, Natuna Sea, Sunda Strait, Karimata Strait, Java Sea, Makassar Strait, Flores Sea, Banda Sea).
+  - Seamless nautical bathymetric ocean chart texture (`ocean_texture.png`) with shelf and deep trench depth contours.
+  - Automatic Green's theorem visual centroid positioning ensuring units, labels, and facilities sit squarely on land.
+
+- **Tactical Unit Counters & Anti-Clumping Formations**
+  - Vector NATO/tactical unit symbology with streamlined organization & strength indicators.
+  - Dynamic tactical offset formations (linear spacing, triangle, 2x2 grid) when multiple divisions occupy the same province.
+  - Flashing tactical retreat alert when organization falls below 15%, plus direct Halt and Retreat commands.
+  - Animated marching lines and orientation tracking towards target provinces.
+
+- **Expanded Modern Military Unit Roster (8 Divisions)**
+  - Infantry Division, Main Battle Tank Division, Field Artillery & MLRS (siege fortress reduction), Attack Helicopter Wing, Recon Drone Wing (UAV with 2-hop radar), Multirole Fighter Wing, Surface Frigate Fleet, and Combat Submarine Fleet (stealth camouflage).
+
+- **Real-Time with Pause Engine (Tick System)**
   - Dynamic game clock (`TimeManager`) emitting hourly, daily, and monthly ticks.
   - Speeds: Pause (`Space`), `1x`, `2x`, `3x`, `5x` (Numeric keys `1`, `2`, `3`, `5`).
   - Interactive top-right HUD control bar with live date display (`01 Jan 2026`).
 
-- 🧭 **Unit Facing Direction & Smooth Orientation (Sprint 1)**
-  - Dynamic smooth rotations for Air Wings and Naval Fleets matching heading trajectory.
-  - Natural horizontal flipping and chassis tilt for Land divisions (Tanks, Infantry, Artillery).
+- **Autonomous Strategic AI**
+  - Independent AI rival manages logistics, constructs munitions plants when stockpiles run low, fortifies contested borders (+35% Defense), and opens naval/air infrastructure.
 
-- 🎖️ **Expanded Modern Military Unit Roster (Sprint 2)**
-  - 8 distinct recruit-ready unit types utilizing 28 modern military top-down sprites:
-    - 🪖 Infantry Division & 🚜 Main Battle Tank Division
-    - 💥 **Field Artillery & MLRS**: High soft attack and siege bombardment reducing enemy fortifications.
-    - 🚁 **Attack Helicopter Wing**: Fast multi-domain anti-tank strike capability.
-    - 📡 **Recon Drone Wing (UAV)**: Low cost, extended 2-hop Fog of War radar line of sight.
-    - ✈️ Multirole Fighter Wing & 🚢 Surface Frigate Fleet
-    - 🌊 **Combat Submarine Fleet**: Subsurface stealth operations undetected by surface radar.
+- **Military Supply Chain & Logistics**
+  - Finished war materials: Arms (assembly) & Munitions (hourly combat consumption).
+  - Supply outage penalties (-50% attack, accelerated morale loss).
 
-- 🤖 **AI Autonomous Construction & Strategic Depth (Sprint 3)**
-  - Independent AI rival manages provincial facilities:
-    - Detects munitions shortages (<100) and constructs Munitions Plants.
-    - Fortifies border provinces with players (+35% Defense).
-    - Erects Airbases and Naval Dockyards for multi-matra recruitment.
-
-- 📊 **Interactive Economic Tooltips & Multi-Unit Army Selection (Sprint 4)**
-  - Comprehensive hover tooltips on TopBar HUD breaking down daily revenue, factory inputs, military upkeep, and net balance.
-  - "Pilih Semua Pasukan di Sini" button on province panel for simultaneous multi-division corps movement.
-
-- 🔊 **Procedural Tactical Sound FX & Atmosphere (Sprint 5)**
-  - Integrated procedural 16-bit audio synthesizer (`AudioManager`):
-    - Military radio chirp & tactical click, movement roger tones, booming cannon fire, automatic rifle bursts, and war siren alarms.
-
-- 💾 **Safe JSON Save & Load Persistence (Sprint 6)**
-  - Complete state persistence (`user://savegame.json`) serializing game time, faction commodities, province ownership, facilities, and all military divisions.
-  - Fast Quick Save (`F5`) and Quick Load (`F9`), with dedicated TopBar UI buttons.
-
-- 🏭 **Military Supply Chain & Logistics**
-  - Finished war materials: 🔫 Arms (assembly) & 🚀 Munitions (hourly combat consumption).
-  - Supply Outage penalties (-50% attack, accelerated morale loss).
-
-- 🌫️ **Dynamic Fog of War**
+- **Dynamic Fog of War**
   - 3-tier visibility (`VISIBLE`, `FOGGED`, `UNKNOWN`) with aerial recon and submarine stealth camouflage.
+
+- **Procedural Tactical Sound FX & Atmosphere**
+  - Integrated procedural 16-bit audio synthesizer (`AudioManager`): radio chirp, tactical click, movement roger tones, cannon fire, rifle bursts, and war sirens.
+
+- **Safe JSON Save & Load Persistence**
+  - Complete state persistence (`user://savegame.json`) serializing time, faction economics, 37 provinces, facilities, and all military divisions. Quick Save (`F5`) and Quick Load (`F9`).
 
 ---
 
