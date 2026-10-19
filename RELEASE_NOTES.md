@@ -2,20 +2,73 @@
 
 **Release Date:** 19 Oktober 2026  
 **Version:** `v0.2.1`  
-**Milestone:** Polish, Tactical Unit Roster, AI Autonomous Construction & Quality of Life (QoL)  
+**Milestone:** Polish, Tactical Unit Roster, AI Autonomous Construction, Audio, Save/Load & Quality of Life (QoL)  
 **Compatibility:** Godot Engine 4.3 - 4.7.2+ (Forward+ & Compatibility)
 
 ---
 
 ## 🌟 Ringkasan Rilis (Release Overview v0.2.1)
 
-Versi **v0.2.1** hadir sebagai pematangan menyeluruh (*polish & tactical expansion*) sebelum melangkah ke Peta Raksasa Nusantara di Versi 0.3. Pembaruan ini mengimplementasikan penuh seluruh **6 Sprint Master Roadmap v0.2.1**:
-1. **Orientasi & Rotasi Halus Pasukan**: Rotasi dinamis haluan jet tempur, kapal perang, serta pembalikan moncong tank secara presisi mengikuti arah gerak.
-2. **Ekspansi Roster Militer Modern**: 4 divisi tempur baru memanfaatkan aset 28 sprite militer (Artileri Medan / MLRS, Helikopter Serbu, Drone Pengintai UAV, Kapal Selam Tempur).
-3. **Kecerdasan Buatan (AI) Konstruksi Fasilitas**: AI rival mampu mendeteksi krisis logistik dan membangun Pabrik Amunisi, Benteng Perbatasan, serta Pangkalan Udara/Laut secara mandiri.
+Versi **v0.2.1** hadir sebagai pematangan menyeluruh (*polish, tactical expansion, & stability hardening*) sebelum melangkah ke Peta Raksasa Kepulauan Nusantara di Versi 0.3. Pembaruan ini mengimplementasikan penuh seluruh **6 Sprint Master Roadmap v0.2.1** serta penyempurnaan parser GDScript 4 untuk Godot 4.7.2:
+
+1. **Orientasi & Rotasi Halus Pasukan (Unit Facing Direction)**: Rotasi dinamis haluan jet tempur, helikopter, dan kapal perang, serta pembalikan moncong tank dan infanteri secara presisi mengikuti arah vektor gerak.
+2. **Ekspansi Roster Militer Modern (4 Divisi Baru)**: Penambahan Artileri Medan / MLRS, Helikopter Serbu, Drone Pengintai UAV, dan Kapal Selam Tempur memanfaatkan lembar 28 sprite militer modern dengan mekanik khusus (reduksi benteng, radar 2-hop, dan kamuflase bawah air).
+3. **Kecerdasan Buatan (AI) Konstruksi Fasilitas**: AI rival mampu mendeteksi krisis logistik dan secara mandiri membangun Pabrik Amunisi, Benteng Perbatasan (+35% Defense), Pangkalan Udara, dan Galangan Kapal.
 4. **Tooltip Neraca Ekonomi & Seleksi Korps Gabungan (Multi-Select)**: Visibilitas rinci pendapatan vs pengeluaran komoditas pada TopBar HUD dan tombol gerak serentak seluruh garnisun provinsi.
-5. **Sistem Tata Suara Atmosfer Tempur (Audio Manager)**: Modul audio singleton prosedural 16-bit mandiri (*radio click, movement order beep, booming cannon blast, automatic gunfire, alert sirens*).
+5. **Sistem Tata Suara Atmosfer Tempur (Audio Manager Prosedural)**: Modul audio singleton 16-bit mandiri tanpa dependensi file eksternal (*radio chirp, tactical click, movement order tone, cannon blast, automatic rifle burst, war alert siren*).
 6. **Sistem Simpan & Muat Permainan (Save & Load Manager)**: Persistensi data lengkap berbasis JSON (`user://savegame.json`) dengan tombol UI dan shortcut F5 (Save) / F9 (Load).
+
+---
+
+## 🚀 Rincian Fitur Baru & Peningkatan (Changelog Versi 0.2.1)
+
+### 1. Orientasi & Arah Hadap Pasukan Dinamis (Sprint 1)
+- **Matra Udara (Jet & Helikopter)**: Haluan pesawat berputar mulus (`lerp_angle`) mengikuti sudut vektor lintasan terbang menuju target.
+- **Matra Laut (Kapal Perang & Kapal Selam)**: Haluan badan kapal berputar otomatis searah garis pelayaran laut.
+- **Matra Darat (Tank & Infanteri)**: Deteksi otomatis arah pergerakan barat vs timur dengan pembalikan horizontal (`flip_h`) dan kemiringan moncong saat mendaki atau bermanuver.
+
+### 2. Ekspansi Roster Militer Modern (Sprint 2)
+Penambahan 4 tipe unit strategis baru di `src/data/units/` dan terintegrasi pada dialog rekrutmen:
+- 💥 **Artileri Medan & MLRS (`artillery_division.tres`)**:
+  - Soft Attack tinggi (24.0) untuk menghancurkan konsentrasi infanteri.
+  - Mekanik khusus pengepungan: Mereduksi efektivitas benteng pertahanan lawan (*fortification siege reduction*).
+- 🚁 **Helikopter Serbu (`attack_helicopter_wing.tres`)**:
+  - Hard Attack tinggi (22.0) sebagai pemburu armada kendaraan lapis baja.
+  - Fleksibilitas pergerakan lintas matra (darat & selat sempit) dengan kecepatan jelajah 110 km/jam.
+- 📡 **Drone Pengintai UAV (`recon_drone_wing.tres`)**:
+  - Biaya rekrutmen dan konsumsi logistik sangat murah.
+  - Sensor radar canggih: Membuka kabut perang (*Fog of War*) hingga 2 hop provinsi di sekitarnya.
+- 🌊 **Kapal Selam Tempur (`submarine_fleet.tres`)**:
+  - Armada siluman matra laut yang tersembunyi dari radar kapal permukaan di luar zona pertempuran langsung.
+
+### 3. Kemandirian Konstruksi AI Rival (Sprint 3)
+- Modul [AIManager](file:///d:/03%20ProjectGame/true-nation/src/ai/ai_manager.gd) kini memiliki nalar industrial:
+  - **Manajemen Krisis Amunisi**: Jika stok amunisi < 100, AI segera mengalokasikan kas dan baja untuk mendirikan Pabrik Amunisi.
+  - **Benteng Perbatasan**: Provinsi AI yang berbatasan langsung dengan teritori pemain secara otomatis dibentengi (+35% bonus pertahanan).
+  - **Infrastruktur Militer**: Otomatis mendirikan Pangkalan Udara dan Galangan Kapal di wilayah pesisir untuk membuka rekrutmen armada laut dan udara.
+
+### 4. Transparansi Ekonomi & Kendali Pasukan Gabungan (Sprint 4)
+- **Hover Tooltips TopBar HUD**:
+  - Mengarahkan kursor ke Uang, Baja, Minyak, Manpower, Senjata, atau Amunisi menampilkan jendela rincian pendapatan harian, input pabrik, pemeliharaan divisi, dan saldo surplus/defisit bersih.
+- **Multi-Unit Selection & Group Move**:
+  - Penambahan tombol **"🎯 Pilih Semua Pasukan di Sini"** pada panel provinsi.
+  - Seluruh divisi yang dipilih dapat diperintahkan serentak dengan satu klik kanan menuju provinsi tujuan.
+
+### 5. Sintesis Audio Prosedural 16-Bit (Sprint 5)
+- Singleton [AudioManager](file:///d:/03%20ProjectGame/true-nation/src/audio/audio_manager.gd) terpasang di `project.godot`:
+  - Menggunakan pembangkit gelombang audio sintetis (*sine, square, frequency sweep, white noise filter*) untuk menghasilkan sampel `AudioStreamWAV` berkualitas tinggi secara runtime tanpa bloat aset file audio eksternal.
+  - Efek suara taktis: Klik UI, penerimaan order komando gerak, dentuman artileri/meriam tank, rentetan senapan mesin, dan sirine darurat saat wilayah diserang.
+
+### 6. Persistensi Penuh Save & Load JSON (Sprint 6)
+- Singleton [SaveManager](file:///d:/03%20ProjectGame/true-nation/src/save/save_manager.gd) terpasang di `project.godot`:
+  - Menyimpan status komprehensif ke `user://savegame.json` meliputi: waktu permainan (jam, hari, bulan, tahun, status pause/speed), komoditas & pendapatan kedua negara, kepemilikan provinsi & seluruh fasilitas aktif, serta daftar unit militer (posisi, HP, moral, dan progres rute gerak).
+  - Tombol aksi cepat **"💾 Simpan"** dan **"📂 Muat"** di TopBar HUD serta shortcut instan keyboard **F5 (Quick Save)** dan **F9 (Quick Load)**.
+
+### 7. Penguatan Parser Engine & Stabilitas Kode (Bug Fixes)
+- Menghilangkan fungsi duplikat `has_building` pada [province.gd](file:///d:/03%20ProjectGame/true-nation/src/map/province.gd) yang sebelumnya memicu parse error `Province`.
+- Menghilangkan variabel redeclaration di scope fungsi yang sama pada [unit.gd](file:///d:/03%20ProjectGame/true-nation/src/military/unit.gd), [combat_system.gd](file:///d:/03%20ProjectGame/true-nation/src/military/combat_system.gd), [ai_manager.gd](file:///d:/03%20ProjectGame/true-nation/src/ai/ai_manager.gd), dan [save_manager.gd](file:///d:/03%20ProjectGame/true-nation/src/save/save_manager.gd).
+- Menambahkan implementasi helper `_format_number` pada [top_bar.gd](file:///d:/03%20ProjectGame/true-nation/src/ui/top_bar.gd).
+- Diverifikasi langsung pada console engine **Godot 4.7.2-stable**: 0 parse errors, 0 runtime crashes.
 
 ---
 
