@@ -1,3 +1,79 @@
+# Release Notes - True Nation v0.2
+
+**Release Date:** 19 Oktober 2026  
+**Version:** `v0.2`  
+**Milestone:** Military Supply Chain, Industry, Tactical AI & Fog of War  
+**Compatibility:** Godot Engine 4.3 - 4.7.2+ (Forward+ & Compatibility)
+
+---
+
+## 🌟 Ringkasan Rilis (Release Overview)
+
+Versi **v0.2** membawa lompatan besar pada aspek simulasi geopolitik dan perang modern dengan memperkenalkan **Rantai Pasok Industri Militer (Model Opsi A: Persenjataan & Amunisi/Rudal)**, antrian rekrutmen dan konstruksi fasilitas, kecerdasan buatan musuh mandiri (Enemy AI), sistem kabut perang dinamis (Fog of War) dengan sensor radar/jet, serta peremajaan visual sprite kendaraan pixel art modern dengan partikel tembakan mesiu.
+
+---
+
+## 🚀 Fitur Baru & Peningkatan (Changelog Versi 0.2)
+
+### 1. Rantai Pasok Industri Militer & Logistik Tempur (Step 8 & 9)
+- Penambahan dua komoditas strategis nasional:
+  - 🔫 **Persenjataan Militer (Arms)**: Komoditas jadi hasil olahan pabrik senjata untuk melatih divisi baru.
+  - 🚀 **Amunisi & Rudal (Munitions)**: Komoditas tempur habis pakai yang dikonsumsi per jam saat pasukan bertempur.
+- **TopBar HUD**: Indikator stok dan laju harian `Arms` dan `Munitions` terpasang secara langsung di bilah komando atas.
+- **Konsumsi Amunisi Tempur Real-Time (`Combat Supply`)**:
+  - Infanteri: 1.5 Amunisi / jam tempur.
+  - Tank MBT: 4.0 Amunisi / jam tempur.
+  - Armada Kapal: 6.0 Rudal/Amunisi / jam tempur.
+  - Skuadron Udara: 8.0 Rudal/Amunisi / jam tempur.
+- **Krisis Logistik Tempur (`Supply Outage`)**: Pasukan yang kehabisan cadangan amunisi nasional menderita penalti ofensif -50% Attack dan keruntuhan moral +50%.
+
+### 2. Sistem Rekrutmen & Antrian Manufaktur (`ProductionManager`)
+- Modul [ProductionManager](file:///d:/03%20ProjectGame/true-nation/src/economy/production_manager.gd) mengelola antrian pelatihan divisi militer secara presisi per jam (*hourly tick*).
+- Dialog pemilihan divisi militer [RecruitmentDialog](file:///d:/03%20ProjectGame/true-nation/src/ui/recruitment_dialog.tscn) terintegrasi pada tombol "🎖️ Rekrut Divisi" di drawer provinsi.
+- Tombol pembatalan pesanan berfitur refund dana dan material sebesar 80%.
+
+### 3. Infrastruktur Provinsi & Pabrik Militer (`BuildingManager`)
+- 7 tipe fasilitas dan pabrik strategis dalam bentuk Resource terpisah di `src/data/buildings/`:
+  - 🔫 **Pabrik Senjata Militer (Arms Factory)**: Memproses 5 baja & $30 kas menjadi `+20 Persenjataan/hari`.
+  - 🚀 **Pabrik Amunisi & Rudal (Munitions Plant)**: Memproses 2 baja, 4 minyak & $40 kas menjadi `+25 Amunisi/hari`.
+  - ⚙️ **Industri Baja Tambang (Steel Foundry)**: Menambah ekstraksi bijih besi `+15 Baja/hari`.
+  - 🛢️ **Kilang Minyak Bumi (Oil Refinery)**: Menambah output pemurnian minyak `+10 Minyak/hari`.
+  - ⚓ **Pangkalan Angkatan Laut (Naval Dockyard)**: Syarat utama perakitan armada kapal perang di wilayah pesisir.
+  - 🛫 **Pangkalan Angkatan Udara (Airbase)**: Syarat perakitan jet tempur & memberikan sensor radar udara.
+  - 🏰 **Benteng Perbatasan (Fortification)**: Memberikan reduksi damage garnisun sebesar `+35% Defense`.
+- Modul [BuildingManager](file:///d:/03%20ProjectGame/true-nation/src/economy/building_manager.gd) dan dialog pembangunan [ConstructionDialog](file:///d:/03%20ProjectGame/true-nation/src/ui/construction_dialog.tscn).
+- Widget melayang [ProductionQueuePanel](file:///d:/03%20ProjectGame/true-nation/src/ui/production_queue_panel.tscn) menampilkan progres pelatihan divisi dan konstruksi fasilitas secara simultan.
+
+### 4. Kecerdasan Buatan Musuh Mandiri (`AIManager`) (Step 10)
+- Kontroler AI non-pemain berbasis Finite-State Machine (FSM) yang aktif setiap detak harian (*daily tick*):
+  - **Evaluasi Strategis**: Menakar rasio kekuatan pasukan dan logistik amunisi.
+  - **Rekrutmen Mandiri**: Otomatis melatih divisi tank atau infanteri baru jika pasukannya menyusut.
+  - **Ekspansi Wilayah Netral**: Menavigasi dan menganeksasi wilayah netral (Sumatera Timur).
+  - **Invasi & Counter-Attack**: Melancarkan serangan balas terkoordinasi jika stok amunisi mencukupi.
+  - **Garnisun Perbatasan**: Menjaga provinsi perbatasan yang rawan diserang pemain.
+  - **BFS Pathfinding**: Navigasi multi-hop antar-pulau melalui jalur darat dan selat laut secara otonom.
+
+### 5. Kabut Perang (Fog of War) & Pengintaian Taktis (Step 11)
+- Modul [FogOfWarManager](file:///d:/03%20ProjectGame/true-nation/src/map/fog_of_war_manager.gd) dengan 3 status visibilitas visual:
+  - `VISIBLE`: Terang penuh (teritori pemain, lokasi unit kawan, dan radius sensor radar/jet).
+  - `FOGGED`: Tertutup kabut remang-remang (pernah dijelajahi, unit musuh tersembunyi).
+  - `UNKNOWN`: Gelap gulita (belum pernah diintai).
+- **Pengintaian Udara**: Skuadron jet tempur membuka kabut perang hingga 1 hop provinsi tetangga.
+- **Kamuflase Tempur**: Unit musuh di luar jangkauan sensor disembunyikan secara visual (`unit.visible = false`).
+
+### 6. Integrasi Sprite Pixel Art & Efek Tempur (Step 12)
+- Visual retro modern autentik dengan sprite pixel art kendaraan:
+  - 🪖 Infanteri berkamuflase taktis dengan rompi tempur (`infantry.png`).
+  - 🚜 Main Battle Tank dengan roda rantai, kubah meriam, dan laras 120mm (`tank.png`).
+  - 🚢 Fregat patroli siluman dengan meriam haluan dan tiang radar (`frigate.png`).
+  - ✈️ Jet tempur supersonik bersayap delta dengan kanopi kaca (`fighter.png`).
+- Animasi mengambang idle (*gentle float*) untuk seluruh sprite kendaraan di atas peta.
+- Garis pandu beranimasi (*Marching Line*) dari posisi unit menuju provinsi target.
+- Efek partikel tembakan meriam (*muzzle flash sparks*) dan asap mesiu (*smoke puff*) saat bertempur.
+- Banner notifikasi pop-up elegan [NotificationBanner](file:///d:/03%20ProjectGame/true-nation/src/ui/notification_banner.tscn) di HUD atas saat wilayah direbut, divisi selesai dilatih, atau terjadi krisis amunisi.
+
+---
+
 # Release Notes - True Nation v0.1
 
 **Release Date:** 19 Oktober 2026  

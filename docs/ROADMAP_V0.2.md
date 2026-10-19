@@ -180,12 +180,12 @@ Mengubah tampilan prototipe geometris menjadi sajian visual game perang retro mo
 ## 📅 Urutan Eksekusi Bertahap (Sprint Breakdown)
 
 ```markdown
-- [ ] **Sprint 1 (Langkah 8)**: Tambah metrik Persenjataan & Amunisi di TopBar, modul ProductionManager, antrian rekrutmen, dan UI rekrutmen pasukan di drawer provinsi.
-- [ ] **Sprint 2 (Langkah 9)**: Data Pabrik Senjata & Pabrik Amunisi, slot infrastruktur provinsi, serta konsumsi amunisi per jam di CombatSystem.
-- [ ] **Sprint 3 (Langkah 10)**: AI Controller untuk faksi rival (evaluasi amunisi, patroli, ekspansi, & counter-attack).
-- [ ] **Sprint 4 (Langkah 11)**: Sistem Fog of War 2D (Shader/Polygon Mask) & jarak pandang sensor radar/jet.
-- [ ] **Sprint 5 (Langkah 12)**: Implementasi sprite pixel art kendaraan, animasi gerak, & efek partikel pertempuran.
-- [ ] **Sprint 6 (Release v0.2)**: Balancing biaya senjata/amunisi, pengujian komprehensif, git commit, & tagging v0.2.
+- [x] **Sprint 1 (Langkah 8)**: Tambah metrik Persenjataan & Amunisi di TopBar, modul ProductionManager, antrian rekrutmen, dan UI rekrutmen pasukan di drawer provinsi. *(SELESAI - 19 Okt 2026)*
+- [x] **Sprint 2 (Langkah 9)**: Data Pabrik Senjata & Pabrik Amunisi, slot infrastruktur provinsi, serta konsumsi amunisi per jam di CombatSystem. *(SELESAI - 19 Okt 2026)*
+- [x] **Sprint 3 (Langkah 10)**: AI Controller untuk faksi rival (evaluasi amunisi, patroli, ekspansi, & counter-attack). *(SELESAI - 19 Okt 2026)*
+- [x] **Sprint 4 (Langkah 11)**: Sistem Fog of War 2D (Shader/Polygon Mask) & jarak pandang sensor radar/jet. *(SELESAI - 19 Okt 2026)*
+- [x] **Sprint 5 (Langkah 12)**: Implementasi sprite pixel art kendaraan, animasi gerak, & efek partikel pertempuran. *(SELESAI - 19 Okt 2026)*
+- [x] **Sprint 6 (Release v0.2)**: Balancing biaya senjata/amunisi, pengujian komprehensif, git commit, & tagging v0.2. *(SELESAI - 19 Okt 2026)*
 ```
 
 ---

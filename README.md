@@ -5,41 +5,43 @@ Inspired by *Hearts of Iron IV*, *Victoria*, and *Conflict of Nations*, **True N
 
 ---
 
-## 🎮 Core Features (Version 0.1)
+## 🎮 Core Features (Version 0.2)
 
 - ⏱️ **Real-Time with Pause Engine (Tick System)**
   - Dynamic game clock (`TimeManager`) emitting hourly, daily, and monthly ticks.
   - Speeds: Pause (`Space`), `1x`, `2x`, `3x`, `5x` (Numeric keys `1`, `2`, `3`, `5`).
   - Interactive top-right HUD control bar with live date display (`01 Jan 2026`).
 
-- 🗺️ **Interactive RTS Map & Camera**
-  - Smooth 2D RTS Camera (`W`, `A`, `S`, `D` pan, mouse-wheel cursor-centered zoom from `0.4x` to `2.5x`, and middle-mouse drag).
-  - 7 connected strategic territories including land provinces and naval ocean straits across 3 nations:
-    - 🔵 **Republic of Valoria** (Player)
-    - 🔴 **Krasnovian Federation** (Rival / Enemy)
-    - 🟡 **Republic of Al-Zubara** (Neutral)
-  - Color-coded borders, hovered visual highlights, and contextual province inspection drawer.
+- 🏭 **Military Supply Chain & Logistics (Option A: Arms & Munitions)**
+  - Raw resources (Steel, Fuel, Money, Manpower) processed into finished war materials:
+    - 🔫 **Arms (Persenjataan)**: Required to recruit and assemble new military divisions.
+    - 🚀 **Munitions (Amunisi & Rudal)**: Consumed hourly by combat units engaged in battle.
+  - **Combat Supply Consumption & Supply Outage**: Units fighting without ammunition suffer a heavy -50% Attack penalty and accelerated morale collapse.
 
-- 📈 **National Economy & Resource Pipeline**
-  - TopBar HUD displaying 4 vital national resources:
-    - 💵 **Money** (Treasury reserves & tax revenue)
-    - ⚙️ **Steel** (Industrial production output)
-    - 🛢️ **Fuel** (Military logistics & operational readiness)
-    - 👥 **Manpower** (Recruitment pool)
-  - Daily automatic yield aggregation and dynamic delta indicators (`+125/day`).
+- 📦 **Recruitment & Construction Queues**
+  - **Unit Training**: `ProductionManager` manages discrete hourly assembly queues with 80% refund cancellation.
+  - **Provincial Infrastructure**: `BuildingManager` manages the construction of 7 strategic facilities:
+    - Arms Factory, Munitions Plant, Steel Foundry, Oil Refinery, Naval Dockyard, Airbase, Fortification.
+  - Floating `ProductionQueuePanel` widget displays real-time progress for both unit training and construction projects.
 
-- 🎖️ **Tri-Matra Armed Forces (Army, Navy, Air Force)**
-  - **Land Forces**: Infantry Division, Armored/Tank Division.
-  - **Naval Forces**: Guided Missile Frigate Fleet (traverses deep sea and straits).
-  - **Air Forces**: Multi-Role Fighter Wing (traverses land and sea zones).
-  - Domain-based movement validation (`LAND`, `SEA`, `AIR`), multi-hop automated waypoint navigation, and hourly movement interpolation.
-  - Interactive unit selection, command dispatching (Right-Click to march), and unit detail inspector drawer.
+- 🤖 **Autonomous Strategic Enemy AI (FSM)**
+  - Independent AI controller (`AIManager`) for rival factions:
+    - Resource assessment, independent division recruitment, neutral province expansion (Sumatera Timur), coordinated counter-attacks, border garrisons, and graph BFS multi-hop pathfinding.
 
-- ⚔️ **Simulated Combat & Territorial Annexation**
-  - Automatic hostile engagement upon co-presence in the same province.
-  - Pulsing battle marker (`⚔️ BATTLE`) with real-time soft/hard attack simulation, defense resistance, and morale attrition.
-  - Morale collapse triggers automated tactical retreat to nearest friendly territory.
-  - Total defeat triggers province annexation and instant territorial border recoloring.
+- 🌫️ **Fog of War & Aerial Reconnaissance**
+  - 3-tier dynamic visibility system (`VISIBLE`, `FOGGED`, `UNKNOWN`).
+  - Reconnaissance sensors: Airbases and Fighter Jets uncover distant provinces and reveal hidden enemy troops.
+  - Enemy units outside sensor lines of sight are visually camouflaged.
+
+- 🎨 **Retro Pixel Art Visuals & Combat FX**
+  - Custom pixel art vehicle sprites (Infantry, Main Battle Tank, Guided Missile Frigate, Fighter Jet).
+  - Dynamic animated Marching Line showing unit destination.
+  - Gunfire muzzle flashes and smoke puff particle effects during combat.
+  - Strategic Pop-Up Notification Banner (`NotificationBanner`) for major geopolitical events.
+
+- 🗺️ **Interactive RTS Map & Tri-Matra Forces**
+  - Smooth 2D RTS Camera with WASD pan and mouse-wheel zoom.
+  - Land, Sea, and Air domains with amphibious sea-lane traversal and coastal harbor requirements.
 
 ---
 
