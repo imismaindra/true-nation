@@ -5,7 +5,7 @@ Inspired by *Hearts of Iron IV*, *Victoria*, and *Conflict of Nations*, **True N
 
 ---
 
-## Core Features (Version 0.3)
+## Core Features (Version 0.3.1)
 
 - **C4ISR Tactical Dark UI & 100% Anti-Slop Vector Design**
   - Crisp high-resolution SVG vector iconography (`assets/sprites/ui/`) replacing all generic emoji strings.

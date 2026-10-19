@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://src/ui/province_panel.gd" id="1_provpanel"]
 
 [node name="ProvincePanel" type="PanelContainer"]
+visible = false
 custom_minimum_size = Vector2(280, 240)
 anchors_preset = 2
 anchor_top = 1.0

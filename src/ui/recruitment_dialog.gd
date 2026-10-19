@@ -24,6 +24,11 @@ var target_province: Province = null
 func _ready() -> void:
 	visible = false
 	btn_close.pressed.connect(func(): visible = false)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if visible and event is InputEventKey and event.is_pressed() and event.keycode == KEY_ESCAPE:
+		visible = false
+		get_viewport().set_input_as_handled()
 	
 	# Load default presets if not injected via Inspector
 	if infantry_data == null:

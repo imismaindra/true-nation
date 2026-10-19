@@ -65,3 +65,7 @@ func _initialize_initial_units() -> void:
 		unit_inf_borneo.global_position = prov_kalsel.get_center() + prov_kalsel.position
 	
 	military_manager.update_unit_formations()
+	
+	var fog_mgr = get_node_or_null("FogOfWarManager")
+	if fog_mgr != null:
+		fog_mgr.update_fog_of_war()

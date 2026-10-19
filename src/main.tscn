@@ -101,6 +101,7 @@ theme_override_constants/margin_left = 12
 theme_override_constants/margin_bottom = 12
 
 [node name="ProvincePanel" parent="UI/BottomLeftContainer" node_paths=PackedStringArray("recruitment_dialog", "construction_dialog") instance=ExtResource("8_provpanel")]
+visible = false
 layout_mode = 2
 player_country = ExtResource("6_player")
 recruitment_dialog = NodePath("../../RecruitmentDialog")
@@ -120,13 +121,16 @@ theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 12
 
 [node name="UnitPanel" parent="UI/BottomRightContainer" node_paths=PackedStringArray("military_manager") instance=ExtResource("9_unitpanel")]
+visible = false
 layout_mode = 2
 military_manager = NodePath("../../../MilitaryManager")
 
 [node name="RecruitmentDialog" parent="UI" node_paths=PackedStringArray("production_manager") instance=ExtResource("12_recdlg")]
+visible = false
 player_country = ExtResource("6_player")
 production_manager = NodePath("../../ProductionManager")
 
 [node name="ConstructionDialog" parent="UI" node_paths=PackedStringArray("building_manager") instance=ExtResource("15_condlg")]
+visible = false
 player_country = ExtResource("6_player")
 building_manager = NodePath("../../BuildingManager")

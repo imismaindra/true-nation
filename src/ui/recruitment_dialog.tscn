@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://src/ui/recruitment_dialog.gd" id="1_recdlg"]
 
 [node name="RecruitmentDialog" type="PanelContainer"]
+visible = false
 custom_minimum_size = Vector2(420, 320)
 anchors_preset = 8
 anchor_left = 0.5

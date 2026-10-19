@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/ui/icon_unit_infantry.svg" id="2_inf"]
 
 [node name="UnitPanel" type="PanelContainer"]
+visible = false
 custom_minimum_size = Vector2(290, 280)
 anchors_preset = 3
 anchor_left = 1.0

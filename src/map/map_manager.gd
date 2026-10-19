@@ -4,7 +4,7 @@ class_name MapManager
 extends Node2D
 
 @export var player_country: Country
-@export var show_connection_lines: bool = true
+@export var show_connection_lines: bool = false
 
 var provinces: Array[Province] = []
 var selected_province: Province = null

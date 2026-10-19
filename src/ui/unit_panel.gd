@@ -32,6 +32,11 @@ func _ready() -> void:
 	if military_manager != null and military_manager.has_signal("unit_selection_changed"):
 		military_manager.unit_selection_changed.connect(_on_unit_selection_changed)
 
+func _unhandled_input(event: InputEvent) -> void:
+	if visible and event is InputEventKey and event.is_pressed() and event.keycode == KEY_ESCAPE:
+		_on_close_pressed()
+		get_viewport().set_input_as_handled()
+
 func _process(_delta: float) -> void:
 	if visible and current_unit != null:
 		_update_movement_status()

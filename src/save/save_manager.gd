@@ -39,7 +39,7 @@ func save_game(custom_path: String = SAVE_FILE_PATH) -> bool:
 		return false
 	
 	var save_dict: Dictionary = {
-		"version": "0.3",
+		"version": "0.3.1",
 		"timestamp": Time.get_datetime_string_from_system(),
 		"time": {
 			"hour": time_mgr.hour,

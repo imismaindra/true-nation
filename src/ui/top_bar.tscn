@@ -21,9 +21,9 @@ script = ExtResource("1_topbar")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
-theme_override_constants/margin_left = 12
+theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 12
+theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
@@ -41,6 +41,7 @@ size_flags_vertical = 4
 color = Color(0.18, 0.48, 0.88, 1)
 
 [node name="LabelCountryName" type="Label" parent="MarginContainer/HBoxContainer/CountrySection"]
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 13
 text = "Republik Nusantara"

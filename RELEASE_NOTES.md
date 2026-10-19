@@ -1,3 +1,50 @@
+# Release Notes - True Nation v0.3.1
+
+**Release Date:** 19 Oktober 2026  
+**Version:** `v0.3.1`  
+**Milestone:** Visual Overhaul, Archipelago Geometry Reshaping, Transparent Sea Zones, Elimination of Black Box Shading, and Complete UI Overlapping Fixes  
+**Compatibility:** Godot Engine 4.3 - 4.7.2+ (Forward+ & Compatibility)
+
+---
+
+## 🌟 Ringkasan Pembaruan Taktis (Hotfix & Visual Polish v0.3.1)
+
+Versi **v0.3.1** dirilis secara khusus sebagai evaluasi kritis terhadap kualitas visual dan kenyamanan bermain (*player experience & aesthetic audit*). Versi ini memperbaiki secara radikal kelemahan grafis dan bug tumpang-tindih UI yang sebelumnya membuat game terlihat seperti prototipe mentah:
+
+1. **Eliminasi Total "Black Box Shading" (Fog of War Realistis)**:
+   - Menghapus pewarnaan 95% hitam pekat pada provinsi `UNKNOWN` di [province.gd](file:///d:/03%20ProjectGame/true-nation/src/map/province.gd).
+   - Menggantikannya dengan sistem *C4ISR Tactical Radar Shading*: daratan kepulauan, garis pantai, dan perbatasan teritori negara tetap tampak indah dan jelas di atas peta, sementara wilayah tanpa sensor hanya diteduhkan secara taktis.
+
+2. **Transparansi Penuh Zona Maritim (Tekstur Samudra Alami)**:
+   - Menghapus poligon balok pekat pada 8 zona laut ALKI.
+   - Zona maritim kini 100% tembus pandang dengan batas taktis tipis dan tipografi nautikal elegan, membiarkan tekstur batimetri samudra (`ocean_texture.png`) mengalir bebas dan megah di seluruh laut Indonesia.
+
+3. **Rekonstruksi Poligon Geografis Nusantara yang Organik & Nyata**:
+   - Mendesain ulang seluruh koordinat poligon 37 provinsi di [world_map.tscn](file:///d:/03%20ProjectGame/true-nation/src/map/world_map.tscn) menggantikan balok-balok kaku sebelumnya:
+     - **Sumatera**: Bentuk pulau diagonal anggun dari puncak Sabang/Aceh hingga Teluk Lampung.
+     - **Jawa**: Kepulauan Jawa yang ramping dan berlekuk alami (Banten, Teluk Batavia, Dataran Priangan, Pantai Utara Jawa Tengah, Yogyakarta, hingga semenanjung Banyuwangi).
+     - **Sulawesi**: Siluet ikonik huruf "K" dengan 4 semenanjung terpisah (Sulsel, Sultra, Sulteng, Sulut).
+     - **Kalimantan**: Bentuk segitiga membulat pulau Borneo yang khas dan proporsional.
+     - **Papua**: Siluet "Kepala Burung" (Papua Barat) dan bentang daratan luas Jayapura - Merauke.
+     - **Bali & Nusa Tenggara**: Busur kepulauan selatan yang presisi.
+
+4. **Pembersihan Jaring Laba-laba Garis Koneksi**:
+   - Menonaktifkan garis `Line2D` statis darat secara bawaan (`show_connection_lines = false`). Peta bersih dari kekacauan wireframe, sementara pergerakan unit tetap dipandu oleh garis mars beranimasi (*marching line*).
+
+5. **Eliminasi Tumpang Tindih UI Total**:
+   - `ProvincePanel`, `UnitPanel`, `RecruitmentDialog`, dan `ConstructionDialog` kini tersimpan dengan `visible = false` secara bawaan di scene `.tscn` dan `main.tscn`. Layar game saat dibuka bersih tanpa tumpukan jendela kosong.
+   - Menambahkan penutupan instan dengan tombol `ESC` pada seluruh panel dan dialog modal.
+   - Menjamin sifat eksklusif: membuka dialog rekrutmen otomatis menutup dialog pembangunan fasilitas, mencegah saling menimpa di tengah layar.
+
+6. **TopBar & Resolusi Standar Layar (1280x720)**:
+   - Resolusi layar diset ke 1280x720 di `project.godot`.
+   - Padding dan lebar minimum label faksi diperbaiki sehingga nama "Republik Nusantara" tidak terpotong di tepi kiri.
+
+7. **Kamera Awal Taktis**:
+   - RTS Camera dimulai pada posisi sentral Jawa & perairan sekitarnya dengan `zoom = 0.65`, menyajikan pemandangan pulau-pulau inti yang siap dikendalikan.
+
+---
+
 # Release Notes - True Nation v0.3
 
 **Release Date:** 19 Oktober 2026  

@@ -35,6 +35,11 @@ func _ready() -> void:
 	if event_bus != null:
 		event_bus.province_clicked.connect(_on_province_clicked)
 
+func _unhandled_input(event: InputEvent) -> void:
+	if visible and event is InputEventKey and event.is_pressed() and event.keycode == KEY_ESCAPE:
+		_on_close_pressed()
+		get_viewport().set_input_as_handled()
+
 func _on_province_clicked(province: Province) -> void:
 	if province == null:
 		visible = false
@@ -103,10 +108,14 @@ func _on_select_all_pressed() -> void:
 		mil_mgr.select_units_in_province(current_province)
 
 func _on_recruit_pressed() -> void:
+	if construction_dialog != null:
+		construction_dialog.visible = false
 	if recruitment_dialog != null and current_province != null:
 		recruitment_dialog.open_for_province(current_province)
 
 func _on_build_pressed() -> void:
+	if recruitment_dialog != null:
+		recruitment_dialog.visible = false
 	if construction_dialog != null and current_province != null:
 		construction_dialog.open_for_province(current_province)
 

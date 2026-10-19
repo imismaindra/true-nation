@@ -33,7 +33,7 @@ connected_provinces = [NodePath("../Prov_Sumut"), NodePath("../Prov_Malaka")]
 base_money_output = 20.0
 base_fuel_output = 30.0
 population = 1400000
-polygon_points = PackedVector2Array(-1580, -430, -1430, -450, -1350, -370, -1390, -310, -1530, -340)
+polygon_points = PackedVector2Array(-1560, -420, -1440, -430, -1360, -350, -1400, -290, -1480, -300, -1540, -360)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("7_wmcn1")])
 
 [node name="Prov_Sumut" type="Area2D" parent="Provinces" unique_id=919023524 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
@@ -47,7 +47,7 @@ base_money_output = 35.0
 base_steel_output = 12.0
 base_fuel_output = 10.0
 population = 3200000
-polygon_points = PackedVector2Array(-1430, -450, -1250, -290, -1200, -210, -1310, -200, -1390, -310, -1350, -370)
+polygon_points = PackedVector2Array(-1440, -430, -1320, -350, -1240, -260, -1300, -210, -1380, -250, -1400, -290, -1360, -350)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("8_phcg3")])
 
 [node name="Prov_Riau" type="Area2D" parent="Provinces" unique_id=1926762939 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
@@ -60,7 +60,7 @@ base_money_output = 30.0
 base_steel_output = 8.0
 base_fuel_output = 55.0
 population = 2200000
-polygon_points = PackedVector2Array(-1250, -290, -1070, -140, -1010, -100, -1120, -70, -1200, -210)
+polygon_points = PackedVector2Array(-1320, -350, -1180, -240, -1120, -130, -1200, -110, -1240, -200, -1240, -260)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("7_wmcn1"), ExtResource("9_w2c21")])
 
 [node name="Prov_Sumbar" type="Area2D" parent="Provinces" unique_id=791381073 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
@@ -74,7 +74,7 @@ base_money_output = 22.0
 base_steel_output = 16.0
 base_fuel_output = 5.0
 population = 1800000
-polygon_points = PackedVector2Array(-1310, -200, -1200, -210, -1120, -70, -1160, 20, -1270, -70)
+polygon_points = PackedVector2Array(-1380, -250, -1300, -210, -1240, -200, -1200, -110, -1230, 20, -1310, -50, -1360, -170)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("10_k7vvr")])
 
 [node name="Prov_Sumsel" type="Area2D" parent="Provinces" unique_id=482315342 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
@@ -87,7 +87,7 @@ base_money_output = 32.0
 base_steel_output = 22.0
 base_fuel_output = 35.0
 population = 2600000
-polygon_points = PackedVector2Array(-1120, -70, -1010, -100, -890, -10, -920, 90, -1060, 70, -1160, 20)
+polygon_points = PackedVector2Array(-1200, -110, -1120, -130, -1000, -30, -990, 70, -1110, 80, -1230, 20)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("7_wmcn1"), ExtResource("11_ptkot")])
 
 [node name="Prov_Lampung" type="Area2D" parent="Provinces" unique_id=1821187823 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
@@ -101,7 +101,7 @@ base_money_output = 26.0
 base_steel_output = 10.0
 base_fuel_output = 8.0
 population = 2000000
-polygon_points = PackedVector2Array(-1060, 70, -920, 90, -840, 150, -860, 210, -950, 220, -1040, 130)
+polygon_points = PackedVector2Array(-1110, 80, -990, 70, -910, 150, -940, 210, -1040, 190, -1100, 140)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("10_k7vvr")])
 
 [node name="Prov_Banten" type="Area2D" parent="Provinces" unique_id=571474780 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
@@ -115,7 +115,7 @@ base_money_output = 32.0
 base_steel_output = 40.0
 base_fuel_output = 5.0
 population = 2800000
-polygon_points = PackedVector2Array(-780, 200, -650, 210, -660, 310, -790, 300)
+polygon_points = PackedVector2Array(-870, 220, -760, 205, -740, 270, -850, 275)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("9_w2c21"), ExtResource("10_k7vvr")])
 
 [node name="Prov_Batavia" type="Area2D" parent="Provinces" unique_id=1115583397 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
@@ -129,7 +129,7 @@ base_money_output = 65.0
 base_steel_output = 16.0
 base_fuel_output = 8.0
 population = 4600000
-polygon_points = PackedVector2Array(-650, 210, -510, 210, -510, 290, -660, 290)
+polygon_points = PackedVector2Array(-760, 205, -640, 205, -640, 260, -740, 270)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("8_phcg3"), ExtResource("12_3q2po")])
 
 [node name="Prov_Jabar" type="Area2D" parent="Provinces" unique_id=739362097 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
@@ -143,7 +143,7 @@ base_money_output = 42.0
 base_steel_output = 24.0
 base_fuel_output = 6.0
 population = 4200000
-polygon_points = PackedVector2Array(-660, 290, -510, 290, -360, 280, -380, 350, -670, 340)
+polygon_points = PackedVector2Array(-640, 205, -520, 210, -500, 280, -640, 280, -640, 260)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("8_phcg3")])
 
 [node name="Prov_Jateng" type="Area2D" parent="Provinces" unique_id=386466775 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
@@ -156,7 +156,7 @@ base_money_output = 36.0
 base_steel_output = 18.0
 base_fuel_output = 4.0
 population = 3800000
-polygon_points = PackedVector2Array(-360, 230, -160, 230, -160, 320, -360, 320)
+polygon_points = PackedVector2Array(-520, 210, -350, 200, -330, 260, -400, 265, -430, 285, -500, 280)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("9_w2c21")])
 
 [node name="Prov_Jogja" type="Area2D" parent="Provinces" unique_id=2041802276 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
@@ -168,7 +168,7 @@ owner_country = ExtResource("2_rp54x")
 connected_provinces = [NodePath("../Prov_Jateng"), NodePath("../Prov_Jatim")]
 base_steel_output = 8.0
 population = 1600000
-polygon_points = PackedVector2Array(-250, 310, -160, 310, -170, 360, -260, 360)
+polygon_points = PackedVector2Array(-430, 285, -400, 265, -330, 260, -340, 295, -420, 295)
 
 [node name="Prov_Jatim" type="Area2D" parent="Provinces" unique_id=691935363 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
 script = ExtResource("4_1nw0s")
@@ -181,7 +181,7 @@ base_money_output = 46.0
 base_steel_output = 32.0
 base_fuel_output = 10.0
 population = 4100000
-polygon_points = PackedVector2Array(-160, 230, 70, 230, 80, 350, -160, 340)
+polygon_points = PackedVector2Array(-350, 200, -170, 195, -90, 225, -80, 275, -220, 290, -330, 260)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("13_o4niy"), ExtResource("11_ptkot")])
 
 [node name="Prov_Bali" type="Area2D" parent="Provinces" unique_id=855779526 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
@@ -194,7 +194,7 @@ connected_provinces = [NodePath("../Prov_Jatim"), NodePath("../Prov_Ntb"), NodeP
 base_money_output = 26.0
 base_steel_output = 6.0
 population = 1300000
-polygon_points = PackedVector2Array(100, 290, 190, 290, 180, 360, 90, 360)
+polygon_points = PackedVector2Array(-60, 240, -10, 225, 20, 255, -20, 280)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("13_o4niy")])
 
 [node name="Prov_Ntb" type="Area2D" parent="Provinces" unique_id=1921252245 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
@@ -207,7 +207,7 @@ connected_provinces = [NodePath("../Prov_Bali"), NodePath("../Prov_Ntt"), NodePa
 base_money_output = 18.0
 base_steel_output = 14.0
 population = 1200000
-polygon_points = PackedVector2Array(210, 300, 430, 300, 420, 370, 200, 370)
+polygon_points = PackedVector2Array(40, 240, 140, 235, 230, 245, 240, 285, 140, 280, 40, 275)
 
 [node name="Prov_Ntt" type="Area2D" parent="Provinces" unique_id=355990829 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
 script = ExtResource("4_1nw0s")
@@ -219,7 +219,7 @@ connected_provinces = [NodePath("../Prov_Ntb"), NodePath("../Prov_Flores"), Node
 base_money_output = 16.0
 base_steel_output = 8.0
 population = 1100000
-polygon_points = PackedVector2Array(450, 310, 700, 320, 680, 410, 440, 390)
+polygon_points = PackedVector2Array(260, 245, 390, 240, 510, 260, 520, 310, 370, 315, 260, 290)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("10_k7vvr")])
 
 [node name="Prov_Kalbar" type="Area2D" parent="Provinces" unique_id=577447079 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
@@ -232,7 +232,7 @@ base_money_output = 22.0
 base_steel_output = 26.0
 base_fuel_output = 10.0
 population = 1500000
-polygon_points = PackedVector2Array(-520, -260, -350, -280, -340, -100, -500, -80)
+polygon_points = PackedVector2Array(-560, -220, -420, -250, -380, -140, -420, -40, -520, -50, -560, -150)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("9_w2c21")])
 
 [node name="Prov_Kalteng" type="Area2D" parent="Provinces" unique_id=1794219438 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
@@ -245,7 +245,7 @@ base_money_output = 20.0
 base_steel_output = 22.0
 base_fuel_output = 16.0
 population = 1200000
-polygon_points = PackedVector2Array(-350, -280, -170, -280, -160, -70, -340, -100)
+polygon_points = PackedVector2Array(-420, -250, -280, -250, -260, -60, -360, -40, -380, -140)
 
 [node name="Prov_Kalsel" type="Area2D" parent="Provinces" unique_id=1000931091 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
 script = ExtResource("4_1nw0s")
@@ -257,7 +257,7 @@ connected_provinces = [NodePath("../Prov_Kalteng"), NodePath("../Prov_Kaltim"), 
 base_steel_output = 30.0
 base_fuel_output = 28.0
 population = 1400000
-polygon_points = PackedVector2Array(-250, -70, -60, -70, -50, 40, -240, 40)
+polygon_points = PackedVector2Array(-280, -150, -170, -140, -150, 0, -240, 10, -260, -60)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("7_wmcn1"), ExtResource("10_k7vvr")])
 
 [node name="Prov_Kaltim" type="Area2D" parent="Provinces" unique_id=1418665380 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
@@ -271,7 +271,7 @@ base_money_output = 36.0
 base_steel_output = 24.0
 base_fuel_output = 65.0
 population = 1800000
-polygon_points = PackedVector2Array(-170, -280, 20, -260, 30, -70, -160, -70)
+polygon_points = PackedVector2Array(-280, -250, -140, -270, -80, -170, -170, -140, -280, -150)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("7_wmcn1"), ExtResource("13_o4niy")])
 
 [node name="Prov_Kaltara" type="Area2D" parent="Provinces" unique_id=1629000197 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
@@ -285,7 +285,7 @@ base_money_output = 20.0
 base_steel_output = 18.0
 base_fuel_output = 42.0
 population = 900000
-polygon_points = PackedVector2Array(-190, -420, 10, -410, 20, -260, -170, -280)
+polygon_points = PackedVector2Array(-280, -370, -130, -360, -140, -270, -280, -250)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("12_3q2po")])
 
 [node name="Prov_Sulsel" type="Area2D" parent="Provinces" unique_id=398935543 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
@@ -298,53 +298,51 @@ connected_provinces = [NodePath("../Prov_Sulteng"), NodePath("../Prov_Sultra"), 
 base_money_output = 32.0
 base_steel_output = 16.0
 base_fuel_output = 5.0
-population = 2500000
-polygon_points = PackedVector2Array(140, 60, 250, 50, 270, 210, 160, 220)
+population = 2400000
+polygon_points = PackedVector2Array(130, -110, 180, -90, 180, 50, 140, 120, 110, 70, 110, -50)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("13_o4niy")])
 
-[node name="Prov_Sulteng" type="Area2D" parent="Provinces" unique_id=604587174 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+[node name="Prov_Sulteng" type="Area2D" parent="Provinces" unique_id=1067277259 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
 script = ExtResource("4_1nw0s")
 province_id = "prov_sulteng"
-province_name = "Sulawesi Tengah"
-terrain = 2
+province_name = "Sulawesi Tengah & Morowali"
 owner_country = ExtResource("5_kvtgn")
 connected_provinces = [NodePath("../Prov_Sulsel"), NodePath("../Prov_Sultra"), NodePath("../Prov_Sulut"), NodePath("../Prov_Makassar")]
-base_money_output = 28.0
-base_steel_output = 48.0
+base_money_output = 25.0
+base_steel_output = 55.0
 base_fuel_output = 12.0
 population = 1300000
-polygon_points = PackedVector2Array(150, -110, 370, -90, 340, 40, 140, 50)
+polygon_points = PackedVector2Array(130, -190, 200, -190, 310, -140, 290, -80, 190, -90, 130, -110)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("9_w2c21")])
 
-[node name="Prov_Sultra" type="Area2D" parent="Provinces" unique_id=965220608 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+[node name="Prov_Sultra" type="Area2D" parent="Provinces" unique_id=1796122495 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
 script = ExtResource("4_1nw0s")
 province_id = "prov_sultra"
 province_name = "Sulawesi Tenggara"
-terrain = 1
+terrain = 4
 owner_country = ExtResource("5_kvtgn")
-connected_provinces = [NodePath("../Prov_Sulsel"), NodePath("../Prov_Sulteng"), NodePath("../Prov_Banda"), NodePath("../Prov_Flores")]
+connected_provinces = [NodePath("../Prov_Sulsel"), NodePath("../Prov_Sulteng"), NodePath("../Prov_Flores"), NodePath("../Prov_Banda")]
 base_money_output = 22.0
-base_steel_output = 42.0
-base_fuel_output = 8.0
+base_steel_output = 45.0
 population = 1100000
-polygon_points = PackedVector2Array(260, 50, 370, 40, 380, 180, 270, 180)
+polygon_points = PackedVector2Array(190, -90, 240, -70, 270, 40, 220, 80, 180, -10)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("9_w2c21")])
 
-[node name="Prov_Sulut" type="Area2D" parent="Provinces" unique_id=1734468335 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+[node name="Prov_Sulut" type="Area2D" parent="Provinces" unique_id=1410948956 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
 script = ExtResource("4_1nw0s")
 province_id = "prov_sulut"
 province_name = "Sulawesi Utara"
 terrain = 4
-owner_country = ExtResource("14_w74hq")
-connected_provinces = [NodePath("../Prov_Sulteng"), NodePath("../Prov_Malut"), NodePath("../Prov_Makassar")]
-base_money_output = 24.0
-base_steel_output = 16.0
-base_fuel_output = 12.0
+owner_country = ExtResource("5_kvtgn")
+connected_provinces = [NodePath("../Prov_Sulteng"), NodePath("../Prov_Makassar"), NodePath("../Prov_Malut")]
+base_money_output = 28.0
+base_steel_output = 14.0
+base_fuel_output = 15.0
 population = 1200000
-polygon_points = PackedVector2Array(240, -250, 460, -190, 440, -110, 230, -110)
-initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("13_o4niy"), ExtResource("10_k7vvr")])
+polygon_points = PackedVector2Array(120, -240, 220, -280, 330, -320, 350, -280, 240, -240, 160, -200)
+initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("13_o4niy"), ExtResource("12_3q2po")])
 
-[node name="Prov_Malut" type="Area2D" parent="Provinces" unique_id=1243142516 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+[node name="Prov_Malut" type="Area2D" parent="Provinces" unique_id=749175482 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
 script = ExtResource("4_1nw0s")
 province_id = "prov_malut"
 province_name = "Maluku Utara"
@@ -352,52 +350,50 @@ terrain = 4
 owner_country = ExtResource("5_kvtgn")
 connected_provinces = [NodePath("../Prov_Sulut"), NodePath("../Prov_Maluku"), NodePath("../Prov_Papua Barat")]
 base_money_output = 20.0
-base_steel_output = 36.0
-base_fuel_output = 5.0
-population = 850000
-polygon_points = PackedVector2Array(500, -210, 670, -200, 650, -60, 490, -70)
-initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("9_w2c21")])
+base_steel_output = 35.0
+population = 800000
+polygon_points = PackedVector2Array(430, -200, 480, -220, 510, -160, 460, -80, 420, -130)
 
-[node name="Prov_Maluku" type="Area2D" parent="Provinces" unique_id=1280785656 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+[node name="Prov_Maluku" type="Area2D" parent="Provinces" unique_id=1107572791 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
 script = ExtResource("4_1nw0s")
 province_id = "prov_maluku"
-province_name = "Kepulauan Maluku"
+province_name = "Maluku & Ambon"
 terrain = 4
 owner_country = ExtResource("5_kvtgn")
-connected_provinces = [NodePath("../Prov_Malut"), NodePath("../Prov_Papua Barat"), NodePath("../Prov_Banda")]
+connected_provinces = [NodePath("../Prov_Malut"), NodePath("../Prov_Banda"), NodePath("../Prov_Papua Barat")]
 base_money_output = 24.0
-base_steel_output = 15.0
-base_fuel_output = 8.0
-population = 980000
-polygon_points = PackedVector2Array(530, -30, 790, -20, 770, 120, 520, 110)
+base_steel_output = 12.0
+base_fuel_output = 20.0
+population = 950000
+polygon_points = PackedVector2Array(470, -20, 590, -30, 640, 40, 560, 60, 480, 40)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("13_o4niy")])
 
-[node name="Prov_Papua Barat" type="Area2D" parent="Provinces" unique_id=4983199 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+[node name="Prov_Papua Barat" type="Area2D" parent="Provinces" unique_id=748231049 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
 script = ExtResource("4_1nw0s")
 province_id = "prov_papua_barat"
 province_name = "Papua Barat"
-terrain = 2
+terrain = 4
 owner_country = ExtResource("5_kvtgn")
 connected_provinces = [NodePath("../Prov_Malut"), NodePath("../Prov_Maluku"), NodePath("../Prov_Papua"), NodePath("../Prov_Papua Selatan")]
-base_money_output = 26.0
-base_steel_output = 22.0
-base_fuel_output = 32.0
-population = 920000
-polygon_points = PackedVector2Array(830, -180, 1060, -170, 1030, -10, 820, -20)
+base_money_output = 28.0
+base_steel_output = 18.0
+base_fuel_output = 45.0
+population = 900000
+polygon_points = PackedVector2Array(720, -140, 840, -160, 870, -70, 810, 10, 740, -20, 700, -90)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("7_wmcn1")])
 
-[node name="Prov_Papua" type="Area2D" parent="Provinces" unique_id=84208377 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
+[node name="Prov_Papua" type="Area2D" parent="Provinces" unique_id=2019481357 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
 script = ExtResource("4_1nw0s")
 province_id = "prov_papua"
-province_name = "Papua Utara"
+province_name = "Papua & Jayapura"
 terrain = 2
 owner_country = ExtResource("5_kvtgn")
 connected_provinces = [NodePath("../Prov_Papua Barat"), NodePath("../Prov_Papua Selatan")]
-base_money_output = 32.0
-base_steel_output = 32.0
+base_money_output = 30.0
+base_steel_output = 28.0
 base_fuel_output = 20.0
 population = 1600000
-polygon_points = PackedVector2Array(1060, -200, 1560, -200, 1560, 40, 1050, 20)
+polygon_points = PackedVector2Array(870, -70, 1060, -90, 1320, -90, 1330, 40, 990, 40, 880, 0)
 initial_buildings = Array[ExtResource("6_ama67")]([ExtResource("10_k7vvr"), ExtResource("9_w2c21")])
 
 [node name="Prov_Papua Selatan" type="Area2D" parent="Provinces" unique_id=288413497 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
@@ -410,7 +406,7 @@ base_money_output = 24.0
 base_steel_output = 16.0
 base_fuel_output = 15.0
 population = 1100000
-polygon_points = PackedVector2Array(1050, 20, 1560, 40, 1550, 260, 1030, 240)
+polygon_points = PackedVector2Array(880, 0, 990, 40, 1330, 40, 1340, 210, 1050, 220, 890, 130)
 
 [node name="Prov_Malaka" type="Area2D" parent="Provinces" unique_id=476506135 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
 script = ExtResource("4_1nw0s")
@@ -422,7 +418,7 @@ base_money_output = 0.0
 base_steel_output = 0.0
 base_fuel_output = 0.0
 population = 0
-polygon_points = PackedVector2Array(-1480, -310, -1090, -140, -1110, -40, -1380, -200)
+polygon_points = PackedVector2Array(-1500, -450, -1100, -220, -1150, -140, -1450, -320)
 
 [node name="Prov_Natuna" type="Area2D" parent="Provinces" unique_id=848244078 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
 script = ExtResource("4_1nw0s")
@@ -434,7 +430,7 @@ base_money_output = 0.0
 base_steel_output = 0.0
 base_fuel_output = 0.0
 population = 0
-polygon_points = PackedVector2Array(-1030, -440, -330, -440, -330, -300, -880, -300)
+polygon_points = PackedVector2Array(-1050, -450, -350, -450, -380, -280, -880, -240)
 
 [node name="Prov_Karimata" type="Area2D" parent="Provinces" unique_id=884379085 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
 script = ExtResource("4_1nw0s")
@@ -446,7 +442,7 @@ base_money_output = 0.0
 base_steel_output = 0.0
 base_fuel_output = 0.0
 population = 0
-polygon_points = PackedVector2Array(-840, -140, -540, -140, -540, 70, -840, 70)
+polygon_points = PackedVector2Array(-880, -130, -580, -130, -580, 70, -880, 70)
 
 [node name="Prov_Sunda" type="Area2D" parent="Provinces" unique_id=791353229 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
 script = ExtResource("4_1nw0s")
@@ -458,7 +454,7 @@ base_money_output = 0.0
 base_steel_output = 0.0
 base_fuel_output = 0.0
 population = 0
-polygon_points = PackedVector2Array(-820, 110, -660, 110, -660, 200, -820, 200)
+polygon_points = PackedVector2Array(-890, 110, -750, 110, -750, 210, -890, 210)
 
 [node name="Prov_Jawa" type="Area2D" parent="Provinces" unique_id=1624154869 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
 script = ExtResource("4_1nw0s")
@@ -470,7 +466,7 @@ base_money_output = 0.0
 base_steel_output = 0.0
 base_fuel_output = 0.0
 population = 0
-polygon_points = PackedVector2Array(-510, 70, 80, 70, 80, 200, -510, 200)
+polygon_points = PackedVector2Array(-650, 70, 60, 70, 60, 190, -650, 190)
 
 [node name="Prov_Makassar" type="Area2D" parent="Provinces" unique_id=726732581 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
 script = ExtResource("4_1nw0s")
@@ -482,7 +478,7 @@ base_money_output = 0.0
 base_steel_output = 0.0
 base_fuel_output = 0.0
 population = 0
-polygon_points = PackedVector2Array(30, -250, 130, -250, 130, 60, 30, 60)
+polygon_points = PackedVector2Array(0, -320, 110, -320, 110, 40, 0, 40)
 
 [node name="Prov_Flores" type="Area2D" parent="Provinces" unique_id=1913440052 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
 script = ExtResource("4_1nw0s")
@@ -494,7 +490,7 @@ base_money_output = 0.0
 base_steel_output = 0.0
 base_fuel_output = 0.0
 population = 0
-polygon_points = PackedVector2Array(110, 200, 540, 200, 540, 290, 110, 290)
+polygon_points = PackedVector2Array(70, 130, 450, 130, 450, 230, 70, 230)
 
 [node name="Prov_Banda" type="Area2D" parent="Provinces" unique_id=1046327640 node_paths=PackedStringArray("connected_provinces") instance=ExtResource("3_0w18e")]
 script = ExtResource("4_1nw0s")
@@ -506,4 +502,4 @@ base_money_output = 0.0
 base_steel_output = 0.0
 base_fuel_output = 0.0
 population = 0
-polygon_points = PackedVector2Array(530, 120, 1010, 120, 1010, 270, 530, 270)
+polygon_points = PackedVector2Array(480, 70, 900, 70, 900, 230, 480, 230)
