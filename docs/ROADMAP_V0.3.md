@@ -1,5 +1,5 @@
 # 🗺️ Master Roadmap — True Nation Versi 0.3
-> **Fokus Rilis: Teater Kepulauan Nusantara, Tekstur Samudra Taktis, Sistem Desain Vektor C4ISR & Eliminasi Penuh AI Slop UI**  
+> **Fokus Rilis: Teater Kepulauan Nusantara, Tekstur Samudra Taktis, Polish Unit Perang, Sistem Desain Vektor C4ISR & Eliminasi Penuh AI Slop UI**  
 > **Target Mesin:** Godot Engine 4.3 - 4.7+ (Forward+ / GL Compatibility)  
 > **Tanggal Perencanaan:** 19 Oktober 2026  
 > **Status Dokumen:** 📋 DOKUMEN RESMI (Disetujui untuk Eksekusi)  
@@ -11,19 +11,23 @@
 
 Pada Versi 0.2.1, seluruh mekanika taktis (rantai pasok senjata/amunisi, 8 roster unit modern, AI konstruksi mandiri, persistensi JSON Save/Load, dan audio prosedural) telah berfungsi secara stabil dan terverifikasi tanpa error pada engine Godot 4.7.2.
 
-Namun, prototipe visual saat ini masih memiliki dua kelemahan mendasar:
+Namun, prototipe visual saat ini masih memiliki tiga kelemahan mendasar:
 1. **Peta Wilayah Mainan (Toy Map)**: Masih menggunakan 7 poligon kotak sederhana tanpa tekstur alam nyata.
-2. **Tampilan "AI Slop" & Bug Layout**:
+2. **Unit Perang Masih Sederhana & Menumpuk (*Unit Clumping*)**:
+   - Token unit masih memakai emoji teks (`🪖`) di badge atas peta.
+   - Pasukan yang berada di provinsi yang sama saling bertumpuk di titik koordinat yang persis sama sehingga sulit diklik dan dilihat.
+   - Jalur gerak (*marching line*) dan animasi tempur masih polos tanpa efek taktis modern.
+3. **Tampilan "AI Slop" & Bug Layout**:
    - Menggunakan literal emoji teks (`🪙`, `⚙️`, `🛢️`, `👥`, `🔫`, `🚀`, `💾`, `📂`, `⚔️`) pada label dan tombol yang menghasilkan tampilan inkonsisten, rendering kotak kosong (*tofu*), dan kesan prototipe generik tak profesional.
    - Panel abu-abu default Godot tanpa tema visual yang kohesif.
    - Text clipping, margin tidak rapi, dan tombol aksi yang belum terstandarisasi.
    - Latar belakang laut berupa warna flat biru polos tanpa tekstur taktis samudra.
 
-**Sasaran Versi 0.3** adalah mentransformasi *True Nation* menjadi sebuah game grand strategy berkelas militer profesional (*C4ISR Modern War Room*) dengan teater kepulauan Nusantara yang megah dan tekstur samudra yang hidup.
+**Sasaran Versi 0.3** adalah mentransformasi *True Nation* menjadi sebuah game grand strategy berkelas militer profesional (*C4ISR Modern War Room*) dengan teater kepulauan Nusantara yang megah, tekstur samudra yang hidup, serta visual unit perang yang taktis dan rapi.
 
 ---
 
-## 🏗️ Struktur Tahapan Pengembangan (5 Sprint)
+## 🏗️ Struktur Tahapan Pengembangan (6 Sprint)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────┐
@@ -38,15 +42,20 @@ Namun, prototipe visual saat ini masih memiliki dua kelemahan mendasar:
 │                                      │ • Standarisasi Dialog Rekrut & Bangun    │
 │                                      │ • Ticker notifikasi militer elegan       │
 ├──────────────────────────────────────┼──────────────────────────────────────────┤
-│ SPRINT 3: Peta Kepulauan Nusantara   │ • Tekstur samudra seamless & batimetri   │
+│ SPRINT 3: Polish Unit Perang         │ • Token militer taktis (NATO/Tactical)   │
+│           & Formasi Anti-Clumping    │ • Formasi sebar otomatis di provinsi     │
+│                                      │ • Garis lintasan beranimasi & Waypoint   │
+│                                      │ • Efek visual tembakan & mundur taktis   │
+├──────────────────────────────────────┼──────────────────────────────────────────┤
+│ SPRINT 4: Peta Kepulauan Nusantara   │ • Tekstur samudra seamless & batimetri   │
 │           & Tekstur Samudra Taktis   │ • 35+ Provinsi realistis seluruh RI      │
 │                                      │ • Selat & Zona Laut Chokepoint strategis │
 ├──────────────────────────────────────┼──────────────────────────────────────────┤
-│ SPRINT 4: Poligon Geografis          │ • Penyesuaian poligon pulau Nusantara    │
+│ SPRINT 5: Poligon Geografis          │ • Penyesuaian poligon pulau Nusantara    │
 │           & Visual Perbatasan Taktis │ • Labeling nama di centroid daratan      │
 │                                      │ • Shading teritorial & rute perkapalan   │
 ├──────────────────────────────────────┼──────────────────────────────────────────┤
-│ SPRINT 5: Integrasi Sistem & Neraca  │ • AI Pathfinding maritim antar-pulau     │
+│ SPRINT 6: Integrasi Sistem & Neraca  │ • AI Pathfinding maritim antar-pulau     │
 │           (AI, Fog of War, Save/Load)│ • Fog of War sensor radar kepulauan      │
 │                                      │ • Skalabilitas Save/Load JSON 35+ prov   │
 └──────────────────────────────────────┴──────────────────────────────────────────┘
@@ -123,7 +132,37 @@ Namun, prototipe visual saat ini masih memiliki dua kelemahan mendasar:
 
 ---
 
-## 🌊 SPRINT 3: Peta Kepulauan Nusantara & Tekstur Samudra Taktis
+## 🪖 SPRINT 3: Polish Visual & Taktis Unit Perang (Unit Tokens, Anti-Clumping & FX)
+
+### 1. Desain Token Militer Taktis (Tactical Unit Counters)
+- **Eliminasi Emoji Token**: Menghapus `text = "🪖"` pada badge unit [unit.tscn](file:///d:/03%20ProjectGame/true-nation/src/military/unit.tscn#L78-L83) dan menggantinya dengan lambang/simbol taktis standar militer berdasarkan matra:
+  - Infanteri: Simbol silang taktis infanteri (`X`) / helm baja vektor.
+  - Kavaleri / MBT: Siluet sabuk roda rantai / laras tank.
+  - Artileri / MLRS: Lambang hulu ledak atau roda meriam artileri.
+  - Udara (Jet, Helikopter, UAV): Sayap delta / rotor helikopter.
+  - Laut (Fregat, Destroyer, Submarine): Siluet lambung kapal / periskop kapal selam.
+- **Badge Status Terpadu**:
+  - Bar Organisasi/Moral (cyan) dan Bar Kekuatan/HP (hijau/merah) dibuat lebih ramping dan presisi.
+  - Border seleksi unit dibuat lebih elegan dengan penanda sudut taktis (*corner brackets*) menggantikan kotak kuning polos.
+
+### 2. Formasi Sebar Otomatis Anti-Tumpuk (*Anti-Clumping Formation*)
+- **Masalah Saat Ini**: Seluruh divisi yang berada di provinsi yang sama diletakkan di titik pusat koordinat yang persis sama, membuat unit saling menumpuk tak terlihat.
+- **Solusi**:
+  - Implementasi fungsi formasi garnisun pada `MilitaryManager`: saat lebih dari 1 unit berada di provinsi yang sama, posisi visual unit dihitung dengan offset formasi teratur (misal: segitiga taktis untuk 3 unit, formasi 2x2 untuk 4 unit).
+  - Saat unit dipilih, unit tersebut terangkat ke foreground (*z_index boost*).
+
+### 3. Polish Pergerakan, Marching Line & Waypoints
+- Garis rute lintasan (*MarchingLine*) dipercantik dengan garis putus-putus taktis (*dashed/dotted line*) beranimasi menuju target provinsi.
+- Menambahkan penanda titik tujuan (*target arrival reticle*) halus di provinsi target.
+- Interpolasi kecepatan akselerasi dan deselerasi gerak yang lebih natural.
+
+### 4. Efek Tempur & Audio Polish
+- Sinkronisasi animasi tembakan meriam (*muzzle flash*) dan partikel asap dengan suara dentuman artileri dan tembakan senapan.
+- Indikator visual saat moral unit hancur (*tactical retreat alert*) dengan ikon mundur taktis berkedip.
+
+---
+
+## 🌊 SPRINT 4: Peta Kepulauan Nusantara & Tekstur Samudra Taktis
 
 ### 1. Tekstur Samudra Taktis (*Seamless Tactical Ocean Texture*)
 - **Kebutuhan Pengguna**: Laut tidak boleh berwarna polos datar, melainkan memiliki tekstur taktis samudra.
@@ -189,7 +228,7 @@ Pembagian wilayah kepulauan Indonesia secara geopolitik dan militer:
 
 ---
 
-## 📐 SPRINT 4: Poligon Geografis & Visual Peta Taktis
+## 📐 SPRINT 5: Poligon Geografis & Visual Peta Taktis
 
 1. **Poligon Realistis**: Membentuk koordinat poligon pulau-pulau besar dan kepulauan Indonesia secara proporsional.
 2. **Kalkulasi Sentroid Otomatis**: Setiap provinsi menghitung titik tengah daratan visual (`_calculate_visual_centroid()`) untuk menempatkan:
@@ -203,7 +242,7 @@ Pembagian wilayah kepulauan Indonesia secara geopolitik dan militer:
 
 ---
 
-## ⚙️ SPRINT 5: Integrasi Sistem, AI Maritim & Validasi Skalabilitas
+## ⚙️ SPRINT 6: Integrasi Sistem, AI Maritim & Validasi Skalabilitas
 
 1. **AI Pathfinding Kepulauan (`AIManager`)**:
    - Optimasi algoritma pencarian rute multi-hop melintasi kombinasi darat, selat, dan perairan bebas.
@@ -220,8 +259,9 @@ Pembagian wilayah kepulauan Indonesia secara geopolitik dan militer:
 
 ## 🏁 Kriteria Keberhasilan Rilis Versi 0.3
 
-- [ ] **Bebas 100% dari Emoji**: Tidak ada satu pun emoji teks di UI; semua digantikan oleh icon SVG berkualitas tinggi.
+- [ ] **Bebas 100% dari Emoji**: Tidak ada satu pun emoji teks di UI maupun badge unit militer; semua digantikan oleh icon SVG berkualitas tinggi.
 - [ ] **Desain C4ISR Profesional**: Theme militer seragam tanpa panel abu-abu polos bawaan Godot.
+- [ ] **Unit Perang Taktis & Anti-Clumping**: Token unit militer rapi, formasi sebar saat di provinsi yang sama, marching line putus-putus beranimasi.
 - [ ] **Tekstur Samudra Terpasang**: Latar belakang laut memiliki tekstur taktis maritim berulang yang dinamis.
 - [ ] **Peta Nusantara 35+ Provinsi Aktif**: Seluruh kepulauan Indonesia dari Sabang sampai Merauke dapat dikendalikan, dipertahankan, dan diinvasi.
 - [ ] **Engine Sehat**: Lulus pengujian `--headless` Godot 4.7.2 tanpa warning dan error.
