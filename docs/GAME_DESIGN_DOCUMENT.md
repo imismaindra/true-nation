@@ -272,22 +272,28 @@ res://
 
 ---
 
-## 7. Rencana Pengembangan Versi 0.2: Industri Militer, Rekrutmen & Intelijen Tempur
+## 7. Rencana Pengembangan Versi 0.2: Rantai Industri Militer, AI & Intelijen Tempur
 Rencana komprehensif, arsitektur data, dan rincian sprint untuk Versi 0.2 telah didokumentasikan secara detail di dokumen terpisah:
 👉 **[ROADMAP_V0.2.md](file:///d:/03%20ProjectGame/true-nation/docs/ROADMAP_V0.2.md)**
+
+### Mengadopsi Model Rantai Pasok Militer (Opsi A: Persenjataan & Amunisi/Rudal):
+Menambahkan 2 komoditas manufaktur militer di atas 4 sumber daya primer:
+- 🔫 **Persenjataan Militer (*Military Arms/Equipment*)**: Diproduksi oleh Pabrik Senjata dari Baja & Kas. Diperlukan untuk melatih divisi baru.
+- 🚀 **Amunisi & Rudal (*Munitions & Missiles*)**: Diproduksi oleh Pabrik Amunisi dari Minyak, Baja & Kas. Dikonsumsi setiap jam pertempuran oleh unit darat, laut, dan udara. Jika stok habis, serangan unit turun drastis (-50% Attack).
 
 ### Ringkasan Milestone Versi 0.2:
 - [ ] **Langkah 8: Sistem Rekrutmen & Antrian Produksi Militer**
   - Pembuatan modul `ProductionManager` dan struct `ProductionOrder`.
-  - Antarmuka rekrutmen pasukan di drawer provinsi (`ProvincePanel`).
-  - Alokasi biaya material (Kas, Baja, Minyak, Manpower) dan durasi hari game.
+  - Integrasi indikator 🔫 Arms dan 🚀 Munitions di TopBar HUD.
+  - Antarmuka rekrutmen pasukan di drawer provinsi (`ProvincePanel`) dengan biaya Kas, Manpower, Persenjataan, dan Bekal Amunisi Awal.
   - Spawning otomatis divisi baru di ibukota/pangkalan saat selesai.
-- [ ] **Langkah 9: Sistem Pembangunan Infrastruktur Provinsi**
-  - Implementasi fasilitas: Pabrik Baja (+Baja/hari), Kilang Minyak (+Minyak/hari), Pangkalan Udara, Galangan Kapal, dan Benteng (+Defense).
+- [ ] **Langkah 9: Sistem Pembangunan Infrastruktur Provinsi & Pabrik Militer**
+  - Implementasi fasilitas: Pabrik Senjata (+Senjata/hari), Pabrik Amunisi (+Amunisi/hari), Tambang Baja, Kilang Minyak, Pangkalan Udara, Galangan Kapal, dan Benteng (+Defense).
+  - Mekanisme konsumsi amunisi per jam di `combat_system.gd` dan status penalti krisis amunisi.
   - Sistem batas slot bangunan per provinsi.
 - [ ] **Langkah 10: Sistem Kecerdasan Buatan Lawan (Enemy AI)**
   - Modul `AIManager` pengendali faksi rival (*Krasnovian Federation*).
-  - Siklus FSM: Evaluasi kekuatan, patroli perbatasan, aneksasi provinsi netral, counter-attack, dan rekrutmen darurat.
+  - Siklus FSM: Evaluasi stok amunisi & rasio kekuatan, patroli perbatasan, aneksasi provinsi netral, counter-attack, dan rekrutmen mandiri.
 - [ ] **Langkah 11: Sistem Kabut Perang (Fog of War) & Pengintaian**
   - Status visibilitas provinsi (`VISIBLE`, `FOGGED`, `UNKNOWN`).
   - Radius pandang sensor jet tempur patroli udara dan pangkalan radar.
