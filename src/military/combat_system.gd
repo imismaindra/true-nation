@@ -113,12 +113,12 @@ func _resolve_hourly_combat_round(battle: Battle) -> void:
 	
 	var def_supply_outage = false
 	if def_country != null:
-		var total_ammo_needed: float = 0.0
+		var def_ammo_needed: float = 0.0
 		for def in battle.defenders:
-			total_ammo_needed += _get_unit_ammo_consumption(def)
+			def_ammo_needed += _get_unit_ammo_consumption(def)
 		
-		if def_country.munitions >= total_ammo_needed:
-			def_country.munitions -= total_ammo_needed
+		if def_country.munitions >= def_ammo_needed:
+			def_country.munitions -= def_ammo_needed
 		else:
 			def_country.munitions = 0.0
 			def_supply_outage = true

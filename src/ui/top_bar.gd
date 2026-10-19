@@ -183,3 +183,10 @@ func _format_manpower(val: int) -> String:
 	elif val >= 1000:
 		return "%.1fK" % (float(val) / 1000.0)
 	return str(val)
+
+func _format_number(n: int) -> String:
+	if n >= 1000000:
+		return "%.1f Juta" % (float(n) / 1000000.0)
+	elif n >= 1000:
+		return "%d Ribu" % int(float(n) / 1000.0)
+	return str(n)

@@ -97,14 +97,17 @@ func _try_manage_construction(rival_provinces: Array) -> void:
 	if building_manager == null or rival_provinces.is_empty():
 		return
 	
+	var order: Object = null
+	var msg: String = ""
+	
 	# 1. Cek Stok Amunisi AI: Jika stok amunisi < 100 dan kapasitas pabrik belum cukup
 	if rival_country.munitions < 100.0 and munitions_plant_data != null:
 		for prov in rival_provinces:
 			if not prov.is_sea_zone() and prov.can_construct_building(munitions_plant_data).can:
 				if building_manager.can_construct(rival_country, munitions_plant_data, prov).can:
-					var order = building_manager.start_construction(rival_country, munitions_plant_data, prov)
+					order = building_manager.start_construction(rival_country, munitions_plant_data, prov)
 					if order != null:
-						var msg = "Membangun Pabrik Amunisi di %s (Stok Amunisi: %.0f)" % [prov.province_name, rival_country.munitions]
+						msg = "Membangun Pabrik Amunisi di %s (Stok Amunisi: %.0f)" % [prov.province_name, rival_country.munitions]
 						print("🤖 [AI RIVAL KONSTRUKSI]: %s" % msg)
 						ai_decision_executed.emit("CONSTRUCT", msg)
 						return
@@ -120,9 +123,9 @@ func _try_manage_construction(rival_provinces: Array) -> void:
 					is_border = true
 					break
 			if is_border and building_manager.can_construct(rival_country, fortification_data, prov).can:
-				var order = building_manager.start_construction(rival_country, fortification_data, prov)
+				order = building_manager.start_construction(rival_country, fortification_data, prov)
 				if order != null:
-					var msg = "Mendirikan Benteng Perbatasan di %s (+35%% Defense)" % prov.province_name
+					msg = "Mendirikan Benteng Perbatasan di %s (+35%% Defense)" % prov.province_name
 					print("🤖 [AI RIVAL KONSTRUKSI]: %s" % msg)
 					ai_decision_executed.emit("CONSTRUCT", msg)
 					return
@@ -137,9 +140,9 @@ func _try_manage_construction(rival_provinces: Array) -> void:
 		if not has_airbase:
 			for prov in rival_provinces:
 				if not prov.is_sea_zone() and building_manager.can_construct(rival_country, airbase_data, prov).can:
-					var order = building_manager.start_construction(rival_country, airbase_data, prov)
+					order = building_manager.start_construction(rival_country, airbase_data, prov)
 					if order != null:
-						var msg = "Membangun Pangkalan Udara di %s" % prov.province_name
+						msg = "Membangun Pangkalan Udara di %s" % prov.province_name
 						print("🤖 [AI RIVAL KONSTRUKSI]: %s" % msg)
 						ai_decision_executed.emit("CONSTRUCT", msg)
 						return
@@ -154,9 +157,9 @@ func _try_manage_construction(rival_provinces: Array) -> void:
 		if not has_dockyard:
 			for prov in rival_provinces:
 				if prov.terrain == Province.TerrainType.COASTAL and building_manager.can_construct(rival_country, naval_dockyard_data, prov).can:
-					var order = building_manager.start_construction(rival_country, naval_dockyard_data, prov)
+					order = building_manager.start_construction(rival_country, naval_dockyard_data, prov)
 					if order != null:
-						var msg = "Membangun Galangan Kapal Perang di %s" % prov.province_name
+						msg = "Membangun Galangan Kapal Perang di %s" % prov.province_name
 						print("🤖 [AI RIVAL KONSTRUKSI]: %s" % msg)
 						ai_decision_executed.emit("CONSTRUCT", msg)
 						return
@@ -227,6 +230,9 @@ func _try_offensive_strike(idle_units: Array) -> bool:
 	if player_country == null:
 		return false
 	
+	var ok: bool = false
+	var msg: String = ""
+	
 	for unit in idle_units:
 		if unit.current_province == null:
 			continue
@@ -235,9 +241,9 @@ func _try_offensive_strike(idle_units: Array) -> bool:
 		for neighbor in unit.current_province.connected_provinces:
 			if neighbor.owner_country == player_country and not neighbor.is_sea_zone():
 				# Serang langsung provinsi perbatasan pemain!
-				var ok = unit.order_move_to(neighbor)
+				ok = unit.order_move_to(neighbor)
 				if ok:
-					var msg = "%s melancarkan serangan invasi ke %s!" % [
+					msg = "%s melancarkan serangan invasi ke %s!" % [
 						unit.unit_data.unit_name if unit.unit_data else "Divisi",
 						neighbor.province_name
 					]
@@ -248,9 +254,9 @@ func _try_offensive_strike(idle_units: Array) -> bool:
 				# Evaluasi lompatan laut ke teritori pemain
 				for sea_neighbor in neighbor.connected_provinces:
 					if sea_neighbor.owner_country == player_country and not sea_neighbor.is_sea_zone():
-						var ok = unit.order_move_to(neighbor)
+						ok = unit.order_move_to(neighbor)
 						if ok:
-							var msg = "%s bergerak melintasi %s menuju %s!" % [
+							msg = "%s bergerak melintasi %s menuju %s!" % [
 								unit.unit_data.unit_name if unit.unit_data else "Divisi",
 								neighbor.province_name,
 								sea_neighbor.province_name

@@ -130,15 +130,16 @@ func save_game(custom_path: String = SAVE_FILE_PATH) -> bool:
 	return true
 
 func load_game(custom_path: String = SAVE_FILE_PATH) -> bool:
+	var err_msg: String = ""
 	if not FileAccess.file_exists(custom_path):
-		var err_msg = "File penyimpanan tidak ditemukan (%s)." % custom_path
+		err_msg = "File penyimpanan tidak ditemukan (%s)." % custom_path
 		print("⚠️ [SaveManager]: %s" % err_msg)
 		game_loaded.emit(false, err_msg)
 		return false
 	
 	var file = FileAccess.open(custom_path, FileAccess.READ)
 	if file == null:
-		var err_msg = "Gagal membaca berkas simpanan."
+		err_msg = "Gagal membaca berkas simpanan."
 		print("❌ [SaveManager]: %s" % err_msg)
 		game_loaded.emit(false, err_msg)
 		return false
@@ -148,7 +149,7 @@ func load_game(custom_path: String = SAVE_FILE_PATH) -> bool:
 	
 	var parsed = JSON.parse_string(content)
 	if parsed == null or typeof(parsed) != TYPE_DICTIONARY:
-		var err_msg = "Format file savegame korup atau tidak valid."
+		err_msg = "Format file savegame korup atau tidak valid."
 		print("❌ [SaveManager]: %s" % err_msg)
 		game_loaded.emit(false, err_msg)
 		return false
@@ -162,7 +163,7 @@ func load_game(custom_path: String = SAVE_FILE_PATH) -> bool:
 	var banner = root.find_child("NotificationBanner", true, false)
 	
 	if main_node == null or time_mgr == null or map_mgr == null:
-		var err_msg = "Gagal memuat: Node peta atau sistem game belum siap."
+		err_msg = "Gagal memuat: Node peta atau sistem game belum siap."
 		print("❌ [SaveManager]: %s" % err_msg)
 		game_loaded.emit(false, err_msg)
 		return false
@@ -203,14 +204,14 @@ func load_game(custom_path: String = SAVE_FILE_PATH) -> bool:
 	
 	if "provinces" in parsed:
 		for p_data in parsed.provinces:
-			var p_id = p_data.get("id", "")
-			if prov_lookup.has(p_id):
-				var prov: Province = prov_lookup[p_id]
+			var prov_id = p_data.get("id", "")
+			if prov_lookup.has(prov_id):
+				var prov: Province = prov_lookup[prov_id]
 				# Set pemilik
-				var owner_key = p_data.get("owner", "")
-				if owner_key == "player":
+				var prov_owner_key = p_data.get("owner", "")
+				if prov_owner_key == "player":
 					prov.owner_country = player_country
-				elif owner_key == "rival":
+				elif prov_owner_key == "rival":
 					prov.owner_country = rival_country
 				else:
 					prov.owner_country = null
@@ -242,10 +243,10 @@ func load_game(custom_path: String = SAVE_FILE_PATH) -> bool:
 			var res_path = u_data.get("unit_data_path", "")
 			if res_path != "" and ResourceLoader.exists(res_path):
 				var u_res = load(res_path) as UnitData
-				var owner_key = u_data.get("owner", "player")
-				var unit_owner = player_country if owner_key == "player" else rival_country
-				var p_id = u_data.get("current_province_id", "")
-				var current_p = prov_lookup.get(p_id, null)
+				var unit_owner_key = u_data.get("owner", "player")
+				var unit_owner = player_country if unit_owner_key == "player" else rival_country
+				var unit_p_id = u_data.get("current_province_id", "")
+				var current_p = prov_lookup.get(unit_p_id, null)
 				
 				if u_res != null and unit_owner != null and current_p != null:
 					var new_unit = mil_mgr.spawn_unit(u_res, unit_owner, current_p)

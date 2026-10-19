@@ -143,15 +143,16 @@ func _process(delta: float) -> void:
 			if move_vec.length_squared() > 1.0:
 				var move_dir = move_vec.normalized()
 				if unit_data != null:
+					var target_rot: float = 0.0
 					match unit_data.domain:
 						UnitData.Domain.AIR:
 							# Matra Udara: Rotasi haluan mengikuti vektor gerak lerp_angle
-							var target_rot = move_dir.angle() + (PI / 2.0)
+							target_rot = move_dir.angle() + (PI / 2.0)
 							unit_sprite.rotation = lerp_angle(unit_sprite.rotation, target_rot, delta * 12.0)
 							unit_sprite.flip_h = false
 						UnitData.Domain.SEA:
 							# Matra Laut: Rotasi badan kapal searah garis pelayaran
-							var target_rot = move_dir.angle() - PI
+							target_rot = move_dir.angle() - PI
 							unit_sprite.rotation = lerp_angle(unit_sprite.rotation, target_rot, delta * 8.0)
 							unit_sprite.flip_h = false
 						UnitData.Domain.LAND:
@@ -278,7 +279,6 @@ func _arrive_at_target() -> void:
 				var old_owner = current_province.owner_country
 				current_province.owner_country = owner_country
 				current_province.update_visuals()
-				var event_bus = get_node_or_null("/root/EventBus")
 				if event_bus != null:
 					event_bus.province_owner_changed.emit(current_province, old_owner, owner_country)
 	
