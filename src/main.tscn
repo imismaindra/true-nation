@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://df583l7p2q7na"]
+[gd_scene load_steps=18 format=3 uid="uid://df583l7p2q7na"]
 
 [ext_resource type="Script" path="res://src/main.gd" id="1_main"]
 [ext_resource type="PackedScene" uid="uid://b7vy5q8m42laq" path="res://src/map/world_map.tscn" id="2_map"]
@@ -15,6 +15,8 @@
 [ext_resource type="PackedScene" uid="uid://ci84x98p23kla" path="res://src/ui/production_queue_panel.tscn" id="13_prodqueue"]
 [ext_resource type="Script" path="res://src/economy/building_manager.gd" id="14_bldmgr"]
 [ext_resource type="PackedScene" path="res://src/ui/construction_dialog.tscn" id="15_condlg"]
+[ext_resource type="Script" path="res://src/ai/ai_manager.gd" id="16_aimgr"]
+[ext_resource type="Resource" uid="uid://b23x18y4m59la" path="res://src/data/countries/rival_country.tres" id="17_rival"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
@@ -48,6 +50,15 @@ player_country = ExtResource("6_player")
 script = ExtResource("14_bldmgr")
 player_country = ExtResource("6_player")
 economy_manager = NodePath("../EconomyManager")
+
+[node name="AIManager" type="Node" parent="." node_paths=PackedStringArray("map_manager", "military_manager", "production_manager", "building_manager")]
+script = ExtResource("16_aimgr")
+rival_country = ExtResource("17_rival")
+player_country = ExtResource("6_player")
+map_manager = NodePath("../WorldMap")
+military_manager = NodePath("../MilitaryManager")
+production_manager = NodePath("../ProductionManager")
+building_manager = NodePath("../BuildingManager")
 
 [node name="RTSCamera2D" parent="." instance=ExtResource("4_cam")]
 position = Vector2(-360, 0)

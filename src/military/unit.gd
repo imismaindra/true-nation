@@ -93,9 +93,8 @@ func order_move_to(new_province: Province) -> bool:
 	if unit_data != null:
 		match unit_data.domain:
 			UnitData.Domain.LAND:
-				# Unit darat tidak bisa masuk zona laut langsung
-				if new_province.is_sea_zone():
-					return false
+				# Unit darat dapat melintasi zona laut sebagai konvoi transportasi laut (embarked)
+				pass
 			UnitData.Domain.SEA:
 				# Armada laut hanya bisa bergerak di zona laut
 				if not new_province.is_sea_zone():
