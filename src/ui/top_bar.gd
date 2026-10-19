@@ -5,8 +5,8 @@ extends PanelContainer
 @export var player_country: Country
 @export var economy_manager: Node
 
-@onready var color_rect_flag: ColorRect = $MarginContainer/HBoxContainer/CountrySection/ColorRectFlag
-@onready var label_country_name: Label = $MarginContainer/HBoxContainer/CountrySection/LabelCountryName
+@onready var color_rect_flag: ColorRect = $MarginContainer/HBoxContainer/CountrySection/FlagFrame/ColorRectFlag
+@onready var label_country_name: Label = $MarginContainer/HBoxContainer/CountrySection/TitleBox/LabelCountryName
 
 @onready var box_money: Control = $MarginContainer/HBoxContainer/ResourceSection/BoxMoney
 @onready var box_steel: Control = $MarginContainer/HBoxContainer/ResourceSection/BoxSteel
@@ -15,12 +15,12 @@ extends PanelContainer
 @onready var box_arms: Control = $MarginContainer/HBoxContainer/ResourceSection/BoxArms
 @onready var box_munitions: Control = $MarginContainer/HBoxContainer/ResourceSection/BoxMunitions
 
-@onready var label_money: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxMoney/LabelMoney
-@onready var label_steel: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxSteel/LabelSteel
-@onready var label_fuel: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxFuel/LabelFuel
-@onready var label_manpower: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxManpower/LabelManpower
-@onready var label_arms: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxArms/LabelArms
-@onready var label_munitions: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxMunitions/LabelMunitions
+@onready var label_money: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxMoney/HBox/LabelMoney
+@onready var label_steel: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxSteel/HBox/LabelSteel
+@onready var label_fuel: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxFuel/HBox/LabelFuel
+@onready var label_manpower: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxManpower/HBox/LabelManpower
+@onready var label_arms: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxArms/HBox/LabelArms
+@onready var label_munitions: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxMunitions/HBox/LabelMunitions
 
 @onready var btn_save: Button = $MarginContainer/HBoxContainer/SaveLoadSection/BtnSave
 @onready var btn_load: Button = $MarginContainer/HBoxContainer/SaveLoadSection/BtnLoad

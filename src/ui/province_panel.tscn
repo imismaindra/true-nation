@@ -1,6 +1,8 @@
-[gd_scene format=3 uid="uid://dp6bvh87k2o1p"]
+[gd_scene load_steps=4 format=3 uid="uid://dp6bvh87k2o1p"]
 
 [ext_resource type="Script" path="res://src/ui/province_panel.gd" id="1_provpanel"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/icon_unit_infantry.svg" id="2_inf"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/icon_building_factory.svg" id="3_fact"]
 
 [node name="ProvincePanel" type="PanelContainer"]
 visible = false
@@ -171,6 +173,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 11
 text = "Rekrut Divisi"
+icon = ExtResource("2_inf")
+expand_icon = true
 
 [node name="BtnBuild" type="Button" parent="MarginContainer/VBoxContainer/ActionButtons"]
 custom_minimum_size = Vector2(0, 32)
@@ -178,3 +182,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 11
 text = "Bangun Fasilitas"
+icon = ExtResource("3_fact")
+expand_icon = true
+

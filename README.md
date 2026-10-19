@@ -5,12 +5,19 @@ Inspired by *Hearts of Iron IV*, *Victoria*, and *Conflict of Nations*, **True N
 
 ---
 
-## Core Features (Version 0.3.1)
+## Core Features (Version 0.3.2)
 
-- **C4ISR Tactical Dark UI & 100% Anti-Slop Vector Design**
+- **Procedural 2D Tactical Ocean Shader & Coastal Shelf Halos**
+  - Continuous mathematical GLSL wave harmonics (`src/shaders/ocean_water.gdshader`) with zero texture tiling artifacts.
+  - Realistic bathymetric depth gradient (Sunda/Sahul continental shelves vs deep oceanic trenches).
+  - Subtle military nautical navigation grid, coordinate crosshairs, and dashed golden Equator line.
+  - Glowing shallow water coastal shelf rims around all 37 Indonesian land masses.
+
+- **Professional Military Command Ribbon UI & MapModeBar**
+  - Full-width top command ribbon with glassmorphism, faction crest, modular resource chips, and NATO chronometer.
+  - Dedicated tactical navigation dock (`MapModeBar`) with instant capital jump (Batavia), full map view, and C4ISR sync.
   - Crisp high-resolution SVG vector iconography (`assets/sprites/ui/`) replacing all generic emoji strings.
-  - Project-wide C4ISR Tactical Dark Theme (`assets/ui/tactical_theme.tres`) with Deep Navy Slate cards, Cyber Cyan accents, and standardized typography.
-  - Responsive TopBar with daily commodity deltas, integrated balance tooltips, and tactical Save/Load controls.
+  - Modernized C4ISR Tactical Dark Theme (`assets/ui/tactical_theme.tres`) with Deep Navy Slate cards and Cyber Cyan accents.
 
 - **Nusantara Archipelago Theater (37 Strategic Regions)**
   - Expansive strategic map encompassing 29 land provinces from Sabang to Merauke (Sumatra, Java, Bali/Nusra, Kalimantan, Sulawesi, Maluku, Papua).

@@ -9,6 +9,7 @@
 custom_minimum_size = Vector2(245, 34)
 offset_right = 245.0
 offset_bottom = 34.0
+theme_type_variation = &"card_panel"
 script = ExtResource("1_4h68q")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]

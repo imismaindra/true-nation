@@ -1,3 +1,43 @@
+# Release Notes - True Nation v0.3.2
+
+**Release Date:** 20 Oktober 2026  
+**Version:** `v0.3.2`  
+**Milestone:** Complete Professional UI & Layout Redesign, Procedural 2D Tactical Ocean Shader, Coastal Shelf Halos, & Theater Navigation Bar  
+**Compatibility:** Godot Engine 4.3 - 4.7.2+ (Forward+ & Compatibility)
+
+---
+
+## 🌟 Ringkasan Pembaruan Taktis (Professional UI & Ocean Redesign v0.3.2)
+
+Versi **v0.3.2** berfokus penuh pada perombakan estetika samudra (*Ocean Graphics Overhaul*) dan redesain tata letak antarmuka pengguna (*Professional UI & Layout Redesign*), mengubah visual game menjadi standar game grand strategy / simulasi militer modern:
+
+1. **Shader Samudra 2D Prosedural Real-Time (`ocean_water.gdshader`)**:
+   - Menghapus sepenuhnya tekstur statis `ocean_texture.png` yang berulang dan bernoda gelap.
+   - Mengimplementasikan shader CanvasItem GLSL prosedural dengan harmoni gelombang laut bertingkat (*multi-harmonic ocean swells*) yang mengalir lembut secara dinamis.
+   - Dilengkapi model kedalaman batimetri (Paparan Dangkal Sunda/Sahul vs Palung Samudra Hindia & Pasifik), garis kisi kartografis peta laut (*Nautical Chart Lat/Long Grid*) dengan *crosshair* navigasi, serta Garis Khatulistiwa (*Equator*) bergaris putus-putus taktis.
+
+2. **Paparan Dangkal Pesisir Pantai (*Coastal Shelf Halos*)**:
+   - Menambahkan lapisan paparan dangkal pesisir (*Coastal Shelf Line2D*) di sekeliling seluruh pulau di [province.tscn](file:///d:/03%20ProjectGame/true-nation/src/map/province.tscn) dan [province.gd](file:///d:/03%20ProjectGame/true-nation/src/map/province.gd).
+   - Menghadirkan transisi air dangkal berona *cyan-azure* yang membaurkan daratan dengan samudra secara organik layaknya citra satelit dan peta maritim profesional.
+
+3. **Redesain Total TopBar Komando Militer**:
+   - Di [top_bar.tscn](file:///d:/03%20ProjectGame/true-nation/src/ui/top_bar.tscn), TopBar ditransformasikan menjadi pita komando penuh (*Full-Width Command Ribbon*) docked di sisi atas layar dengan material *military glassmorphism* gelap dan border aksen cyan bercahaya.
+   - Header Faksi: Nama "REPUBLIK NUSANTARA" dengan lencana bendera logam dan takarir "KOMANDO STRATEGIS | SIAGA 1".
+   - Chip Sumber Daya Modular: Setiap indikator logistik (Dana Kas, Baja, Minyak, Tenaga Tempur, Industri Senjata, Amunisi) ditempatkan dalam modul *card panel* individual yang rapi dengan ikon SVG tajam dan indikator laju pertumbuhan.
+   - Integrasi Kronometer & Kontrol Kecepatan Waktu NATO (`06:00 | 1 Jan 2026`, tombol Pause, 1x, 2x, 3x, 5x).
+
+4. **Bilah Navigasi Cepat & Mode Teater (`MapModeBar`)**:
+   - Menambahkan bilah navigasi taktis di sudut kanan atas layar [map_mode_bar.tscn](file:///d:/03%20ProjectGame/true-nation/src/ui/map_mode_bar.tscn):
+     - `[ 🏛️ Batavia ]`: Melompatkan kamera secara instan ke Ibu Kota Batavia di Pulau Jawa.
+     - `[ ⛶ Peta Penuh ]`: Mengembalikan tampilan panorama seluruh kepulauan Indonesia (Sabang s/d Merauke).
+     - `[ 📡 C4ISR ]`: Sinkronisasi radar dan sensor pemindai kabut perang.
+
+5. **Penyempurnaan Tema Antarmuka & Panel Interaktif**:
+   - Di [tactical_theme.tres](file:///d:/03%20ProjectGame/true-nation/assets/ui/tactical_theme.tres), seluruh stylebox panel, tombol, dan progress bar diperbarui dengan nuansa *dark cyber-command*, border 1px berkilau, dan efek interaksi klik yang tegas.
+   - Menambahkan ikon SVG pada tombol aksi panel wilayah ([ProvincePanel](file:///d:/03%20ProjectGame/true-nation/src/ui/province_panel.tscn)) dan divisi militer ([UnitPanel](file:///d:/03%20ProjectGame/true-nation/src/ui/unit_panel.tscn)).
+
+---
+
 # Release Notes - True Nation v0.3.1
 
 **Release Date:** 19 Oktober 2026  

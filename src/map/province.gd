@@ -31,6 +31,7 @@ enum TerrainType {
 # Node anak internal
 @onready var visual_polygon: Polygon2D = $VisualPolygon
 @onready var border_line: Line2D = $BorderLine
+@onready var coastal_shelf: Line2D = get_node_or_null("CoastalShelf")
 @onready var collision_shape: CollisionPolygon2D = $CollisionPolygon2D
 @onready var label_name: Label = $LabelName
 
@@ -125,6 +126,14 @@ func _setup_polygon_geometry() -> void:
 		var border_pts = polygon_points.duplicate()
 		border_pts.append(polygon_points[0])
 		border_line.points = border_pts
+		
+		# Paparan dangkal pesisir pantai (Coastal Shelf) untuk pulau daratan
+		if coastal_shelf != null:
+			if is_sea_zone():
+				coastal_shelf.visible = false
+			else:
+				coastal_shelf.points = border_pts
+				coastal_shelf.visible = true
 		
 		# Tempatkan label di centroid/titik tengah poligon
 		label_name.position = get_center() - (label_name.size * 0.5)

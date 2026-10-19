@@ -19,20 +19,23 @@
 [ext_resource type="Resource" uid="uid://b23x18y4m59la" path="res://src/data/countries/rival_country.tres" id="17_rival"]
 [ext_resource type="Script" path="res://src/map/fog_of_war_manager.gd" id="18_fog"]
 [ext_resource type="PackedScene" path="res://src/ui/notification_banner.tscn" id="19_banner"]
-[ext_resource type="Texture2D" path="res://assets/sprites/map/ocean_texture.png" id="20_ocean"]
+[ext_resource type="Shader" path="res://src/shaders/ocean_water.gdshader" id="20_oceanshader"]
+[ext_resource type="PackedScene" path="res://src/ui/map_mode_bar.tscn" id="21_mapbar"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ocean"]
+shader = ExtResource("20_oceanshader")
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
 
-[node name="OceanBackground" type="TextureRect" parent="."]
-texture_repeat = 2
+[node name="OceanBackground" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ocean")
 offset_left = -6000.0
 offset_top = -6000.0
 offset_right = 6000.0
 offset_bottom = 6000.0
 mouse_filter = 2
-texture = ExtResource("20_ocean")
-stretch_mode = 1
+color = Color(0.04, 0.08, 0.16, 1)
 
 [node name="WorldMap" parent="." instance=ExtResource("2_map")]
 
@@ -82,6 +85,8 @@ position = Vector2(0, 0)
 player_country = ExtResource("6_player")
 economy_manager = NodePath("../../EconomyManager")
 
+[node name="MapModeBar" parent="UI" instance=ExtResource("21_mapbar")]
+
 [node name="ProductionQueuePanel" parent="UI" node_paths=PackedStringArray("production_manager", "building_manager") instance=ExtResource("13_prodqueue")]
 production_manager = NodePath("../../ProductionManager")
 building_manager = NodePath("../../BuildingManager")
@@ -95,8 +100,8 @@ building_manager = NodePath("../../BuildingManager")
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -280.0
-offset_right = 320.0
+offset_top = -320.0
+offset_right = 340.0
 grow_vertical = 0
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_bottom = 12
@@ -114,8 +119,8 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -320.0
-offset_top = -300.0
+offset_left = -340.0
+offset_top = -320.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_constants/margin_right = 12
