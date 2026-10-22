@@ -5,7 +5,16 @@ Inspired by *Hearts of Iron IV*, *Victoria*, and *Conflict of Nations*, **True N
 
 ---
 
-## Core Features (Version 0.3.2)
+## Core Features (Version 0.4.0)
+
+- **Total War Damage, Battle Reports & Capitulation**
+  - Battles damage provincial infrastructure (up to -80% output), inflict civilian casualties, and generate detailed battle reports.
+  - Countries that lose all land provinces capitulate; encircled divisions surrender and stranded production orders are cancelled.
+  - Province panel exposes infrastructure damage, civilian casualties, and a paid repair action.
+
+- **Multi-Province Movement & Box Selection**
+  - BFS pathfinding across connected provinces with automatic route continuation until enemy contact.
+  - Right-click drag box selection, `Ctrl+A` select-all, larger unit counters, and live personnel readout.
 
 - **Procedural 2D Tactical Ocean Shader & Coastal Shelf Halos**
   - Continuous mathematical GLSL wave harmonics (`src/shaders/ocean_water.gdshader`) with zero texture tiling artifacts.
@@ -68,9 +77,11 @@ Inspired by *Hearts of Iron IV*, *Victoria*, and *Conflict of Nations*, **True N
 | **Select Province** | `Left-Click` on province polygon |
 | **Select Single Unit** | `Left-Click` on unit token |
 | **Select All Units in Province** | Click "🎯 Pilih Semua Pasukan di Sini" on Province Panel |
-| **Move Unit(s)** | `Right-Click` on target destination province |
-| **Quick Save Game** | `F5` or TopBar "💾 Simpan" Button |
-| **Quick Load Game** | `F9` or TopBar "📂 Muat" Button |
+| **Move Unit(s)** | `Right-Click` on target destination province (multi-province route) |
+| **Box Select Units** | `Right-Click Drag` |
+| **Select All Units** | `Ctrl+A` |
+| **Quick Save Game** | `F5` or TopBar Menu "Simpan" |
+| **Quick Load Game** | `F9` or TopBar Menu "Muat" |
 
 ---
 

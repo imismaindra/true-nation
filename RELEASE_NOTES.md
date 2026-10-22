@@ -1,3 +1,47 @@
+# Release Notes - True Nation v0.4.0
+
+**Release Date:** 23 Oktober 2026  
+**Version:** `v0.4.0`  
+**Milestone:** Total War Damage Model, Battle Reports, Multi-Province Movement, Capitulation & Command UI Overhaul  
+**Compatibility:** Godot Engine 4.3 - 4.7.2+ (Forward+ & Compatibility)
+
+---
+
+## 🌟 Ringkasan Pembaruan Taktis (Total War & Command v0.4.0)
+
+Versi **v0.4.0** mengubah pertempuran dari sekadar rebutan wilayah menjadi perang total: setiap pertempuran menghancurkan infrastruktur, memakan korban sipil, dan dapat melumpuhkan sebuah negara. Komando pasukan juga dirombak dengan pathfinding multi-provinsi serta seleksi kotak.
+
+1. **Model Kerusakan Perang & Ekonomi Wilayah**:
+   - Provinsi kini menyimpan `infrastructure_damage` (0-100%) dan `civilian_casualties`; setiap ronde tempur menambah kerusakan serta korban sipil berdasarkan intensitas pertempuran.
+   - Output ekonomi provinsi dan bangunan dikoreksi `get_output_multiplier()` (hingga -80% saat infrastruktur hancur total).
+   - Panel wilayah menampilkan kerusakan infrastruktur dan korban sipil, plus tombol **Perbaiki Infrastruktur** dengan biaya sesuai tingkat kerusakan.
+
+2. **Laporan Tempur (Battle Report)**:
+   - Setiap pertempuran menghasilkan laporan lengkap: jumlah personel awal, gugur militer kedua pihak, korban sipil, serta tambahan dan total kerusakan infrastruktur.
+   - Laporan dikirim lewat `EventBus.battle_report` dan ditampilkan sebagai SITREP multi-baris pada [notification_banner.tscn](file:///d:/03%20ProjectGame/true-nation/src/ui/notification_banner.tscn).
+
+3. **Kapitulasi & Pembubaran Pasukan**:
+   - Negara yang kehilangan seluruh wilayah daratnya dianggap kapitulasi dan sisa divisinya dibubarkan otomatis.
+   - Divisi yang terkepung tanpa jalur mundur menyerah; unit yang tiba tanpa moral/strength tidak dapat menduduki wilayah.
+   - Produksi unit dibatalkan otomatis bila provinsi target direbut pihak lain sebelum selesai dilatih.
+
+4. **Gerak Multi-Provinsi & Seleksi Komando**:
+   - Pathfinding BFS (`find_path`) menyusuri provinsi tetangga yang terhubung; divisi melanjutkan rute otomatis dan berhenti saat kontak musuh.
+   - **Klik kanan + drag** untuk seleksi kotak, **Ctrl+A** untuk memilih seluruh divisi, dan indikator kotak seleksi transparan.
+   - Token unit diperbesar, formasi anti-tumpuk diperlebar, dan panel unit menampilkan jumlah personel aktif/maksimum.
+
+5. **Penyempurnaan UI Komando**:
+   - Panel **Logistik & Konstruksi** kini dapat dilipat, menampilkan jumlah antrean, dan dapat dibuka/tutup dari TopBar.
+   - TopBar memakai MenuButton Simpan/Muat, chip sumber daya dengan delta harian terpisah, serta tombol logistik.
+   - Kontrol waktu memakai tombol toggle tersegmentasi untuk Pause/1x/2x/3x/5x.
+
+6. **Peta Kepulauan Multi-Poligon & Samudra Pixel**:
+   - Provinsi mendukung `polygon_parts` (MultiPolygon) sehingga pulau-pulau tambahan dirender lengkap dengan border dan deteksi klik.
+   - Paparan pesisir (*Coastal Shelf*) dipindahkan ke [world_map.tscn](file:///d:/03%20ProjectGame/true-nation/src/map/world_map.tscn) per pulau; garis batas zona laut dihapus.
+   - Shader samudra dirombak ke palet tropis dengan snap piksel, posterize warna, batimetri, grid navigasi, dan garis khatulistiwa.
+
+---
+
 # Release Notes - True Nation v0.3.2
 
 **Release Date:** 20 Oktober 2026  
