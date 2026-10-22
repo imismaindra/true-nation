@@ -44,6 +44,21 @@ func _ready() -> void:
 		# Update progres setiap jam secara presisi (1 hari = 24 jam)
 		if not time_mgr.hourly_tick.is_connected(_on_hourly_tick):
 			time_mgr.hourly_tick.connect(_on_hourly_tick)
+	
+	var event_bus = get_node_or_null("/root/EventBus")
+	if event_bus != null and event_bus.has_signal("province_owner_changed"):
+		event_bus.province_owner_changed.connect(_on_province_owner_changed)
+
+func _on_province_owner_changed(province_node, old_owner, new_owner) -> void:
+	if province_node == null or old_owner == null or old_owner == new_owner:
+		return
+	for i in range(active_orders.size() - 1, -1, -1):
+		var order = active_orders[i]
+		if order.target_province == province_node and order.country == old_owner:
+			print("[RECRUIT] DIBATALKAN: %s jatuh ke pihak lain sebelum %s selesai dilatih." % [
+				province_node.province_name, order.unit_data.unit_name
+			])
+			cancel_order(order.order_id)
 
 func can_recruit(c: Country, data: UnitData, prov: Province) -> Dictionary:
 	if c == null or data == null or prov == null:
@@ -150,6 +165,14 @@ func _on_hourly_tick(_hour: int, _day: int, _month: int, _year: int) -> void:
 func _complete_order(order: ProductionOrder) -> void:
 	if military_manager == null:
 		print("[ERROR] GAGAL DEPLOY: MilitaryManager tidak terhubung.")
+		return
+	
+	if order.country == null or order.target_province == null or order.target_province.owner_country != order.country:
+		print("[RECRUIT] DEPLOY DIBATALKAN: %s tidak lagi memiliki %s." % [
+			order.country.country_name if order.country != null else "Negara",
+			order.target_province.province_name if order.target_province != null else "wilayah target"
+		])
+		order_cancelled.emit(order)
 		return
 	
 	var unit_inst = military_manager.spawn_unit(order.unit_data, order.country, order.target_province)

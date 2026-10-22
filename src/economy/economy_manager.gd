@@ -68,25 +68,26 @@ func _calculate_income_for(c: Country) -> void:
 	# Hitung seluruh output dari provinsi yang dimiliki negara
 	for prov in map_manager.provinces:
 		if prov.owner_country == c and not prov.is_sea_zone():
-			# Output dasar wilayah
-			total_money += prov.base_money_output
-			total_steel += prov.base_steel_output
-			total_fuel += prov.base_fuel_output
+			# Output dasar wilayah, menurun jika infrastruktur rusak akibat perang
+			var eff = prov.get_output_multiplier()
+			total_money += prov.base_money_output * eff
+			total_steel += prov.base_steel_output * eff
+			total_fuel += prov.base_fuel_output * eff
 			total_pop_growth += int(prov.population * 0.0001) # Pertumbuhan 0.01% per hari
 			
 			# Fasilitas / Pabrik militer & industri
 			for bld in prov.buildings:
 				if bld != null:
 					# Biaya operasional harian & bahan baku
-					total_money -= bld.daily_money_upkeep
-					total_steel -= bld.daily_steel_input
-					total_fuel -= bld.daily_fuel_input
+					total_money -= bld.daily_money_upkeep * eff
+					total_steel -= bld.daily_steel_input * eff
+					total_fuel -= bld.daily_fuel_input * eff
 					
 					# Komoditas yang dihasilkan
-					total_arms += bld.daily_arms_output
-					total_munitions += bld.daily_munitions_output
-					total_steel += bld.daily_steel_output
-					total_fuel += bld.daily_fuel_output
+					total_arms += bld.daily_arms_output * eff
+					total_munitions += bld.daily_munitions_output * eff
+					total_steel += bld.daily_steel_output * eff
+					total_fuel += bld.daily_fuel_output * eff
 	
 	# Pengurangan pemeliharaan divisi militer (Upkeep harian)
 	var mil_mgr = military_manager
@@ -119,21 +120,22 @@ func get_economic_breakdown(c: Country) -> Dictionary:
 	
 	for prov in map_manager.provinces:
 		if prov.owner_country == c and not prov.is_sea_zone():
-			b.money.income_prov += prov.base_money_output
-			b.steel.output_prov += prov.base_steel_output
-			b.fuel.output_prov += prov.base_fuel_output
+			var eff = prov.get_output_multiplier()
+			b.money.income_prov += prov.base_money_output * eff
+			b.steel.output_prov += prov.base_steel_output * eff
+			b.fuel.output_prov += prov.base_fuel_output * eff
 			b.manpower.total_population += prov.population
 			b.manpower.growth_daily += int(prov.population * 0.0001)
 			
 			for bld in prov.buildings:
 				if bld != null:
-					b.money.expense_buildings += bld.daily_money_upkeep
-					b.steel.input_buildings += bld.daily_steel_input
-					b.steel.output_buildings += bld.daily_steel_output
-					b.fuel.input_buildings += bld.daily_fuel_input
-					b.fuel.output_refinery += bld.daily_fuel_output
-					b.arms.output_factories += bld.daily_arms_output
-					b.munitions.output_plants += bld.daily_munitions_output
+					b.money.expense_buildings += bld.daily_money_upkeep * eff
+					b.steel.input_buildings += bld.daily_steel_input * eff
+					b.steel.output_buildings += bld.daily_steel_output * eff
+					b.fuel.input_buildings += bld.daily_fuel_input * eff
+					b.fuel.output_refinery += bld.daily_fuel_output * eff
+					b.arms.output_factories += bld.daily_arms_output * eff
+					b.munitions.output_plants += bld.daily_munitions_output * eff
 	
 	var mil_mgr = military_manager
 	if mil_mgr == null:
