@@ -29,6 +29,7 @@ func _ready() -> void:
 	if event_bus != null:
 		event_bus.province_owner_changed.connect(_on_province_owner_changed)
 		event_bus.combat_started.connect(_on_combat_started)
+		event_bus.battle_report.connect(_on_battle_report)
 	
 	if production_manager != null:
 		production_manager.order_completed.connect(_on_production_completed)
@@ -84,6 +85,31 @@ func _on_province_owner_changed(prov: Province, old_owner: Country, new_owner: C
 func _on_combat_started(prov: Province, _attackers: Array, _defenders: Array) -> void:
 	if prov != null:
 		show_sitrep(_tex_battle, "KONTAK TEMPUR AKTIF: Pertempuran sengit pecah di %s!" % prov.province_name, Color(0.96, 0.62, 0.04), 3.5)
+
+func _on_battle_report(report: Dictionary) -> void:
+	var atk = report.get("attacker_country")
+	var def = report.get("defender_country")
+	if player_country != null and atk != player_country and def != player_country:
+		return
+	var text = "LAPORAN TEMPUR %s: %s vs %s tentara | Gugur militer %s vs %s | Sipil %s | Infrastruktur +%.1f%% (total %.1f%%)" % [
+		report.get("province_name", "Wilayah"),
+		_format_num(report.get("attacker_personnel", 0)),
+		_format_num(report.get("defender_personnel", 0)),
+		_format_num(report.get("attacker_casualties", 0)),
+		_format_num(report.get("defender_casualties", 0)),
+		_format_num(report.get("civilian_casualties", 0)),
+		report.get("infrastructure_damage_added", 0.0),
+		report.get("infrastructure_damage_total", 0.0)
+	]
+	show_sitrep(_tex_battle, text, Color(0.96, 0.62, 0.04), 8.0)
+
+func _format_num(value) -> String:
+	var n = int(value)
+	if n >= 1000000:
+		return "%.1f Juta" % (float(n) / 1000000.0)
+	elif n >= 1000:
+		return ("%.1f Ribu" % (float(n) / 1000.0)).replace(".", ",")
+	return str(n)
 
 func _on_production_completed(order: ProductionManager.ProductionOrder, _unit) -> void:
 	if order != null and order.country == player_country:

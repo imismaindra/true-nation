@@ -6,11 +6,11 @@
 
 [node name="ProvincePanel" type="PanelContainer"]
 visible = false
-custom_minimum_size = Vector2(280, 240)
+custom_minimum_size = Vector2(280, 310)
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -260.0
+offset_top = -330.0
 offset_right = 300.0
 grow_vertical = 0
 script = ExtResource("1_provpanel")
@@ -134,6 +134,28 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "750 Ribu"
 
+[node name="LabelDamageKey" type="Label" parent="MarginContainer/VBoxContainer/ResourceSection/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.6, 0.35, 1)
+theme_override_font_sizes/font_size = 12
+text = "Kerusakan Infra:"
+
+[node name="LabelDamageValue" type="Label" parent="MarginContainer/VBoxContainer/ResourceSection/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0%"
+
+[node name="LabelCivKey" type="Label" parent="MarginContainer/VBoxContainer/ResourceSection/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 12
+text = "Korban Sipil:"
+
+[node name="LabelCivValue" type="Label" parent="MarginContainer/VBoxContainer/ResourceSection/Grid"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+
 [node name="HSeparator2_5" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -152,6 +174,13 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "Belum ada fasilitas"
 autowrap_mode = 2
+
+[node name="BtnRepair" type="Button" parent="MarginContainer/VBoxContainer/BuildingSection"]
+visible = false
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Perbaiki Infrastruktur"
 
 [node name="HSeparator3" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

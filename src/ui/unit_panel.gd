@@ -11,6 +11,7 @@ extends PanelContainer
 @onready var color_rect_flag: ColorRect = $MarginContainer/VBoxContainer/InfoSection/HBoxOwner/ColorRectFlag
 @onready var label_owner: Label = $MarginContainer/VBoxContainer/InfoSection/HBoxOwner/LabelOwnerValue
 @onready var label_status: Label = $MarginContainer/VBoxContainer/StatusSection/LabelStatus
+@onready var label_personnel: Label = $MarginContainer/VBoxContainer/StatusSection/LabelPersonnel
 @onready var bar_strength: ProgressBar = $MarginContainer/VBoxContainer/CombatBars/BarStrength
 @onready var bar_organization: ProgressBar = $MarginContainer/VBoxContainer/CombatBars/BarOrg
 @onready var label_soft_attack: Label = $MarginContainer/VBoxContainer/StatsGrid/LabelSoftVal
@@ -75,6 +76,7 @@ func _update_static_info() -> void:
 	
 	bar_strength.value = (current_unit.current_strength / data.max_strength) * 100.0
 	bar_organization.value = (current_unit.current_organization / data.max_organization) * 100.0
+	_update_personnel_label()
 	
 	label_soft_attack.text = str(data.soft_attack)
 	label_hard_attack.text = str(data.hard_attack)
@@ -91,6 +93,7 @@ func _update_movement_status() -> void:
 	if current_unit.unit_data != null:
 		bar_strength.value = (current_unit.current_strength / current_unit.unit_data.max_strength) * 100.0
 		bar_organization.value = (current_unit.current_organization / current_unit.unit_data.max_organization) * 100.0
+		_update_personnel_label()
 	
 	if current_unit.is_in_combat:
 		label_status.text = "[KONTAK TEMPUR] Terlibat pertempuran sengit!"
@@ -104,6 +107,25 @@ func _update_movement_status() -> void:
 		label_status.modulate = Color(0.8, 0.9, 0.8)
 	
 	_update_button_states()
+
+func _update_personnel_label() -> void:
+	if label_personnel == null or current_unit == null:
+		return
+	label_personnel.text = "Personel: %s / %s" % [
+		_format_num(current_unit.get_personnel()),
+		_format_num(current_unit.get_max_personnel())
+	]
+
+func _format_num(n: int) -> String:
+	var s = str(n)
+	var out = ""
+	var count = 0
+	for i in range(s.length() - 1, -1, -1):
+		out = s[i] + out
+		count += 1
+		if count % 3 == 0 and i > 0:
+			out = "." + out
+	return out
 
 func _update_button_states() -> void:
 	if current_unit == null:

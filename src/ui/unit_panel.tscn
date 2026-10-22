@@ -92,6 +92,12 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "[SIAGA] Bertugas di Ibu Kota Batavia"
 
+[node name="LabelPersonnel" type="Label" parent="MarginContainer/VBoxContainer/StatusSection"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 11
+text = "Personel: 1.000 / 1.000"
+
 [node name="CombatBars" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 3

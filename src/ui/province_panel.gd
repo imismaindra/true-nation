@@ -14,6 +14,9 @@ extends PanelContainer
 @onready var label_steel: Label = $MarginContainer/VBoxContainer/ResourceSection/Grid/LabelSteelValue
 @onready var label_fuel: Label = $MarginContainer/VBoxContainer/ResourceSection/Grid/LabelFuelValue
 @onready var label_population: Label = $MarginContainer/VBoxContainer/ResourceSection/Grid/LabelPopValue
+@onready var label_damage: Label = $MarginContainer/VBoxContainer/ResourceSection/Grid/LabelDamageValue
+@onready var label_civilian_casualties: Label = $MarginContainer/VBoxContainer/ResourceSection/Grid/LabelCivValue
+@onready var btn_repair: Button = $MarginContainer/VBoxContainer/BuildingSection/BtnRepair
 @onready var btn_close: Button = $MarginContainer/VBoxContainer/Header/BtnClose
 @onready var sep_action: HSeparator = $MarginContainer/VBoxContainer/HSeparator3
 @onready var action_buttons: HBoxContainer = $MarginContainer/VBoxContainer/ActionButtons
@@ -30,6 +33,7 @@ func _ready() -> void:
 	btn_recruit.pressed.connect(_on_recruit_pressed)
 	btn_build.pressed.connect(_on_build_pressed)
 	btn_select_all.pressed.connect(_on_select_all_pressed)
+	btn_repair.pressed.connect(_on_repair_pressed)
 	
 	var event_bus = get_node_or_null("/root/EventBus")
 	if event_bus != null:
@@ -68,11 +72,16 @@ func _update_ui() -> void:
 		label_owner.text = "Wilayah Netral / Tanpa Pemilik"
 		color_rect_flag.color = Color(0.5, 0.5, 0.5, 1.0)
 	
-	# Output Ekonomi
-	label_money.text = "+%.1f / hari" % current_province.base_money_output
-	label_steel.text = "+%.1f / hari" % current_province.base_steel_output
-	label_fuel.text = "+%.1f / hari" % current_province.base_fuel_output
+	var player_owns_province = (current_province.owner_country != null and current_province.owner_country == player_country and not current_province.is_sea_zone())
+	
+	# Output Ekonomi (dikoreksi oleh kerusakan infrastruktur)
+	var eff = current_province.get_output_multiplier()
+	label_money.text = "+%.1f / hari" % (current_province.base_money_output * eff)
+	label_steel.text = "+%.1f / hari" % (current_province.base_steel_output * eff)
+	label_fuel.text = "+%.1f / hari" % (current_province.base_fuel_output * eff)
 	label_population.text = "%s jiwa" % _format_number(current_province.population)
+	label_damage.text = "%.1f%%" % current_province.infrastructure_damage
+	label_civilian_casualties.text = "%s jiwa" % _format_number(current_province.civilian_casualties)
 	
 	# Fasilitas & Pabrik
 	if current_province.buildings.is_empty():
@@ -83,6 +92,15 @@ func _update_ui() -> void:
 			if b != null:
 				b_texts.append("• %s" % b.building_name)
 		label_buildings_list.text = "  ".join(b_texts)
+	
+	# Perbaikan hanya tersedia untuk wilayah pemain yang rusak
+	if player_owns_province and current_province.infrastructure_damage > 0.0:
+		var cost = current_province.get_repair_cost_money()
+		btn_repair.visible = true
+		btn_repair.text = "Perbaiki Infrastruktur ($%s)" % _format_number(cost)
+		btn_repair.disabled = player_country == null or player_country.money < cost
+	else:
+		btn_repair.visible = false
 	
 	# Tombol Seleksi Korps Gabungan Seluruh Pasukan di Provinsi Ini (Sprint 4)
 	var mil_mgr = get_tree().root.find_child("MilitaryManager", true, false)
@@ -98,9 +116,8 @@ func _update_ui() -> void:
 		btn_select_all.visible = false
 	
 	# Opsi Aksi (Hanya aktif untuk wilayah darat milik pemain)
-	var is_player_owned = (current_province.owner_country != null and current_province.owner_country == player_country and not current_province.is_sea_zone())
-	action_buttons.visible = is_player_owned
-	sep_action.visible = is_player_owned or friendly_count > 0
+	action_buttons.visible = player_owns_province
+	sep_action.visible = player_owns_province or friendly_count > 0
 
 func _on_select_all_pressed() -> void:
 	var mil_mgr = get_tree().root.find_child("MilitaryManager", true, false)
@@ -118,6 +135,21 @@ func _on_build_pressed() -> void:
 		recruitment_dialog.visible = false
 	if construction_dialog != null and current_province != null:
 		construction_dialog.open_for_province(current_province)
+
+func _on_repair_pressed() -> void:
+	if current_province == null or player_country == null:
+		return
+	if current_province.owner_country != player_country or current_province.is_sea_zone():
+		return
+	var cost = current_province.get_repair_cost_money()
+	if player_country.money < cost:
+		return
+	player_country.money -= cost
+	current_province.repair_infrastructure()
+	var econ_mgr = get_tree().root.find_child("EconomyManager", true, false)
+	if econ_mgr != null and econ_mgr.has_method("recalculate_country_incomes"):
+		econ_mgr.recalculate_country_incomes()
+	_update_ui()
 
 func _on_close_pressed() -> void:
 	visible = false

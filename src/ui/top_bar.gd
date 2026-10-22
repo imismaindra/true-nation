@@ -4,26 +4,40 @@ extends PanelContainer
 
 @export var player_country: Country
 @export var economy_manager: Node
+@export var production_queue_panel: ProductionQueuePanel
+
+const DELTA_POS_COLOR := Color(0.55, 0.78, 0.62)
+const DELTA_NEG_COLOR := Color(0.88, 0.50, 0.50)
 
 @onready var color_rect_flag: ColorRect = $MarginContainer/HBoxContainer/CountrySection/FlagFrame/ColorRectFlag
 @onready var label_country_name: Label = $MarginContainer/HBoxContainer/CountrySection/TitleBox/LabelCountryName
 
-@onready var box_money: Control = $MarginContainer/HBoxContainer/ResourceSection/BoxMoney
-@onready var box_steel: Control = $MarginContainer/HBoxContainer/ResourceSection/BoxSteel
-@onready var box_fuel: Control = $MarginContainer/HBoxContainer/ResourceSection/BoxFuel
-@onready var box_manpower: Control = $MarginContainer/HBoxContainer/ResourceSection/BoxManpower
-@onready var box_arms: Control = $MarginContainer/HBoxContainer/ResourceSection/BoxArms
-@onready var box_munitions: Control = $MarginContainer/HBoxContainer/ResourceSection/BoxMunitions
+@onready var box_money: Control = $MarginContainer/HBoxContainer/ResourceSection/ResourceHBox/BoxMoney
+@onready var box_steel: Control = $MarginContainer/HBoxContainer/ResourceSection/ResourceHBox/BoxSteel
+@onready var box_fuel: Control = $MarginContainer/HBoxContainer/ResourceSection/ResourceHBox/BoxFuel
+@onready var box_manpower: Control = $MarginContainer/HBoxContainer/ResourceSection/ResourceHBox/BoxManpower
+@onready var box_arms: Control = $MarginContainer/HBoxContainer/ResourceSection/ResourceHBox/BoxArms
+@onready var box_munitions: Control = $MarginContainer/HBoxContainer/ResourceSection/ResourceHBox/BoxMunitions
 
-@onready var label_money: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxMoney/HBox/LabelMoney
-@onready var label_steel: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxSteel/HBox/LabelSteel
-@onready var label_fuel: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxFuel/HBox/LabelFuel
-@onready var label_manpower: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxManpower/HBox/LabelManpower
-@onready var label_arms: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxArms/HBox/LabelArms
-@onready var label_munitions: Label = $MarginContainer/HBoxContainer/ResourceSection/BoxMunitions/HBox/LabelMunitions
+@onready var label_money: Label = $MarginContainer/HBoxContainer/ResourceSection/ResourceHBox/BoxMoney/Values/LabelMoneyValue
+@onready var label_steel: Label = $MarginContainer/HBoxContainer/ResourceSection/ResourceHBox/BoxSteel/Values/LabelSteelValue
+@onready var label_fuel: Label = $MarginContainer/HBoxContainer/ResourceSection/ResourceHBox/BoxFuel/Values/LabelFuelValue
+@onready var label_manpower: Label = $MarginContainer/HBoxContainer/ResourceSection/ResourceHBox/BoxManpower/Values/LabelManpowerValue
+@onready var label_arms: Label = $MarginContainer/HBoxContainer/ResourceSection/ResourceHBox/BoxArms/Values/LabelArmsValue
+@onready var label_munitions: Label = $MarginContainer/HBoxContainer/ResourceSection/ResourceHBox/BoxMunitions/Values/LabelMunitionsValue
 
-@onready var btn_save: Button = $MarginContainer/HBoxContainer/SaveLoadSection/BtnSave
-@onready var btn_load: Button = $MarginContainer/HBoxContainer/SaveLoadSection/BtnLoad
+@onready var label_money_delta: Label = $MarginContainer/HBoxContainer/ResourceSection/ResourceHBox/BoxMoney/Values/LabelMoneyDelta
+@onready var label_steel_delta: Label = $MarginContainer/HBoxContainer/ResourceSection/ResourceHBox/BoxSteel/Values/LabelSteelDelta
+@onready var label_fuel_delta: Label = $MarginContainer/HBoxContainer/ResourceSection/ResourceHBox/BoxFuel/Values/LabelFuelDelta
+@onready var label_manpower_delta: Label = $MarginContainer/HBoxContainer/ResourceSection/ResourceHBox/BoxManpower/Values/LabelManpowerDelta
+@onready var label_arms_delta: Label = $MarginContainer/HBoxContainer/ResourceSection/ResourceHBox/BoxArms/Values/LabelArmsDelta
+@onready var label_munitions_delta: Label = $MarginContainer/HBoxContainer/ResourceSection/ResourceHBox/BoxMunitions/Values/LabelMunitionsDelta
+
+@onready var btn_logistics: Button = $MarginContainer/HBoxContainer/SaveLoadSection/BtnLogistics
+@onready var btn_menu: MenuButton = $MarginContainer/HBoxContainer/SaveLoadSection/BtnMenu
+
+const ICON_SAVE := preload("res://assets/sprites/ui/icon_save.svg")
+const ICON_LOAD := preload("res://assets/sprites/ui/icon_load.svg")
 
 func _ready() -> void:
 	if economy_manager != null and economy_manager.has_signal("economy_updated"):
@@ -33,12 +47,31 @@ func _ready() -> void:
 	if time_mgr != null:
 		time_mgr.daily_tick.connect(func(_d, _m, _y): _update_display())
 	
-	if btn_save != null:
-		btn_save.pressed.connect(_on_save_pressed)
-	if btn_load != null:
-		btn_load.pressed.connect(_on_load_pressed)
+	_setup_menu()
+	
+	if production_queue_panel != null:
+		production_queue_panel.count_changed.connect(_on_queue_count_changed)
+		btn_logistics.pressed.connect(production_queue_panel.toggle_panel)
+		_on_queue_count_changed(production_queue_panel.get_order_count())
 	
 	_update_display()
+
+func _setup_menu() -> void:
+	var popup: PopupMenu = btn_menu.get_popup()
+	popup.add_item("Simpan", 0)
+	popup.set_item_icon(0, ICON_SAVE)
+	popup.add_item("Muat", 1)
+	popup.set_item_icon(1, ICON_LOAD)
+	popup.id_pressed.connect(_on_menu_selected)
+
+func _on_menu_selected(id: int) -> void:
+	if id == 0:
+		_on_save_pressed()
+	elif id == 1:
+		_on_load_pressed()
+
+func _on_queue_count_changed(count: int) -> void:
+	btn_logistics.text = "LOGISTIK (%d)" % count
 
 func _on_save_pressed() -> void:
 	var save_mgr = get_node_or_null("/root/SaveManager")
@@ -62,53 +95,28 @@ func _update_display() -> void:
 	label_country_name.text = player_country.country_name
 	
 	# Kas Negara
-	var money_rate = player_country.daily_income_money
-	label_money.text = "%s (%s%.0f)" % [
-		_format_currency(player_country.money),
-		"+" if money_rate >= 0 else "",
-		money_rate
-	]
-	label_money.modulate = Color(0.3, 0.9, 0.4) if money_rate >= 0 else Color(0.9, 0.3, 0.3)
+	label_money.text = _format_currency(player_country.money)
+	_set_delta(label_money_delta, player_country.daily_income_money)
 	
 	# Baja
-	var steel_rate = player_country.daily_income_steel
-	label_steel.text = "%.0f (%s%.0f)" % [
-		player_country.steel,
-		"+" if steel_rate >= 0 else "",
-		steel_rate
-	]
+	label_steel.text = "%.0f" % player_country.steel
+	_set_delta(label_steel_delta, player_country.daily_income_steel)
 	
 	# Bahan Bakar
-	var fuel_rate = player_country.daily_income_fuel
-	label_fuel.text = "%.0f (%s%.0f)" % [
-		player_country.fuel,
-		"+" if fuel_rate >= 0 else "",
-		fuel_rate
-	]
+	label_fuel.text = "%.0f" % player_country.fuel
+	_set_delta(label_fuel_delta, player_country.daily_income_fuel)
 	
 	# Manpower
-	var pop_rate = player_country.daily_manpower_growth
-	label_manpower.text = "%s (%s%d)" % [
-		_format_manpower(player_country.manpower),
-		"+" if pop_rate >= 0 else "",
-		pop_rate
-	]
+	label_manpower.text = _format_manpower(player_country.manpower)
+	_set_delta(label_manpower_delta, player_country.daily_manpower_growth)
 	
 	# Persenjataan (Arms)
-	var arms_rate = player_country.daily_income_arms
-	label_arms.text = "%.0f (%s%.0f)" % [
-		player_country.arms,
-		"+" if arms_rate >= 0 else "",
-		arms_rate
-	]
+	label_arms.text = "%.0f" % player_country.arms
+	_set_delta(label_arms_delta, player_country.daily_income_arms)
 	
 	# Amunisi & Rudal (Munitions)
-	var munit_rate = player_country.daily_income_munitions
-	label_munitions.text = "%.0f (%s%.0f)" % [
-		player_country.munitions,
-		"+" if munit_rate >= 0 else "",
-		munit_rate
-	]
+	label_munitions.text = "%.0f" % player_country.munitions
+	_set_delta(label_munitions_delta, player_country.daily_income_munitions)
 	
 	# Tooltip Rincian Neraca Ekonomi Interaktif (Sprint 4)
 	if economy_manager != null and economy_manager.has_method("get_economic_breakdown"):
@@ -169,6 +177,10 @@ func _update_display() -> void:
 			"• Dikonsumsi oleh divisi saat bertempur aktif.\n" +
 			"[PERINGATAN] Pasukan tanpa amunisi menderita penalti tempur -50%!"
 		)
+
+func _set_delta(label: Label, value: float) -> void:
+	label.text = ("+" if value >= 0.0 else "") + str(int(round(value)))
+	label.modulate = DELTA_POS_COLOR if value >= 0.0 else DELTA_NEG_COLOR
 
 func _format_currency(val: float) -> String:
 	if val >= 1000000.0:

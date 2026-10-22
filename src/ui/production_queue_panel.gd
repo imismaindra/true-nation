@@ -3,17 +3,26 @@
 class_name ProductionQueuePanel
 extends PanelContainer
 
+signal count_changed(count: int)
+
 @export var production_manager: ProductionManager
 @export var building_manager: Node
 
-@onready var label_header: Label = $MarginContainer/VBox/LabelHeader
-@onready var orders_container: VBoxContainer = $MarginContainer/VBox/OrdersContainer
+@onready var button_header: Button = $MarginContainer/VBox/HeaderButton
+@onready var header_separator: HSeparator = $MarginContainer/VBox/HSeparator
+@onready var scroll: ScrollContainer = $MarginContainer/VBox/Scroll
+@onready var orders_container: VBoxContainer = $MarginContainer/VBox/Scroll/OrdersContainer
 
 # Cache dictionary [view_key -> Dictionary of node references]
 var _order_views: Dictionary = {}
+var _collapsed: bool = false
+var _is_open: bool = false
+var _total_count: int = 0
 
 func _ready() -> void:
 	visible = false
+	button_header.pressed.connect(_toggle_collapsed)
+	_apply_collapsed_state()
 	if production_manager != null:
 		production_manager.order_started.connect(func(_o): _rebuild_queue_ui())
 		production_manager.order_completed.connect(func(_o, _u): _rebuild_queue_ui())
@@ -27,6 +36,41 @@ func _ready() -> void:
 		building_manager.construction_progress_updated.connect(_on_bld_order_progress_updated)
 	
 	_rebuild_queue_ui()
+	get_viewport().size_changed.connect(_fit_to_viewport)
+
+func _fit_to_viewport() -> void:
+	if not visible:
+		return
+	var max_height = get_viewport_rect().size.y - global_position.y - 16.0
+	if _collapsed:
+		size.y = get_combined_minimum_size().y
+		return
+	var scroll_min = scroll.get_combined_minimum_size().y
+	var desired_height = get_combined_minimum_size().y - scroll_min + orders_container.get_combined_minimum_size().y
+	size.y = maxf(0.0, minf(desired_height, max_height))
+
+func _toggle_collapsed() -> void:
+	_collapsed = not _collapsed
+	_apply_collapsed_state()
+	call_deferred("_fit_to_viewport")
+
+func _apply_collapsed_state() -> void:
+	scroll.visible = not _collapsed
+	header_separator.visible = not _collapsed
+	var arrow = ">" if _collapsed else "v"
+	button_header.text = "%s LOGISTIK & KONSTRUKSI (%d)" % [arrow, _total_count]
+
+func get_order_count() -> int:
+	return _total_count
+
+func toggle_panel() -> void:
+	_is_open = not _is_open
+	_update_visibility()
+
+func _update_visibility() -> void:
+	visible = _is_open and _total_count > 0
+	if visible:
+		call_deferred("_fit_to_viewport")
 
 func _rebuild_queue_ui() -> void:
 	_order_views.clear()
@@ -36,13 +80,15 @@ func _rebuild_queue_ui() -> void:
 	var unit_orders_count = production_manager.active_orders.size() if production_manager else 0
 	var bld_orders_count = building_manager.active_orders.size() if building_manager else 0
 	var total_count = unit_orders_count + bld_orders_count
+	_total_count = total_count
+	_apply_collapsed_state()
+	count_changed.emit(_total_count)
 	
 	if total_count == 0:
-		visible = false
+		_update_visibility()
 		return
 	
-	visible = true
-	label_header.text = "LOGISTIK & KONSTRUKSI (%d)" % total_count
+	_update_visibility()
 	
 	# 1. Antrian Unit Militer
 	if production_manager != null:
@@ -53,6 +99,8 @@ func _rebuild_queue_ui() -> void:
 	if building_manager != null:
 		for bld_order in building_manager.active_orders:
 			_create_bld_order_view(bld_order)
+	
+	call_deferred("_fit_to_viewport")
 
 func _create_unit_order_view(order: ProductionManager.ProductionOrder) -> void:
 	var item_box = VBoxContainer.new()

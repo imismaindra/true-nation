@@ -21,15 +21,26 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="LabelHeader" type="Label" parent="MarginContainer/VBox"]
+[node name="HeaderButton" type="Button" parent="MarginContainer/VBox"]
 layout_mode = 2
+focus_mode = 0
 theme_override_colors/font_color = Color(0.9, 0.85, 0.5, 1)
 theme_override_font_sizes/font_size = 11
-text = "LOGISTIK & KONSTRUKSI (0)"
+text = "> LOGISTIK & KONSTRUKSI (0)"
+flat = true
+alignment = 0
+expand_icon = true
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBox"]
+visible = false
 layout_mode = 2
 
-[node name="OrdersContainer" type="VBoxContainer" parent="MarginContainer/VBox"]
+[node name="Scroll" type="ScrollContainer" parent="MarginContainer/VBox"]
 layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="OrdersContainer" type="VBoxContainer" parent="MarginContainer/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 8
