@@ -24,19 +24,24 @@ enum TerrainType {
 @export var base_steel_output: float = 5.0
 @export var base_fuel_output: float = 2.0
 @export var population: int = 750000
+@export var infrastructure_damage: float = 0.0 # 0..100 persen
+@export var civilian_casualties: int = 0
 
 @export_group("Visual Polygon")
 @export var polygon_points: PackedVector2Array = PackedVector2Array()
+@export var polygon_parts: Array = []
 
 # Node anak internal
 @onready var visual_polygon: Polygon2D = $VisualPolygon
 @onready var border_line: Line2D = $BorderLine
-@onready var coastal_shelf: Line2D = get_node_or_null("CoastalShelf")
 @onready var collision_shape: CollisionPolygon2D = $CollisionPolygon2D
 @onready var label_name: Label = $LabelName
 
 var is_hovered: bool = false
 var is_selected: bool = false
+
+var _extra_polygons: Array[Polygon2D] = []
+var _extra_borders: Array[Line2D] = []
 
 # Fasilitas yang terpasang di provinsi ini
 @export var initial_buildings: Array[BuildingData] = []
@@ -103,6 +108,21 @@ func has_naval_base() -> bool:
 func has_airbase() -> bool:
 	return has_building(BuildingData.BuildingType.AIRBASE)
 
+func get_output_multiplier() -> float:
+	return clampf(1.0 - (infrastructure_damage / 100.0) * 0.8, 0.2, 1.0)
+
+func get_repair_cost_money() -> int:
+	return int(ceil(infrastructure_damage * 25.0))
+
+func apply_war_damage(damage_pct: float, civ_casualties: int) -> void:
+	infrastructure_damage = clampf(infrastructure_damage + damage_pct, 0.0, 100.0)
+	if civ_casualties > 0:
+		civilian_casualties += civ_casualties
+		population = maxi(0, population - civ_casualties)
+
+func repair_infrastructure() -> void:
+	infrastructure_damage = 0.0
+
 func can_construct_building(b_data: BuildingData) -> Dictionary:
 	if b_data == null:
 		return { "can": false, "reason": "Data bangunan tidak valid." }
@@ -114,29 +134,88 @@ func can_construct_building(b_data: BuildingData) -> Dictionary:
 		return { "can": false, "reason": "Hanya dapat dibangun di wilayah pesisir pantai (Coastal)." }
 	return { "can": true, "reason": "Bisa dibangun." }
 
+func _all_parts() -> Array:
+	var parts: Array = []
+	if polygon_points.size() >= 3:
+		parts.append(polygon_points)
+	for part in polygon_parts:
+		if part is PackedVector2Array and part.size() >= 3:
+			parts.append(part)
+	return parts
+
+func contains_point(point: Vector2) -> bool:
+	if polygon_points.size() >= 3 and Geometry2D.is_point_in_polygon(point, polygon_points):
+		return true
+	for part in polygon_parts:
+		if part is PackedVector2Array and part.size() >= 3:
+			if Geometry2D.is_point_in_polygon(point, part):
+				return true
+	return false
+
+func _closed_ring(ring: PackedVector2Array) -> PackedVector2Array:
+	var pts = ring.duplicate()
+	pts.append(ring[0])
+	return pts
+
+func _clear_extra_parts() -> void:
+	for n in _extra_polygons:
+		n.queue_free()
+	for n in _extra_borders:
+		n.queue_free()
+	_extra_polygons.clear()
+	_extra_borders.clear()
+
+func _add_extra_part(part: PackedVector2Array) -> void:
+	var poly := Polygon2D.new()
+	poly.polygon = part
+	poly.z_index = 0
+	add_child(poly)
+	_extra_polygons.append(poly)
+	
+	var ring := _closed_ring(part)
+	var border := Line2D.new()
+	border.points = ring
+	border.z_index = 2
+	border.joint_mode = border_line.joint_mode
+	border.begin_cap_mode = border_line.begin_cap_mode
+	border.end_cap_mode = border_line.end_cap_mode
+	add_child(border)
+	_extra_borders.append(border)
+
+func _sync_extra_visuals() -> void:
+	for p in _extra_polygons:
+		p.color = visual_polygon.color
+		p.visible = visual_polygon.visible
+	for b in _extra_borders:
+		b.default_color = border_line.default_color
+		b.width = border_line.width
+		b.visible = border_line.visible
+
 func _setup_polygon_geometry() -> void:
 	label_name.text = province_name
 	label_name.reset_size()
 	
-	if polygon_points.size() >= 3:
-		visual_polygon.polygon = polygon_points
-		collision_shape.polygon = polygon_points
-		
-		# Set up border line yang menutup poligon
-		var border_pts = polygon_points.duplicate()
-		border_pts.append(polygon_points[0])
-		border_line.points = border_pts
-		
-		# Paparan dangkal pesisir pantai (Coastal Shelf) untuk pulau daratan
-		if coastal_shelf != null:
-			if is_sea_zone():
-				coastal_shelf.visible = false
-			else:
-				coastal_shelf.points = border_pts
-				coastal_shelf.visible = true
-		
-		# Tempatkan label di centroid/titik tengah poligon
-		label_name.position = get_center() - (label_name.size * 0.5)
+	var parts := _all_parts()
+	if parts.is_empty():
+		return
+	
+	_clear_extra_parts()
+	visual_polygon.z_index = 0
+	border_line.z_index = 2
+	label_name.z_index = 4
+	
+	var main_ring: PackedVector2Array = parts[0]
+	var border_pts := _closed_ring(main_ring)
+	visual_polygon.polygon = main_ring
+	collision_shape.polygon = main_ring
+	border_line.points = border_pts
+	
+	# Pulau-pulau tambahan dalam satu provinsi (MultiPolygon)
+	for i in range(1, parts.size()):
+		_add_extra_part(parts[i])
+	
+	# Tempatkan label di centroid/titik tengah poligon
+	label_name.position = get_center() - (label_name.size * 0.5)
 
 var _visual_centroid: Vector2 = Vector2.ZERO
 
@@ -234,23 +313,18 @@ func update_visuals() -> void:
 	# Penanganan khusus zona maritim / perairan laut
 	if is_sea_zone():
 		label_name.visible = true
+		border_line.visible = false
 		if is_selected:
-			visual_polygon.color = Color(0.22, 0.55, 0.88, 0.15)
-			border_line.visible = true
-			border_line.default_color = Color(0.38, 0.85, 1.0, 0.7)
-			border_line.width = 1.8
+			visual_polygon.color = Color(0.22, 0.62, 0.78, 0.14)
 			label_name.modulate = Color(0.6, 0.95, 1.0, 1.0)
 		elif is_hovered:
-			visual_polygon.color = Color(0.18, 0.45, 0.75, 0.1)
-			border_line.visible = true
-			border_line.default_color = Color(0.38, 0.75, 0.95, 0.5)
-			border_line.width = 1.5
+			visual_polygon.color = Color(0.18, 0.5, 0.68, 0.08)
 			label_name.modulate = Color(0.7, 0.9, 1.0, 0.9)
 		else:
 			# Zona laut bebas tanpa garis kotak pembatas, biarkan samudra alami
 			visual_polygon.color = Color(0, 0, 0, 0)
-			border_line.visible = false
 			label_name.modulate = Color(0.45, 0.75, 0.95, 0.55)
+		_sync_extra_visuals()
 		return
 	
 	# Penanganan daratan kepulauan
@@ -321,6 +395,8 @@ func update_visuals() -> void:
 				border_line.default_color = Color(0.08, 0.12, 0.18, 0.55)
 				border_line.width = 1.0
 				label_name.modulate = Color(0.85, 0.88, 0.92, 0.8)
+	
+	_sync_extra_visuals()
 
 func set_selected(val: bool) -> void:
 	if is_selected != val:
