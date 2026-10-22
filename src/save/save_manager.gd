@@ -78,6 +78,9 @@ func save_game(custom_path: String = SAVE_FILE_PATH) -> bool:
 					"id": prov.province_id,
 					"name": prov.province_name,
 					"owner": _get_country_key(prov.owner_country, player_country, rival_country),
+					"population": prov.population,
+					"infrastructure_damage": prov.infrastructure_damage,
+					"civilian_casualties": prov.civilian_casualties,
 					"buildings": []
 				}
 				for b in prov.buildings:
@@ -215,6 +218,10 @@ func load_game(custom_path: String = SAVE_FILE_PATH) -> bool:
 					prov.owner_country = rival_country
 				else:
 					prov.owner_country = null
+				
+				prov.population = int(p_data.get("population", prov.population))
+				prov.infrastructure_damage = float(p_data.get("infrastructure_damage", 0.0))
+				prov.civilian_casualties = int(p_data.get("civilian_casualties", 0))
 				
 				# Pulihkan bangunan
 				prov.buildings.clear()

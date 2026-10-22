@@ -23,6 +23,8 @@ signal unit_movement_finished(unit_node, province)
 signal combat_started(province_node, attacker_units: Array, defender_units: Array)
 @warning_ignore("unused_signal")
 signal combat_ended(province_node, winner_country)
+@warning_ignore("unused_signal")
+signal battle_report(report: Dictionary)
 
 # Sinyal Ekonomi
 @warning_ignore("unused_signal")

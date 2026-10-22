@@ -21,6 +21,7 @@ var has_supply_outage: bool = false
 var target_province: Province = null
 var is_moving: bool = false
 var movement_progress: float = 0.0 # 0.0 s.d. 1.0
+var path_queue: Array[Province] = []
 var _start_position: Vector2 = Vector2.ZERO
 var _target_position: Vector2 = Vector2.ZERO
 
@@ -41,6 +42,21 @@ var _target_position: Vector2 = Vector2.ZERO
 @onready var click_area: Area2D = $ClickArea
 
 var formation_offset: Vector2 = Vector2.ZERO
+
+func get_personnel() -> int:
+	if unit_data == null:
+		return 0
+	return int(round(float(unit_data.required_manpower) * (current_strength / maxf(1.0, unit_data.max_strength))))
+
+func get_max_personnel() -> int:
+	return unit_data.required_manpower if unit_data != null else 0
+
+func _exit_tree() -> void:
+	var mil = get_parent()
+	while mil != null and not (mil is MilitaryManager):
+		mil = mil.get_parent()
+	if mil != null and mil.has_method("remove_unit"):
+		mil.remove_unit(self)
 
 func _ready() -> void:
 	if unit_data != null:
@@ -200,7 +216,24 @@ func _process(delta: float) -> void:
 		else:
 			visual_node.position = Vector2.ZERO
 
+func _owner_has_land_provinces() -> bool:
+	var world_map = get_tree().root.find_child("WorldMap", true, false)
+	if world_map == null or not ("provinces" in world_map):
+		return true
+	for prov in world_map.provinces:
+		if prov != null and prov.owner_country == owner_country and not prov.is_sea_zone():
+			return true
+	return false
+
 func _on_hourly_tick(_hour: int, _day: int, _month: int, _year: int) -> void:
+	# Negara tanpa wilayah darat tersisa = kapitulasi, sisa pasukan dibubarkan
+	if owner_country != null and not _owner_has_land_provinces():
+		print("[CAPITULATION] %s tidak lagi memiliki wilayah darat. %s dibubarkan." % [
+			owner_country.country_name, unit_data.unit_name if unit_data else "Unit"
+		])
+		queue_free()
+		return
+	
 	# Pemulihan moral perlahan saat tidak bertempur dan tidak bergerak
 	if not is_in_combat and not is_moving and current_organization < (unit_data.max_organization if unit_data else 100.0):
 		current_organization = clampf(current_organization + 1.5, 0.0, unit_data.max_organization if unit_data else 100.0)
@@ -264,10 +297,26 @@ func halt_movement() -> void:
 	if is_moving and not is_in_combat:
 		is_moving = false
 		target_province = null
+		path_queue.clear()
 		if bar_movement != null:
 			bar_movement.visible = false
 		if marching_line != null:
 			marching_line.visible = false
+
+func follow_route(route: Array[Province]) -> bool:
+	path_queue = route
+	return _advance_route()
+
+func _advance_route() -> bool:
+	while not path_queue.is_empty():
+		var next_prov: Province = path_queue.pop_front()
+		if next_prov == current_province:
+			continue
+		if not order_move_to(next_prov):
+			path_queue.clear()
+			return false
+		return true
+	return false
 
 func _arrive_at_target() -> void:
 	is_moving = false
@@ -299,9 +348,9 @@ func _arrive_at_target() -> void:
 		# Picu pertempuran! Wilayah belum bisa direbut sampai musuh kalah
 		combat_sys.check_and_start_battle(current_province, self, mil_mgr)
 	else:
-		# Tidak ada musuh, wilayah langsung dikuasai jika daratan
-		if current_province != null and owner_country != null:
-			if current_province.owner_country != owner_country and not current_province.is_sea_zone():
+		# Tidak ada musuh, wilayah langsung dikuasai jika daratan dan negara masih punya teritori
+		if current_province != null and owner_country != null and current_organization > 0.0 and current_strength > 0.0:
+			if current_province.owner_country != owner_country and not current_province.is_sea_zone() and _owner_has_land_provinces():
 				var old_owner = current_province.owner_country
 				current_province.owner_country = owner_country
 				current_province.update_visuals()
@@ -309,6 +358,13 @@ func _arrive_at_target() -> void:
 					event_bus.province_owner_changed.emit(current_province, old_owner, owner_country)
 	
 	movement_completed.emit(self, current_province)
+	
+	# Lanjutkan rute multi-provinsi, kecuali terhalang musuh atau terlibat tempur
+	if not path_queue.is_empty():
+		if has_enemies or is_in_combat:
+			path_queue.clear()
+		else:
+			_advance_route()
 
 func take_damage(strength_dmg: float, org_dmg: float) -> void:
 	current_strength = maxf(0.0, current_strength - strength_dmg)
@@ -326,7 +382,9 @@ func take_damage(strength_dmg: float, org_dmg: float) -> void:
 
 func retreat() -> void:
 	is_in_combat = false
+	path_queue.clear()
 	if current_province == null:
+		_surrender()
 		return
 	
 	# Cari provinsi tetangga yang aman (milik sendiri atau sekutu)
@@ -339,6 +397,13 @@ func retreat() -> void:
 			_target_position = neighbor.get_center() + neighbor.position
 			bar_movement.visible = true
 			return
+	
+	# Tidak ada jalur mundur: unit terkepung dan menyerah
+	_surrender()
+
+func _surrender() -> void:
+	print("[SURRENDER] DIVISI %s TERKEPUNG DAN MENYERAH!" % (unit_data.unit_name if unit_data else "Unit"))
+	queue_free()
 
 func set_selected(val: bool) -> void:
 	is_selected = val
@@ -352,7 +417,7 @@ func _update_visuals() -> void:
 	
 	if unit_data != null:
 		if label_name != null:
-			label_name.text = unit_data.unit_name.substr(0, 12)
+			label_name.text = unit_data.get_short_name()
 		if icon_texture != null:
 			icon_texture.texture = unit_data.get_tactical_symbol_texture()
 	

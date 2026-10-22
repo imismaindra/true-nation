@@ -47,6 +47,50 @@ enum UnitType {
 @export var sprite_top_down: Texture2D
 @export var sprite_side_profile: Texture2D
 
+func get_short_name() -> String:
+	match unit_type:
+		UnitType.RIFLEMAN, UnitType.SNIPER, UnitType.MEDIC, UnitType.ENGINEER, UnitType.AT_SPECIALIST:
+			return "Infanteri"
+		UnitType.LIGHT_TANK:
+			return "Tank Ringan"
+		UnitType.MEDIUM_TANK:
+			return "Tank Sedang"
+		UnitType.MAIN_BATTLE_TANK:
+			return "Tank MBT"
+		UnitType.IFV:
+			return "IFV"
+		UnitType.APC:
+			return "APC"
+		UnitType.ARTILLERY_SP:
+			return "Artileri"
+		UnitType.MLRS:
+			return "MLRS"
+		UnitType.FIGHTER_JET:
+			return "Jet Tempur"
+		UnitType.MULTIROLE_FIGHTER:
+			return "Multirole"
+		UnitType.ATTACK_AIRCRAFT:
+			return "Serbu"
+		UnitType.TRANSPORT_AIRCRAFT:
+			return "Angkut"
+		UnitType.HELICOPTER:
+			return "Helikopter"
+		UnitType.DRONE_UAV:
+			return "Drone UAV"
+		UnitType.CORVETTE:
+			return "Korvet"
+		UnitType.FRIGATE:
+			return "Fregat"
+		UnitType.DESTROYER:
+			return "Destroyer"
+		UnitType.LANDING_SHIP_DOCK:
+			return "LST"
+		UnitType.AIRCRAFT_CARRIER:
+			return "Carrier"
+		UnitType.SUBMARINE:
+			return "Submarine"
+	return unit_name.substr(0, 16)
+
 func get_tactical_symbol_texture() -> Texture2D:
 	if icon_ui != null:
 		return icon_ui
